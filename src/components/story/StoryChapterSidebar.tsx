@@ -71,6 +71,17 @@ export const StoryChapterSidebar: React.FC<StoryChapterSidebarProps> = ({
         </div>
 
         <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-3 space-y-0.5">
+          <a
+            href="/visualize"
+            onClick={() => onOpenChange(false)}
+            className="block rounded-xl px-3 py-2.5 mb-2 border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-300">VISUALIZE MAHI</span>
+            </div>
+            <p className="text-[11px] font-mono text-sky-400/80 mt-0.5 pl-4">Interactive Cricket Analytics & Career Data</p>
+          </a>
           {STORY_CHAPTERS.map((ch) => {
             const isActive = ch.id === activeId;
             return (

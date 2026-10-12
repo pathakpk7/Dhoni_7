@@ -61,6 +61,15 @@ export const Navbar: React.FC<NavbarProps> = ({
         </a>
 
         <a
+          href="/visualize"
+          className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 hover:border-sky-400 text-sky-400 hover:text-sky-300 font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_12px_rgba(14,165,233,0.15)]"
+          title="Visualize Mahi: Interactive Cricket Analytics"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+          <span>VISUALIZE MAHI</span>
+        </a>
+
+        <a
           href={`#${activeChapter.id}`}
           className="flex-1 min-w-0 flex justify-center sm:justify-start sm:pl-2 cursor-pointer"
           title={activeChapter.tagline}
