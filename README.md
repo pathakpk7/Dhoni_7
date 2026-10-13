@@ -121,4 +121,4 @@ npm run dev
 
 - **Primary Cricket Data**: Sourced from [Cricsheet](https://cricsheet.org/) under [Open Data Commons / CC BY 4.0](https://cricsheet.org/license/).
 - **Secondary Reference**: ESPNcricinfo, ICC Official Records, IPL Official Records, CLT20 Archives, BCCI.
-- **Created by**: A lifelong MS Dhoni fan & Lead Data Engineer.
+- **Created by**: A lifelong MS Dhoni fan.
