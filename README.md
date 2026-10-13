@@ -2,19 +2,34 @@
 > *"The numbers. The decisions. The moments."*  
 > *"Decoding the man behind No. 7."*
 
-A high-precision, verified cricket data warehouse and cinematic interactive web experience exploring the career, batting, wicketkeeping, captaincy, finishing masterclasses, and legacy of **Mahendra Singh Dhoni**.
+A high-precision, verified cricket data warehouse and cinematic interactive web experience exploring the career, batting, wicketkeeping, captaincy, head-to-head bowler & opposition dominance, finishing masterclasses, and legacy of **Mahendra Singh Dhoni** across **International Cricket**, the **Indian Premier League (IPL)**, and the **Champions League Twenty20 (CLT20)**.
 
 ---
 
 ## 🏏 Project Highlights
 
-- **100% Verified Cricket Data Warehouse**: Built from official Cricsheet ball-by-ball JSON archives with complete entity resolution (`player_id = MS_DHONI`, UUID `4a8a2e3b`), tracking 789 matches, 743 innings, and 25,541+ deliveries.
-- **Batting Position Derivation Engine**: Determines the exact chronological crease arrival order (1 to 11) for every single match without relying on pre-calculated web snippets.
-- **Top Order (1–4) vs Lower Order (5–7) Analysis**: Mathematical calculation of aggregate batting average (`Total Runs / Total Dismissals`) across Test, ODI, T20I, IPL, and All-International cricket.
-- **Wicketkeeping Analytics**: Comprehensive breakdown of 829+ dismissals and world-record 195 stumpings with a 0.08-second reflex reaction simulation.
-- **Captaincy Leadership & ICC Clean Sweep**: India vs CSK captaincy records detailing the only captain in cricket history to win all three ICC white-ball trophies (2007 T20 WC, 2011 CWC, 2013 CT) and 5x IPL championships.
-- **Chasing & Finishing Layer**: Death-over strike rates (Overs 16–20 in T20, Overs 41–50 in ODI), 90+ average in successful ODI chases, and transparent Finisher Index formula.
-- **Cinematic Interactive Web App**: Next.js 14+, Tailwind CSS, Framer Motion, dark stadium aesthetic, dual-universe switcher (India Tri-Color vs CSK Yellove), Mahi Tactical Lab scenario simulator, Ask Mahi AI data intelligence, and Number 7 easter eggs.
+- **100% Verified Cricket Data Warehouse (2004–2024)**: Built from official Cricsheet ball-by-ball archives and verified historical match records (`player_id = MS_DHONI`, UUID `4a8a2e3b`), tracking **826 career matches** (`538 International`, `264 IPL`, `24 CLT20`), **776 batted innings**, and **25,541+ deliveries**.
+- **Strict Format Isolation (6 Distinct Format Filters)**: Every chart, table, and KPI supports **`All Intl`** (`TEST + ODI + T20I`), **`ODI`**, **`Test`**, **`T20I`**, **`IPL`**, and **`Champions League` (`CLT20`)** with strict separation between IPL (`264 matches, 229 innings, 5,243 runs`) and CLT20 (`24 matches, 21 innings, 449 runs`).
+- **Visualize Mahi (`/visualize`) — 17-Module Deep Telemetry Suite**:
+  - **Runs Against Every Opponent (Year-by-Year & Cumulative Engine)**: Chronological head-to-head breakdown tracking **distinct Matches vs Innings** (accounting for multi-innings Test matches and DNB wicketkeeping/captaincy appearances) and **Year-Wise Highest Scores** (`yearBreakdown` & `cumulativeByYear`) for every opponent, every calendar year, and every format—complete with an interactive year scrubber and clickable Year-by-Year Breakdown table.
+  - **Runs Against Bowlers (Bowler Dominance Matrix)**: Complete ball-by-ball head-to-head dominance engine covering **every bowler MS Dhoni faced** across all 6 formats (`All Intl`, `ODI`, `Test`, `T20I`, `IPL`, `Champions League`). Defaults to the **Top 30** bowlers with a **Show All** toggle to inspect the full roster in each format, plus search, sorting (`Most Runs`, `Strike Rate`, `Most 6s`, `4s + 6s`, `Dominance Index`), an `Unbeaten Only (0 Out)` filter, and an 8-metric head-to-head dossier.
+  - **Annual Progression, Career Milestones & Batting Position Analytics**: Mathematical derivation of batting metrics across positions 3 to 8, milestone crossing innings (`1,000` to `17,000` international runs), and scoring/boundary splits.
+  - **Chasing vs Setting, Finisher Zone & Match Results**: Deep dive into Dhoni's `102.71` average in successful ODI chases (`47 not outs`), death-over acceleration, and win/loss/draw splits.
+  - **Wicketkeeping, Verified Bowling, Captaincy & Venue Explorer**: World-record `829` international dismissals (`195 stumpings`), `190` IPL dismissals (`42 stumpings`), `24` CLT20 dismissals, verified bowling spells, captaincy trophies (`2007 T20 WC`, `2011 CWC`, `2013 CT`, `5x IPL`, `2x CLT20`), and stadium-by-stadium telemetry.
+- **Cinematic Interactive Web App (`/`)**: Next.js 14+, TypeScript, Tailwind CSS, Framer Motion, dark stadium aesthetic, dual-universe switcher (India Tri-Color vs CSK Yellove), Mahi Tactical Lab scenario simulator, Ask Mahi AI data intelligence, and Number 7 easter eggs.
+
+---
+
+## 📊 Verified Career Format Summary (2004–2024)
+
+| Format | Matches | Innings | Not Outs | Runs | Balls | High Score | Average | Strike Rate | 100s / 50s | 4s / 6s | WK Dismissals (Cat / St) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **All Intl** | 538 | 526 | 142 | **17,266** | 21,817 | 224 | 44.96 | 79.14 | 16 / 108 | 1,486 / 359 | 829 (634c / 195st) |
+| **ODI** | 350 | 297 | 84 | **10,773** | 12,303 | 183\* | 50.58 | 87.56 | 10 / 73 | 826 / 229 | 444 (321c / 123st) |
+| **Test** | 90 | 144 | 16 | **4,876** | 8,226 | 224 | 38.09 | 59.28 | 6 / 33 | 544 / 78 | 294 (256c / 38st) |
+| **T20I** | 98 | 85 | 42 | **1,617** | 1,288 | 56 | 37.60 | 125.54 | 0 / 2 | 116 / 52 | 91 (57c / 34st) |
+| **IPL** | 264 | 229 | 95 | **5,243** | 3,812 | 84\* | 39.13 | 137.54 | 0 / 24 | 363 / 252 | 190 (148c / 42st) |
+| **Champions League (CLT20)** | 24 | 21 | 10 | **449** | 328 | 63\* | 40.82 | 136.89 | 0 / 1 | 31 / 27 | 24 (18c / 6st) |
 
 ---
 
@@ -22,61 +37,68 @@ A high-precision, verified cricket data warehouse and cinematic interactive web 
 
 ```
 PROJECT 7/
-├── DATA_SOURCES.md                     # Data licenses, Cricsheet terms, secondary sources
-├── README.md                           # Project overview & usage guide
-├── package.json                        # Next.js frontend dependencies
-├── tsconfig.json                       # TypeScript compiler configuration
-├── tailwind.config.js                  # Custom cinematic theme (CSK Gold, India Blue, Charcoal)
+├── DATA_SOURCES.md                          # Data licenses, Cricsheet terms, secondary sources
+├── README.md                                # Project overview, format summary & usage guide
+├── package.json                             # Next.js frontend dependencies
+├── tsconfig.json                            # TypeScript compiler configuration
+├── tailwind.config.js                       # Custom cinematic theme (CSK Gold, India Blue, Charcoal)
 ├── db/
-│   ├── schema.sql                      # PostgreSQL / Supabase Relational DDL
-│   └── schema.prisma                   # Production Prisma ORM schema
+│   ├── schema.sql                           # PostgreSQL / Supabase Relational DDL
+│   └── schema.prisma                        # Production Prisma ORM schema
 ├── docs/
-│   ├── DATA_DICTIONARY.md              # Precise column-by-column schema definitions
-│   ├── METRICS.md                      # Mathematical formulas (Avg, SR, Finisher Index)
-│   └── DATA_PIPELINE.md                # End-to-end ETL architecture documentation
+│   ├── DATA_DICTIONARY.md                   # Precise column-by-column schema definitions
+│   ├── METRICS.md                           # Mathematical formulas (Avg, SR, Finisher Index)
+│   └── DATA_PIPELINE.md                     # End-to-end ETL architecture documentation
 ├── scripts/
-│   ├── run_pipeline.py                 # Master pipeline execution script
+│   ├── compile_visualize_mahi_data.mjs      # Compiles Visualize Mahi JSON & isolates IPL/CLT20 data
+│   ├── run_pipeline.py                      # Master Python pipeline execution script
 │   └── pipeline/
-│       ├── 01_fetch_raw_data.py        # Download raw zip archives & generate SHA-256 manifest
-│       ├── 02_process_matches_innings.py # Ball-by-ball parsing & batting position derivation
-│       ├── 03_extract_keeper_captain.py  # Wicketkeeping & captaincy extraction
-│       ├── 04_build_analytics.py       # Computes all 22+ analytical aggregations
-│       ├── 05_validate_data.py         # Automated verification against official benchmarks
-│       └── export_web_data.py          # Exports JSON bundles to src/data/ for Next.js
+│       ├── 01_fetch_raw_data.py             # Download raw zip archives & generate SHA-256 manifest
+│       ├── 02_process_matches_innings.py    # Ball-by-ball parsing & batting position derivation
+│       ├── 03_extract_keeper_captain.py     # Wicketkeeping & captaincy extraction
+│       ├── 04_build_analytics.py            # Computes all analytical aggregations
+│       ├── 05_validate_data.py              # Automated verification against official benchmarks
+│       └── export_web_data.py               # Exports JSON bundles to src/data/ for Next.js
 ├── data/
-│   ├── raw/                            # Original unmodified zip files & manifest.json
+│   ├── raw/                                 # Original unmodified zip files & manifest.json
 │   ├── master/
-│   │   └── ms_dhoni_master_innings.csv # Golden unified innings dataset (743 innings)
-│   ├── processed/                      # Normalized matches, keeper, captain, bbb CSVs
-│   ├── analytics/                      # 15+ aggregated analytical tables
-│   ├── reference/                      # Trophies, iconic moments, milestones, comparisons
-│   └── validation/
-│       ├── validation_report.csv       # Automated audit report (PASS/WARNING/FAIL)
-│       └── discrepancies.csv           # Variance resolution notes
+│   │   └── ms_dhoni_master_innings.csv      # Golden unified innings dataset
+│   ├── processed/                           # Normalized matches, keeper, captain, ball-by-ball CSVs
+│   ├── analytics/                           # Aggregated analytical tables
+│   ├── reference/                           # Trophies, iconic moments, milestones, comparisons
+│   └── validation/                          # Automated audit & variance resolution notes
 └── src/
+    ├── analytics/                           # Client-side career analytics & TypeScript definitions
     ├── app/
-    │   ├── layout.tsx                  # Root layout, cinematic metadata & typography
-    │   ├── globals.css                 # Custom scrollbars, glassmorphism, film grain
-    │   └── page.tsx                    # Master interactive experience container
+    │   ├── layout.tsx                       # Root layout, cinematic metadata & typography
+    │   ├── page.tsx                         # Main interactive documentary experience (/)
+    │   └── visualize/
+    │       ├── page.tsx                     # Visualize Mahi route (/visualize)
+    │       └── VisualizeMahiClient.tsx      # 17-module interactive analytics client
     ├── components/
-    │   ├── layout/                     # Navbar, Footer, CinematicBackground
-    │   ├── ui/                         # KpiCard, SectionHeader, Badge
-    │   ├── sections/                   # 16 Interactive documentary & analytics modules
-    │   └── easter-eggs/                # Helicopter Shot animation & Number 7 modal
-    └── data/                           # Pre-compiled high-performance JSON bundles
+    │   ├── layout/                          # Navbar, Footer, CinematicBackground
+    │   ├── ui/                              # KpiCard, SectionHeader, Badge
+    │   ├── sections/                        # Main documentary & analytics sections
+    │   ├── visualize/                       # 17 Visualize Mahi modules (Opponents, Bowlers, etc.)
+    │   └── easter-eggs/                     # Helicopter Shot animation & Number 7 modal
+    ├── data/                                # Pre-compiled JSON datasets (IPL & CLT20 isolated)
+    └── types/
+        └── visualize.ts                     # TypeScript interfaces for Visualize Mahi telemetry
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Run the Data Pipeline (Python 3.9+)
+### 1. Compile / Refresh the Analytics Datasets
 
 ```bash
-# Optional: Fetch raw datasets (already downloaded with SHA256 verified manifest)
-python scripts/pipeline/01_fetch_raw_data.py
+# Re-compile visualize_mahi_data.json and all format-separated JSON bundles
+node scripts/compile_visualize_mahi_data.mjs
+```
 
-# Run complete processing, extraction, analytics, validation, and web export
+*(Optional)* To re-run the raw Python Cricsheet ETL pipeline (Python 3.9+):
+```bash
 python scripts/run_pipeline.py
 ```
 
@@ -90,26 +112,13 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## 📊 Sample Analytical Queries Answered by the Warehouse
-
-### 1. MS Dhoni at Batting Positions 1–4 vs 5–7 (ODIs)
-- **Positions 1–4**: 30 Innings, 1,446 Runs, Batting Average: **60.25**, Strike Rate: **96.40**, 4x 100s, 9x 50s, Highest Score: **183\***
-- **Positions 5–7**: 248 Innings, 8,812 Runs, Batting Average: **49.79**, Strike Rate: **86.10**, 5x 100s, 63x 50s, 71 Not Outs
-
-### 2. Unbeaten Run Chases in ODIs
-- **Average in Successful Chases**: **90+** with 47+ Not Outs.
-
-### 3. Death Overs (T20 & IPL: Overs 16–20)
-- Strike Rate: **170+**, Boundary %: **22.5%**, 264 Sixes.
+- Main Interactive Experience: [http://localhost:3000](http://localhost:3000)
+- **Visualize Mahi** Deep Analytics Suite: [http://localhost:3000/visualize](http://localhost:3000/visualize)
 
 ---
 
 ## ⚖️ Attribution & Licensing
 
 - **Primary Cricket Data**: Sourced from [Cricsheet](https://cricsheet.org/) under [Open Data Commons / CC BY 4.0](https://cricsheet.org/license/).
-- **Secondary Reference**: ESPNcricinfo, ICC Official Records, IPL Official Records, BCCI.
-- **Created by**: A lifelong MS Dhoni childhood fan & Lead Data Engineer.
+- **Secondary Reference**: ESPNcricinfo, ICC Official Records, IPL Official Records, CLT20 Archives, BCCI.
+- **Created by**: A lifelong MS Dhoni fan & Lead Data Engineer.

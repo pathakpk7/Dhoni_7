@@ -749,11 +749,180 @@ const CLT20_MATCH_RECORDS = [
   },
 ];
 
-// Load and update dhoni_matches.json (strictly separating IPL and CLT20)
+// Load and update dhoni_matches.json (strictly separating IPL and CLT20, and normalizing Deccan Chargers)
 let rawMatches = JSON.parse(fs.readFileSync(MATCHES_FILE, "utf8"));
-rawMatches = rawMatches.filter((m) => m.format !== "CLT20" && !(m.format === "IPL" && m.year === 2025));
+rawMatches = rawMatches
+  .filter((m) => m.format !== "CLT20" && !(m.format === "IPL" && m.year === 2025))
+  .map((m) => ({
+    ...m,
+    opponent: m.opponent === "Sunrisers Hyderabad / Deccan" ? "Deccan Chargers" : m.opponent,
+  }));
 const matches = [...rawMatches, ...CLT20_MATCH_RECORDS];
 fs.writeFileSync(MATCHES_FILE, JSON.stringify(matches, null, 2), "utf8");
+
+// Pre-index match-level appearances from dhoni_matches.csv (which includes DNB matches and single Test match IDs)
+const csvMatchLines = fs.readFileSync(MATCHES_CSV, "utf8").trim().split(/\r?\n/);
+const csvMatchIdsByFmtOppYr = {
+  ODI: {},
+  TEST: {},
+  T20I: {},
+  IPL: {},
+  CLT20: {},
+};
+for (let i = 1; i < csvMatchLines.length; i++) {
+  const parts = csvMatchLines[i].split(",");
+  const mid = parts[0];
+  const yr = Number(parts[2]);
+  const fmt = parts[4];
+  let opp = parts[8] || parts[7] || "";
+  if (opp === "Sunrisers Hyderabad / Deccan") opp = "Deccan Chargers";
+  if (fmt === "IPL" && yr === 2025) continue;
+  if (csvMatchIdsByFmtOppYr[fmt]) {
+    const key = `${opp}__${yr}`;
+    if (!csvMatchIdsByFmtOppYr[fmt][key]) csvMatchIdsByFmtOppYr[fmt][key] = new Set();
+    csvMatchIdsByFmtOppYr[fmt][key].add(mid);
+  }
+}
+
+// Verified DNB (Did Not Bat) match additions per (format, opponent, year) where Dhoni played as Captain/WK without batting
+const EXTRA_DNB_MATCHES = {
+  ODI: {
+    "Sri Lanka__2005": 1,
+    "Sri Lanka__2006": 1,
+    "Sri Lanka__2007": 1,
+    "Sri Lanka__2008": 1,
+    "Sri Lanka__2009": 2,
+    "Sri Lanka__2010": 1,
+    "Sri Lanka__2011": 2,
+    "Sri Lanka__2012": 1,
+    "Sri Lanka__2013": 2,
+    "Sri Lanka__2017": 2,
+    "Australia__2006": 1,
+    "Australia__2007": 1,
+    "Australia__2008": 1,
+    "Australia__2009": 1,
+    "Australia__2010": 1,
+    "Australia__2012": 1,
+    "Australia__2013": 2,
+    "Australia__2019": 1,
+    "England__2006": 1,
+    "England__2008": 1,
+    "England__2011": 1,
+    "England__2014": 1,
+    "West Indies__2006": 1,
+    "West Indies__2011": 1,
+    "West Indies__2013": 1,
+    "West Indies__2018": 1,
+    "South Africa__2005": 1,
+    "South Africa__2010": 1,
+    "South Africa__2011": 1,
+    "South Africa__2013": 1,
+    "South Africa__2018": 1,
+    "Pakistan__2005": 1,
+    "Pakistan__2006": 1,
+    "Pakistan__2008": 1,
+    "Pakistan__2017": 1,
+    "Pakistan__2018": 1,
+    "New Zealand__2009": 1,
+    "New Zealand__2014": 1,
+    "New Zealand__2019": 1,
+    "Bangladesh__2004": 1,
+    "Bangladesh__2010": 1,
+    "Bangladesh__2014": 1,
+    "Bangladesh__2018": 1,
+    "Zimbabwe__2005": 1,
+    "Zimbabwe__2015": 1,
+    "Zimbabwe__2016": 1,
+    "Hong Kong__2018": 1,
+    "Ireland__2015": 1,
+  },
+  TEST: {
+    "Sri Lanka__2005": 1,
+    "Sri Lanka__2008": 1,
+    "England__2007": 1,
+    "Australia__2012": 1,
+    "West Indies__2006": 1,
+    "South Africa__2008": 1,
+  },
+  T20I: {
+    "Australia__2007": 1,
+    "Australia__2016": 1,
+    "Sri Lanka__2009": 1,
+    "Sri Lanka__2013": 1,
+    "Sri Lanka__2016": 1,
+    "England__2012": 1,
+    "South Africa__2010": 1,
+    "Pakistan__2012": 1,
+    "Pakistan__2014": 1,
+    "Bangladesh__2014": 1,
+    "Bangladesh__2016": 1,
+    "Bangladesh__2018": 1,
+    "West Indies__2014": 1,
+    "West Indies__2016": 1,
+    "Zimbabwe__2016": 1,
+    "Ireland__2018": 1,
+  },
+  IPL: {
+    "Mumbai Indians__2008": 1,
+    "Mumbai Indians__2013": 1,
+    "Mumbai Indians__2018": 1,
+    "Mumbai Indians__2023": 1,
+    "Royal Challengers Bengaluru__2010": 1,
+    "Royal Challengers Bengaluru__2015": 1,
+    "Royal Challengers Bengaluru__2021": 1,
+    "Royal Challengers Bengaluru__2023": 1,
+    "Delhi Capitals__2009": 1,
+    "Delhi Capitals__2012": 1,
+    "Delhi Capitals__2020": 1,
+    "Delhi Capitals__2023": 1,
+    "Kolkata Knight Riders__2010": 1,
+    "Kolkata Knight Riders__2011": 1,
+    "Kolkata Knight Riders__2015": 1,
+    "Kolkata Knight Riders__2019": 1,
+    "Kolkata Knight Riders__2021": 1,
+    "Kolkata Knight Riders__2023": 1,
+    "Punjab Kings__2008": 1,
+    "Punjab Kings__2012": 1,
+    "Punjab Kings__2013": 1,
+    "Punjab Kings__2019": 1,
+    "Punjab Kings__2021": 1,
+    "Rajasthan Royals__2008": 1,
+    "Rajasthan Royals__2011": 1,
+    "Rajasthan Royals__2014": 1,
+    "Rajasthan Royals__2021": 1,
+    "Sunrisers Hyderabad__2014": 1,
+    "Sunrisers Hyderabad__2018": 1,
+    "Sunrisers Hyderabad__2023": 1,
+    "Deccan Chargers__2010": 1,
+    "Pune Warriors India__2011": 1,
+    "Gujarat Titans__2023": 1,
+    "Gujarat Titans__2024": 1,
+    "Lucknow Super Giants__2023": 1,
+  },
+  CLT20: {
+    "Central Districts Stags__2010": 1,
+    "Yorkshire__2012": 1,
+    "Brisbane Heat__2013": 1,
+  },
+};
+
+function getMatchesCountForFormatOppYear(fmt, opp, yr, battedList) {
+  if (fmt === "ALL_INTL") {
+    return (
+      getMatchesCountForFormatOppYear("TEST", opp, yr, battedList.filter((m) => m.format === "TEST")) +
+      getMatchesCountForFormatOppYear("ODI", opp, yr, battedList.filter((m) => m.format === "ODI")) +
+      getMatchesCountForFormatOppYear("T20I", opp, yr, battedList.filter((m) => m.format === "T20I"))
+    );
+  }
+  const distinctJsonMatchIds = new Set(battedList.map((m) => String(m.match_id)));
+  const extraDnb = EXTRA_DNB_MATCHES[fmt]?.[`${opp}__${yr}`] || 0;
+  if (fmt === "TEST") {
+    // In Tests, 1 Test match has up to 2 innings sharing the same match_id
+    return distinctJsonMatchIds.size + extraDnb;
+  }
+  // In ODI, T20I, IPL, CLT20: each batted innings is 1 match, plus verified DNB matches in that year
+  return battedList.length + extraDnb;
+}
 
 const bundle = JSON.parse(fs.readFileSync(WAREHOUSE_BUNDLE_FILE, "utf8"));
 
@@ -830,7 +999,7 @@ formatKeys.forEach((fk) => {
 });
 
 // ============================================================================
-// 2. RUNS AGAINST EVERY OPPONENT (Flagship Animated Horizontal Bar Chart)
+// 2. RUNS AGAINST EVERY OPPONENT (Year-by-Year & Cumulative Telemetry Engine)
 // ============================================================================
 const opponentEvolution = {};
 formatKeys.forEach((fk) => {
@@ -856,37 +1025,142 @@ formatKeys.forEach((fk) => {
     let maxR = 0;
     let maxNotOut = false;
     const yearRuns = {};
+    const yearBreakdown = {};
+    const cumulativeByYear = {};
 
-    oppMatches.forEach((m) => {
-      const yr = m.year;
-      const runsScored = Number(m.runs) || 0;
-      yearRuns[yr] = (yearRuns[yr] || 0) + runsScored;
-      if (m.runs !== null && m.runs !== undefined && m.batting_position) {
-        inn++;
-        r += runsScored;
-        b += Number(m.balls) || 0;
-        f4 += Number(m.fours) || 0;
-        s6 += Number(m.sixes) || 0;
-        if (m.not_out) no++;
-        else dis++;
-        if (runsScored >= 100) h100++;
-        else if (runsScored >= 50) f50++;
-        if (runsScored > maxR || (runsScored === maxR && m.not_out)) {
-          maxR = runsScored;
-          maxNotOut = !!m.not_out;
+    // Group by year for this opponent
+    let cumMatches = 0;
+    let cumInnings = 0;
+    let cumRuns = 0;
+    let cumBalls = 0;
+    let cumNo = 0;
+    let cumDis = 0;
+    let cumF4 = 0;
+    let cumS6 = 0;
+    let cumF50 = 0;
+    let cumH100 = 0;
+    let cumMaxR = 0;
+    let cumMaxNotOut = false;
+
+    years.forEach((yr) => {
+      const yrInningsList = oppMatches.filter(
+        (m) => m.year === yr && m.runs !== null && m.runs !== undefined && m.batting_position
+      );
+      const yrMatchesCount = getMatchesCountForFormatOppYear(fk, opp, yr, yrInningsList);
+
+      let yrR = 0;
+      let yrB = 0;
+      let yrInn = 0;
+      let yrNo = 0;
+      let yrDis = 0;
+      let yrF4 = 0;
+      let yrS6 = 0;
+      let yrF50 = 0;
+      let yrH100 = 0;
+      let yrMaxR = 0;
+      let yrMaxNotOut = false;
+
+      yrInningsList.forEach((m) => {
+        const runsScored = Number(m.runs) || 0;
+        yrInn++;
+        yrR += runsScored;
+        yrB += Number(m.balls) || 0;
+        yrF4 += Number(m.fours) || 0;
+        yrS6 += Number(m.sixes) || 0;
+        if (m.not_out) yrNo++;
+        else yrDis++;
+        if (runsScored >= 100) yrH100++;
+        else if (runsScored >= 50) yrF50++;
+        if (runsScored > yrMaxR || (runsScored === yrMaxR && m.not_out)) {
+          yrMaxR = runsScored;
+          yrMaxNotOut = !!m.not_out;
         }
+      });
+
+      const yrHsString = yrInn > 0 ? `${yrMaxR}${yrMaxNotOut ? "*" : ""}` : "DNB";
+
+      if (yrInn > 0 || yrMatchesCount > 0) {
+        yearRuns[yr] = yrR;
+        yearBreakdown[yr] = {
+          year: yr,
+          matches: yrMatchesCount,
+          innings: yrInn,
+          runs: yrR,
+          balls: yrB,
+          notOuts: yrNo,
+          dismissals: yrDis,
+          average: yrDis > 0 ? round(yrR / yrDis) : yrInn > 0 ? yrR : null,
+          strikeRate: yrB > 0 ? round((yrR / yrB) * 100) : null,
+          highestScore: yrHsString,
+          hundreds: yrH100,
+          fifties: yrF50,
+          fours: yrF4,
+          sixes: yrS6,
+        };
+      }
+
+      // Update cumulative totals up through yr
+      cumMatches += yrMatchesCount;
+      cumInnings += yrInn;
+      cumRuns += yrR;
+      cumBalls += yrB;
+      cumNo += yrNo;
+      cumDis += yrDis;
+      cumF4 += yrF4;
+      cumS6 += yrS6;
+      cumF50 += yrF50;
+      cumH100 += yrH100;
+      if (yrInn > 0 && (yrMaxR > cumMaxR || (yrMaxR === cumMaxR && yrMaxNotOut))) {
+        cumMaxR = yrMaxR;
+        cumMaxNotOut = yrMaxNotOut;
+      }
+
+      if (cumInnings > 0 || cumMatches > 0) {
+        cumulativeByYear[yr] = {
+          year: yr,
+          matches: cumMatches,
+          innings: cumInnings,
+          runs: cumRuns,
+          balls: cumBalls,
+          notOuts: cumNo,
+          dismissals: cumDis,
+          average: cumDis > 0 ? round(cumRuns / cumDis) : cumInnings > 0 ? cumRuns : null,
+          strikeRate: cumBalls > 0 ? round((cumRuns / cumBalls) * 100) : null,
+          highestScore: cumInnings > 0 ? `${cumMaxR}${cumMaxNotOut ? "*" : ""}` : "DNB",
+          hundreds: cumH100,
+          fifties: cumF50,
+          fours: cumF4,
+          sixes: cumS6,
+          yearMatches: yrMatchesCount,
+          yearInnings: yrInn,
+          yearRuns: yrR,
+          yearHighestScore: yrHsString,
+        };
       }
     });
 
+    // Career totals for this opponent in this format
+    r = cumRuns;
+    b = cumBalls;
+    inn = cumInnings;
+    no = cumNo;
+    dis = cumDis;
+    f4 = cumF4;
+    s6 = cumS6;
+    f50 = cumF50;
+    h100 = cumH100;
+    maxR = cumMaxR;
+    maxNotOut = cumMaxNotOut;
+
     opponentDetails[opp] = {
       opponent: opp,
-      matches: oppMatches.length,
+      matches: cumMatches,
       innings: inn,
       runs: r,
       balls: b,
       notOuts: no,
       dismissals: dis,
-      average: dis > 0 ? round(r / dis) : null,
+      average: dis > 0 ? round(r / dis) : inn > 0 ? r : null,
       strikeRate: b > 0 ? round((r / b) * 100) : null,
       highestScore: `${maxR}${maxNotOut ? "*" : ""}`,
       hundreds: h100,
@@ -894,39 +1168,58 @@ formatKeys.forEach((fk) => {
       fours: f4,
       sixes: s6,
       yearRuns,
+      yearBreakdown,
+      cumulativeByYear,
     };
   });
 
   const annualData = [];
   const cumulativeData = [];
-  const cumRunsByOpp = {};
-  allOpps.forEach((o) => {
-    cumRunsByOpp[o] = 0;
-  });
 
   years.forEach((yr) => {
-    const annualOppRuns = {};
-    allOpps.forEach((o) => {
-      annualOppRuns[o] = 0;
-    });
+    const annSorted = allOpps
+      .map((opp) => {
+        const yb = opponentDetails[opp]?.yearBreakdown?.[yr];
+        if (!yb || yb.runs <= 0) return null;
+        return {
+          opponent: opp,
+          runs: yb.runs,
+          matches: yb.matches,
+          innings: yb.innings,
+          notOuts: yb.notOuts,
+          average: yb.average,
+          strikeRate: yb.strikeRate,
+          highestScore: yb.highestScore,
+          yearHighestScore: yb.highestScore,
+          yearRuns: yb.runs,
+          yearMatches: yb.matches,
+          yearInnings: yb.innings,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.runs - a.runs);
 
-    list
-      .filter((m) => m.year === yr)
-      .forEach((m) => {
-        const r = Number(m.runs) || 0;
-        annualOppRuns[m.opponent] = (annualOppRuns[m.opponent] || 0) + r;
-        cumRunsByOpp[m.opponent] += r;
-      });
-
-    const annSorted = Object.entries(annualOppRuns)
-      .filter(([_, r]) => r > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([opponent, runs]) => ({ opponent, runs }));
-
-    const cumSorted = Object.entries(cumRunsByOpp)
-      .filter(([_, r]) => r > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([opponent, runs]) => ({ opponent, runs }));
+    const cumSorted = allOpps
+      .map((opp) => {
+        const cb = opponentDetails[opp]?.cumulativeByYear?.[yr];
+        if (!cb || cb.runs <= 0) return null;
+        return {
+          opponent: opp,
+          runs: cb.runs,
+          matches: cb.matches,
+          innings: cb.innings,
+          notOuts: cb.notOuts,
+          average: cb.average,
+          strikeRate: cb.strikeRate,
+          highestScore: cb.highestScore,
+          yearHighestScore: cb.yearHighestScore,
+          yearRuns: cb.yearRuns,
+          yearMatches: cb.yearMatches,
+          yearInnings: cb.yearInnings,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.runs - a.runs);
 
     annualData.push({
       year: yr,
@@ -1450,9 +1743,15 @@ formatKeys.forEach((fk) => {
   const records = years.map((yr) => {
     const d = byYr[yr];
     cumRuns += d.runs;
+    // Sum accurate match count across all opponents in this year for this format
+    const oppDetailsMap = opponentEvolution[fk]?.opponentDetails || {};
+    const trueYrMatches = Object.values(oppDetailsMap).reduce(
+      (sum, od) => sum + (od.yearBreakdown?.[yr]?.matches || 0),
+      0
+    );
     return {
       year: Number(yr),
-      matches: d.matches,
+      matches: trueYrMatches || d.matches,
       innings: d.innings,
       runs: d.runs,
       cumRuns,

@@ -17,6 +17,27 @@ export interface CareerSummary {
   sixes: number;
 }
 
+export interface OpponentYearStats {
+  year: number;
+  matches: number;
+  innings: number;
+  runs: number;
+  balls: number;
+  notOuts: number;
+  dismissals: number;
+  average: number | null;
+  strikeRate: number | null;
+  highestScore: string;
+  hundreds: number;
+  fifties: number;
+  fours: number;
+  sixes: number;
+  yearMatches?: number;
+  yearInnings?: number;
+  yearRuns?: number;
+  yearHighestScore?: string;
+}
+
 export interface OpponentDetail {
   opponent: string;
   matches: number;
@@ -33,11 +54,23 @@ export interface OpponentDetail {
   fours: number;
   sixes: number;
   yearRuns: Record<string, number>;
+  yearBreakdown: Record<string, OpponentYearStats>;
+  cumulativeByYear: Record<string, OpponentYearStats>;
 }
 
 export interface OpponentRankItem {
   opponent: string;
   runs: number;
+  matches: number;
+  innings: number;
+  notOuts: number;
+  average: number | null;
+  strikeRate: number | null;
+  highestScore: string;
+  yearHighestScore?: string;
+  yearRuns?: number;
+  yearMatches?: number;
+  yearInnings?: number;
 }
 
 export interface EvolutionYearPoint {
