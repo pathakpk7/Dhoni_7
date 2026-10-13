@@ -77,82 +77,208 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
   const [viewMode, setViewMode] = useState<"cumulative" | "annual">("cumulative");
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
-  const [yearIndex, setYearIndex] = useState<number>(0);
+  // Continuous floating-point progress in [0, years.length - 1] for 60fps smooth interpolation
+  const [timelineProgress, setTimelineProgress] = useState<number>(0);
   const [selectedOpponent, setSelectedOpponent] = useState<string | null>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const rafRef = useRef<number | null>(null);
+  const lastFrameTimeRef = useRef<number | null>(null);
+  const timelineTrackRef = useRef<HTMLDivElement | null>(null);
+  const isDraggingRef = useRef<boolean>(false);
 
   const currentDataset = evolutionData[selectedFormat] || evolutionData.ALL_INTL;
   const years = currentDataset.years;
+  const maxYearIdx = Math.max(0, years.length - 1);
 
   // Sync with global format selector and default to the final year so full career & year-by-year scrubber are ready
   useEffect(() => {
     setSelectedFormat(initialFormat);
     setIsPlaying(false);
     const ds = evolutionData[initialFormat] || evolutionData.ALL_INTL;
-    setYearIndex(Math.max(0, ds.years.length - 1));
+    setTimelineProgress(Math.max(0, ds.years.length - 1));
     setSelectedOpponent(null);
   }, [initialFormat, evolutionData]);
 
-  // Active year
-  const activeYear = years[yearIndex] ?? years[years.length - 1] ?? years[0];
+  // Discrete integer year index for badges, tables, and dossier
+  const yearIndex = Math.min(maxYearIdx, Math.max(0, Math.round(timelineProgress)));
+  const activeYear = years[yearIndex] ?? years[maxYearIdx] ?? years[0];
 
   // Pick dataset based on viewMode
   const activeDataSeries =
     viewMode === "cumulative" ? currentDataset.cumulativeData : currentDataset.annualData;
 
-  const currentYearSnapshot = activeDataSeries[yearIndex] || { year: activeYear, ranks: [] };
-
-  // Determine max runs in this view to scale bar widths proportionally
-  const maxRunsInView = useMemo(() => {
-    let max = 50;
-    currentYearSnapshot.ranks.forEach((r) => {
-      if (r.runs > max) max = r.runs;
+  // Overall peak runs across the entire series (used to anchor smooth bar growth without sudden surges)
+  const seriesPeakRuns = useMemo(() => {
+    let peak = 100;
+    activeDataSeries.forEach((snap) => {
+      snap.ranks.forEach((r) => {
+        if (r.runs > peak) peak = r.runs;
+      });
     });
-    return max;
-  }, [currentYearSnapshot]);
+    return peak;
+  }, [activeDataSeries]);
+
+  // Smoothly interpolated snapshot at the current floating-point timelineProgress
+  const interpolatedSnapshot = useMemo(() => {
+    if (activeDataSeries.length === 0) {
+      return {
+        year: activeYear,
+        totalRuns: 0,
+        ranks: [] as Array<
+          (typeof activeDataSeries)[0]["ranks"][0] & { exactRuns: number }
+        >,
+      };
+    }
+
+    const clamped = Math.min(maxYearIdx, Math.max(0, timelineProgress));
+    const floorIdx = Math.floor(clamped);
+    const ceilIdx = Math.min(maxYearIdx, floorIdx + 1);
+    const rawT = clamped - floorIdx;
+    // Smooth linear-cubic blend so continuous playback never has a sudden jump or stall at year boundaries
+    const t = rawT;
+
+    const snapA = activeDataSeries[floorIdx] || activeDataSeries[0];
+    const snapB = activeDataSeries[ceilIdx] || snapA;
+
+    const totalA = snapA.totalCumRuns ?? snapA.totalYearRuns ?? 0;
+    const totalB = snapB.totalCumRuns ?? snapB.totalYearRuns ?? totalA;
+    const interpolatedTotalRuns = Math.round(totalA + (totalB - totalA) * t);
+
+    if (floorIdx === ceilIdx || t === 0) {
+      return {
+        year: snapA.year,
+        totalRuns: totalA,
+        ranks: snapA.ranks.map((r) => ({ ...r, exactRuns: r.runs })),
+      };
+    }
+
+    const mapA = new Map(snapA.ranks.map((r) => [r.opponent, r]));
+    const mapB = new Map(snapB.ranks.map((r) => [r.opponent, r]));
+    const allOpponents = new Set<string>();
+    mapA.forEach((_, opp) => allOpponents.add(opp));
+    mapB.forEach((_, opp) => allOpponents.add(opp));
+
+    const blendedRanks: Array<
+      (typeof activeDataSeries)[0]["ranks"][0] & { exactRuns: number }
+    > = [];
+
+    allOpponents.forEach((opp) => {
+      const itemA = mapA.get(opp);
+      const itemB = mapB.get(opp);
+
+      const runsA = itemA?.runs ?? 0;
+      const runsB = itemB?.runs ?? (viewMode === "cumulative" ? runsA : 0);
+      const exactRuns = runsA + (runsB - runsA) * t;
+      const displayRuns = Math.round(exactRuns);
+
+      if (displayRuns <= 0 && exactRuns <= 0.1) return;
+
+      const matA = itemA?.matches ?? 0;
+      const matB = itemB?.matches ?? (viewMode === "cumulative" ? matA : 0);
+      const innA = itemA?.innings ?? 0;
+      const innB = itemB?.innings ?? (viewMode === "cumulative" ? innA : 0);
+
+      const baseItem = t < 0.5 ? itemA || itemB! : itemB || itemA!;
+
+      blendedRanks.push({
+        ...baseItem,
+        opponent: opp,
+        runs: displayRuns,
+        exactRuns,
+        matches: Math.round(matA + (matB - matA) * t),
+        innings: Math.round(innA + (innB - innA) * t),
+      });
+    });
+
+    blendedRanks.sort((a, b) => b.exactRuns - a.exactRuns || b.innings - a.innings);
+
+    return {
+      year: activeYear,
+      totalRuns: interpolatedTotalRuns,
+      ranks: blendedRanks,
+    };
+  }, [activeDataSeries, timelineProgress, maxYearIdx, activeYear, viewMode]);
+
+  // Smoothly scaled denominator so bars grow progressively without sudden early-year surges
+  const maxRunsInView = useMemo(() => {
+    let currentMax = 1;
+    interpolatedSnapshot.ranks.forEach((r) => {
+      if (r.exactRuns > currentMax) currentMax = r.exactRuns;
+    });
+    if (viewMode === "cumulative") {
+      // Anchor minimum scale to 30% of career peak so early career bars start compact and smoothly grow to 100%
+      return Math.max(currentMax, seriesPeakRuns * 0.3);
+    }
+    return Math.max(currentMax, 50);
+  }, [interpolatedSnapshot, viewMode, seriesPeakRuns]);
 
   // Handle format switch
   const handleFormatChange = (fmt: FormatKey) => {
     setSelectedFormat(fmt);
     setIsPlaying(false);
     const ds = evolutionData[fmt] || evolutionData.ALL_INTL;
-    setYearIndex(Math.max(0, ds.years.length - 1));
+    setTimelineProgress(Math.max(0, ds.years.length - 1));
     setSelectedOpponent(null);
   };
 
-  // Playback timer loop
+  // 60fps requestAnimationFrame loop for buttery-smooth continuous timeline progression
   useEffect(() => {
     if (!isPlaying) {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastFrameTimeRef.current = null;
       return;
     }
 
-    const intervalTime = Math.max(500, Math.floor(1400 / playbackSpeed));
-    timerRef.current = setInterval(() => {
-      setYearIndex((prev) => {
-        if (prev >= years.length - 1) {
+    // 1.35 seconds per year at 1x speed
+    const msPerYear = 1350 / playbackSpeed;
+
+    const step = (timestamp: number) => {
+      if (lastFrameTimeRef.current === null) {
+        lastFrameTimeRef.current = timestamp;
+      }
+      const deltaMs = timestamp - lastFrameTimeRef.current;
+      lastFrameTimeRef.current = timestamp;
+
+      setTimelineProgress((prev) => {
+        const next = prev + deltaMs / msPerYear;
+        if (next >= maxYearIdx) {
           setIsPlaying(false);
-          return prev;
+          return maxYearIdx;
         }
-        return prev + 1;
+        return next;
       });
-    }, intervalTime);
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      lastFrameTimeRef.current = null;
     };
-  }, [isPlaying, playbackSpeed, years.length]);
+  }, [isPlaying, playbackSpeed, maxYearIdx]);
 
   const handlePlayPause = () => {
-    if (yearIndex >= years.length - 1 && !isPlaying) {
-      setYearIndex(0);
+    if (timelineProgress >= maxYearIdx - 0.02 && !isPlaying) {
+      setTimelineProgress(0);
     }
-    setIsPlaying(!isPlaying);
+    setIsPlaying((prev) => !prev);
   };
 
   const handleReset = () => {
     setIsPlaying(false);
-    setYearIndex(0);
+    setTimelineProgress(0);
+  };
+
+  // Convert pointer clientX on the custom timeline line into a timelineProgress value
+  const updateProgressFromClientX = (clientX: number, snapToYear = false) => {
+    if (!timelineTrackRef.current || maxYearIdx === 0) return;
+    const rect = timelineTrackRef.current.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    const rawProgress = ratio * maxYearIdx;
+    setIsPlaying(false);
+    setTimelineProgress(snapToYear ? Math.round(rawProgress) : rawProgress);
   };
 
   // Default selected opponent to top-ranked opponent in current snapshot if not explicitly chosen or not in format
@@ -160,8 +286,8 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
     if (selectedOpponent && currentDataset.opponentDetails[selectedOpponent]) {
       return selectedOpponent;
     }
-    return currentYearSnapshot.ranks[0]?.opponent || currentDataset.opponents[0] || null;
-  }, [selectedOpponent, currentDataset, currentYearSnapshot]);
+    return interpolatedSnapshot.ranks[0]?.opponent || currentDataset.opponents[0] || null;
+  }, [selectedOpponent, currentDataset, interpolatedSnapshot]);
 
   const selectedOppDetail: OpponentDetail | undefined = effectiveOpponentName
     ? currentDataset.opponentDetails[effectiveOpponentName]
@@ -181,17 +307,20 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
     return Object.values(selectedOppDetail.yearBreakdown).sort((a, b) => a.year - b.year);
   }, [selectedOppDetail]);
 
+  const progressPercentage =
+    maxYearIdx > 0 ? Math.min(100, Math.max(0, (timelineProgress / maxYearIdx) * 100)) : 100;
+
   return (
     <section id="signature-opponent-runs" className="scroll-mt-24">
-      <div className="bg-gradient-to-b from-[#090b14] via-[#070910] to-[#05060a] border border-sky-500/20 rounded-2xl p-5 sm:p-8 shadow-[0_0_50px_rgba(14,165,233,0.06)] relative overflow-hidden">
+      <div className="bg-gradient-to-b from-[#090b14] via-[#070910] to-[#05060a] border border-sky-500/20 rounded-2xl p-4 sm:p-8 shadow-[0_0_50px_rgba(14,165,233,0.06)] relative overflow-hidden">
         {/* Glow */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-white/10 relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-              <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider mb-2">
+              <Sparkles className="w-3.5 h-3.5 animate-pulse shrink-0" />
               <span>OPPOSITION DOMINANCE TELEMETRY · YEAR-BY-YEAR &amp; FORMAT MATRIX</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white tracking-wide">
@@ -209,7 +338,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
               <button
                 onClick={() => setViewMode("cumulative")}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg transition-all cursor-pointer",
+                  "flex-1 sm:flex-initial px-3 py-1.5 rounded-lg transition-all cursor-pointer",
                   viewMode === "cumulative"
                     ? "bg-sky-500/30 text-sky-300 border border-sky-500/50 font-bold"
                     : "text-slate-400 hover:text-white"
@@ -220,7 +349,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
               <button
                 onClick={() => setViewMode("annual")}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg transition-all cursor-pointer",
+                  "flex-1 sm:flex-initial px-3 py-1.5 rounded-lg transition-all cursor-pointer",
                   viewMode === "annual"
                     ? "bg-amber-500/30 text-amber-300 border border-amber-500/50 font-bold"
                     : "text-slate-400 hover:text-white"
@@ -253,10 +382,10 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
         </div>
 
         {/* Playback Controls & Big Year Display */}
-        <div className="py-5 border-b border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+        <div className="py-5 border-b border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 relative z-10">
           {/* Big Year Display */}
           <div className="flex items-baseline gap-4">
-            <div className="font-display text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-sky-400 tracking-tight">
+            <div className="font-display text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-sky-400 tracking-tight tabular-nums">
               {activeYear}
             </div>
             <div>
@@ -265,8 +394,8 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
                   ? `Cumulative Through ${activeYear} (${FORMAT_LABELS[selectedFormat]})`
                   : `Single-Year Record in ${activeYear} (${FORMAT_LABELS[selectedFormat]})`}
               </p>
-              <p className="text-sm font-mono text-sky-400 font-bold">
-                {(currentYearSnapshot.totalCumRuns ?? currentYearSnapshot.totalYearRuns ?? 0).toLocaleString()} Runs Total
+              <p className="text-sm font-mono text-sky-400 font-bold tabular-nums">
+                {interpolatedSnapshot.totalRuns.toLocaleString()} Runs Total
               </p>
             </div>
           </div>
@@ -294,7 +423,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
               <RotateCcw className="w-4 h-4" />
             </button>
 
-            {/* Quick Year Pills */}
+            {/* Playback Speed Pills */}
             <div className="flex items-center p-1 bg-black/60 rounded-xl border border-white/10 text-[11px] font-mono">
               {[1, 1.5, 2].map((spd) => (
                 <button
@@ -314,49 +443,111 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
           </div>
         </div>
 
-        {/* Interactive Year Scrubber Slider + Year Chips */}
-        <div className="pt-4 pb-2 relative z-10">
-          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2">
+        {/* Interactive Node-Pointer Timeline Bar */}
+        <div className="pt-5 pb-3 relative z-10">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-3">
             <span>{years[0]} (Debut)</span>
             <span className="text-sky-400 font-bold">
-              Selected Year: {activeYear} ({yearIndex + 1} of {years.length})
+              Click or drag any year pointer on the line • Active: {activeYear} ({yearIndex + 1} of {years.length})
             </span>
             <span>{years[years.length - 1]} (Final)</span>
           </div>
-          <input
-            type="range"
-            min={0}
-            max={years.length - 1}
-            value={yearIndex}
-            onChange={(e) => {
-              setIsPlaying(false);
-              setYearIndex(Number(e.target.value));
-            }}
-            className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-sky-400"
-          />
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {years.map((yr, idx) => (
-              <button
-                key={yr}
-                onClick={() => {
-                  setIsPlaying(false);
-                  setYearIndex(idx);
+
+          {/* Scrollable wrapper on tiny screens so year node pointers never overlap */}
+          <div className="overflow-x-auto pb-2 scrollbar-none">
+            <div className="min-w-[580px] px-4 pt-3 pb-7">
+              {/* Interactive Track Line */}
+              <div
+                ref={timelineTrackRef}
+                onMouseDown={(e) => {
+                  isDraggingRef.current = true;
+                  updateProgressFromClientX(e.clientX, false);
                 }}
-                className={cn(
-                  "px-2 py-1 rounded text-[10px] font-mono transition-all cursor-pointer border",
-                  idx === yearIndex
-                    ? "bg-sky-500/25 text-sky-300 border-sky-500/50 font-bold"
-                    : "bg-black/40 text-slate-400 border-white/5 hover:text-white hover:border-white/20"
-                )}
+                onMouseMove={(e) => {
+                  if (isDraggingRef.current) {
+                    updateProgressFromClientX(e.clientX, false);
+                  }
+                }}
+                onMouseUp={(e) => {
+                  if (isDraggingRef.current) {
+                    isDraggingRef.current = false;
+                    updateProgressFromClientX(e.clientX, true);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (isDraggingRef.current) {
+                    isDraggingRef.current = false;
+                    setTimelineProgress((p) => Math.round(p));
+                  }
+                }}
+                className="relative h-2.5 bg-white/10 rounded-full cursor-pointer select-none flex items-center"
               >
-                {yr}
-              </button>
-            ))}
+                {/* Glowing Progress Fill Along the Line */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 rounded-full bg-gradient-to-r from-sky-500 via-sky-400 to-amber-400 shadow-[0_0_12px_rgba(56,189,248,0.55)] pointer-events-none"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+
+                {/* Smooth Live Playhead Thumb */}
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-white border-2 border-sky-400 shadow-[0_0_14px_rgba(56,189,248,0.9)] pointer-events-none z-20"
+                  style={{ left: `${progressPercentage}%` }}
+                />
+
+                {/* Clickable Node Pointers Directly on the Timeline Line for Each Year */}
+                {years.map((yr, idx) => {
+                  const nodePercent = maxYearIdx > 0 ? (idx / maxYearIdx) * 100 : 50;
+                  const isCurrentYear = idx === yearIndex;
+                  const isPassed = idx <= timelineProgress + 0.05;
+
+                  return (
+                    <button
+                      key={yr}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPlaying(false);
+                        setTimelineProgress(idx);
+                      }}
+                      style={{ left: `${nodePercent}%` }}
+                      title={`Jump to ${yr}`}
+                      className="group absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center focus:outline-none cursor-pointer z-10 py-3 px-1.5"
+                    >
+                      {/* Pointer Dot on the Line */}
+                      <span
+                        className={cn(
+                          "rounded-full transition-all duration-200 border-2",
+                          isCurrentYear
+                            ? "w-4 h-4 bg-amber-400 border-white shadow-[0_0_14px_rgba(251,191,36,0.9)] scale-125"
+                            : isPassed
+                            ? "w-3 h-3 bg-sky-400 border-sky-950 group-hover:scale-125 group-hover:bg-amber-300 group-hover:border-white shadow-[0_0_8px_rgba(56,189,248,0.6)]"
+                            : "w-3 h-3 bg-[#111827] border-slate-500 group-hover:scale-125 group-hover:border-sky-300 group-hover:bg-sky-400/40"
+                        )}
+                      />
+
+                      {/* Year Label Directly Below Each Pointer on the Line */}
+                      <span
+                        className={cn(
+                          "absolute top-7 text-[10px] font-mono tracking-tight transition-all whitespace-nowrap px-1 py-0.5 rounded",
+                          isCurrentYear
+                            ? "text-amber-300 font-bold bg-amber-500/15 border border-amber-500/40 scale-105"
+                            : isPassed
+                            ? "text-sky-300 group-hover:text-white font-semibold"
+                            : "text-slate-500 group-hover:text-slate-200"
+                        )}
+                      >
+                        {yr}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Main Chart Body + Dynamic Year-Wise & Career Opponent Dossier */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4 relative z-10">
           {/* Left: Animated Horizontal Bar Chart (7 Columns) */}
           <div className="lg:col-span-7 flex flex-col gap-2.5">
             <div className="flex items-center justify-between text-xs font-mono text-slate-400 pb-1">
@@ -370,16 +561,19 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
               </span>
             </div>
 
-            {currentYearSnapshot.ranks.length === 0 ? (
+            {interpolatedSnapshot.ranks.length === 0 ? (
               <div className="p-12 text-center border border-dashed border-white/10 rounded-xl">
                 <p className="text-slate-400 font-mono text-sm">
                   No runs recorded against opponents in {activeYear} for {FORMAT_LABELS[selectedFormat]}.
                 </p>
               </div>
             ) : (
-              currentYearSnapshot.ranks.map((item, idx) => {
+              interpolatedSnapshot.ranks.map((item, idx) => {
                 const colorConfig = OPPONENT_COLORS[item.opponent] || DEFAULT_COLOR;
-                const widthPercent = Math.min(100, Math.max(4, (item.runs / maxRunsInView) * 100));
+                const widthPercent = Math.min(
+                  100,
+                  Math.max(2.5, (item.exactRuns / maxRunsInView) * 100)
+                );
                 const isSelected = effectiveOpponentName === item.opponent;
                 const playedThisYear = (item.yearInnings ?? 0) > 0 || (item.yearMatches ?? 0) > 0;
 
@@ -388,7 +582,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
                     key={item.opponent}
                     onClick={() => setSelectedOpponent(item.opponent)}
                     className={cn(
-                      "group rounded-xl p-3 border transition-all cursor-pointer",
+                      "group rounded-xl p-3 border transition-colors cursor-pointer",
                       isSelected
                         ? "bg-white/[0.06] border-sky-500/50 shadow-[0_0_15px_rgba(14,165,233,0.15)]"
                         : "bg-black/40 border-white/5 hover:border-white/20 hover:bg-white/[0.02]"
@@ -401,7 +595,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
                           {item.opponent}
                         </span>
                         {/* Distinct Matches vs Innings Badge */}
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300 tabular-nums">
                           {item.matches} Mat • {item.innings} Inn
                         </span>
                         {/* Year-Wise High Score Badge */}
@@ -429,18 +623,19 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
                             Avg <strong className="text-amber-400">{item.average.toFixed(1)}</strong>
                           </span>
                         )}
-                        <span className={cn("text-sm font-bold font-mono", colorConfig.text)}>
+                        <span className={cn("text-sm font-bold font-mono tabular-nums", colorConfig.text)}>
                           {item.runs.toLocaleString()} runs
                         </span>
                         <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-0.5" />
                       </div>
                     </div>
 
-                    {/* Animated Bar Track */}
+                    {/* Smoothly Animated Bar Track */}
                     <div className="h-3.5 bg-black/60 rounded-full overflow-hidden p-0.5 border border-white/10">
                       <div
                         className={cn(
-                          "h-full rounded-full transition-all duration-500 ease-out",
+                          "h-full rounded-full",
+                          isPlaying ? "transition-none" : "transition-all duration-300 ease-out",
                           colorConfig.bar
                         )}
                         style={{ width: `${widthPercent}%` }}
@@ -624,7 +819,7 @@ export const OpponentRunsBarChart: React.FC<OpponentRunsBarChartProps> = ({
                               onClick={() => {
                                 setIsPlaying(false);
                                 const idx = years.indexOf(ys.year);
-                                if (idx !== -1) setYearIndex(idx);
+                                if (idx !== -1) setTimelineProgress(idx);
                               }}
                               className={cn(
                                 "cursor-pointer transition-colors",
