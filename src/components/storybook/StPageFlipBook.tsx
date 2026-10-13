@@ -1,210 +1,25 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import {
   ChevronLeft,
   ChevronRight,
   Share2,
-  Maximize2,
-  Volume2,
-  VolumeX,
-  Play,
   BookOpen,
   X,
   ShieldCheck,
   ExternalLink,
   Film,
+  Calendar,
+  MapPin,
+  Quote as QuoteIcon,
+  Layers,
 } from "lucide-react";
 import type { StoryEntry } from "@/types/storybook";
 import { MAHI_STORY_LIBRARY } from "@/data/mahiStoryLibrary";
 import { storyAudio } from "./StoryAudio";
 import { StoryVideoPlayer } from "./StoryVideoPlayer";
 import { cn } from "@/lib/utils";
-
-// Hindi transliterations / poetic couplets for all 36 moments matching Pusho.fun style
-const PUSHO_HINDI_QUOTES: Record<string, { hindi: string; attribution: string }> = {
-  "ranchi-goalkeeper-origins": {
-    hindi: "मैदान चाहे फुटबॉल का हो या क्रिकेट का,\nनज़र हमेशा गेंद पर और कदम ज़मीन पर होने चाहिए।",
-    attribution: "— धोनी",
-  },
-  "kharagpur-ticket-collector": {
-    hindi: "कांटों का क्या कसूर था?\nजब कांटों पे पैर मैंने खुद रखा था।",
-    attribution: "— धोनी (खड़गपुर संस्मरण)",
-  },
-  "kenya-tri-series-breakthrough": {
-    hindi: "जब प्रतिभा को मौका मिलता है,\nतो गेंद स्टेडियम के बाहर ही गिरती है।",
-    attribution: "— नैरोबी डायरी",
-  },
-  "chittagong-debut-runout": {
-    hindi: "जब शुरुआत ही शून्य से हो,\nतो आगे का हर कदम सिर्फ बुलंदी की ओर जाता है।",
-    attribution: "— धोनी",
-  },
-  "vizag-148-unleashed": {
-    hindi: "आँखों में डर नहीं, इरादों में आग थी।\nविजाग ने देखा कि एक नया तूफान आया है।",
-    attribution: "— विजाग २००५",
-  },
-  "jaipur-183-destruction": {
-    hindi: "मुश्किल लक्ष्य सिर्फ हौसलों की आज़माइश हैं,\nअगर इरादा अटल हो तो पहाड़ भी झुक जाते हैं।",
-    attribution: "— जयपुर १८४*",
-  },
-  "kingsmead-bowl-out-instinct": {
-    hindi: "तैयारी किताबों से नहीं, अभ्यास से साबित होती है।\nजो स्टंप्स पर मार सके, गेंद उसी के हाथ में होनी चाहिए।",
-    attribution: "— किंग्समीड २००७",
-  },
-  "johannesburg-joginder-final-over": {
-    hindi: "परिणाम की चिंता मत करो जोगिंदर,\nअगर हारे तो ज़िम्मेदारी मेरी, जीते तो देश का गौरव।",
-    attribution: "— जोहान्सबर्ग अंतिम ओवर",
-  },
-  "shirtless-trophy-handover": {
-    hindi: "ट्रॉफी उनकी है जिन्होंने पसीना बहाया।\nहमारा काम तो बस रास्ते आसान करना था।",
-    attribution: "— धोनी",
-  },
-  "cb-series-silent-celebration": {
-    hindi: "जीत को आदत बनाओ, कोई चमत्कार नहीं।\nशोर मचाने से जीत बड़ी नहीं होती, खामोशी से डर बैठता है।",
-    attribution: "— सिडनी २००८",
-  },
-  "process-over-result-doctrine": {
-    hindi: "परिणाम केवल प्रक्रिया का प्रतिफल है।\nप्रक्रिया संभालो, परिणाम खुद संभल जाएगा।",
-    attribution: "— धोनी वचन",
-  },
-  "press-box-composure-wit": {
-    hindi: "जब आप खुद पर भरोसा रखते हैं,\nतो दूसरों के सवालों में ही उनके जवाब छिपे होते हैं।",
-    attribution: "— वानखेड़े २०१६",
-  },
-  "dharamsala-helmet-punch-2010": {
-    hindi: "शांत समंदर के नीचे भी कभी-कभी\nज्वालामुखी धड़कता है।",
-    attribution: "— धर्मशाला २०१०",
-  },
-  "promoting-ahead-of-yuvraj": {
-    hindi: "इतिहास गवाह है, सबसे बड़ा संकट\nसबसे बड़े निर्णय की मांग करता है।",
-    attribution: "— २ अप्रैल २०११",
-  },
-  "wankhede-kulasekara-winning-six": {
-    hindi: "धोनी फ़िनिशेज़ ऑफ़ इन स्टाइल!\nएक शॉट, अट्ठाईस साल का इंतज़ार, और एक अरब आँसू।",
-    attribution: "— रवि शास्त्री (वानखेड़े २०११)",
-  },
-  "test-mace-brabourne-2009": {
-    hindi: "सफ़ेद जर्सी में सबसे ऊपर पहुँचना,\nसालों के अनुशासन और त्याग का परिणाम है।",
-    attribution: "— ब्रेबोर्न २००९",
-  },
-  "chepauk-double-hundred-2013": {
-    hindi: "जब मुश्किल पिच पर परीक्षा हो,\nतो पलटवार ही सबसे सुरक्षित ढाल बनता है।",
-    attribution: "— चेपॉक २२४",
-  },
-  "edgbaston-rain-champions-trophy": {
-    hindi: "मैदान पर १३० रन हैं। भगवान बचाने नहीं आएगा,\nअगर नंबर एक टीम हो, तो लड़कर दिखाओ।",
-    attribution: "— एजबेस्टन २०१३",
-  },
-  "honorary-lt-col-commission": {
-    hindi: "वर्दी कोई पोशाक नहीं है,\nयह मातृभूमि के प्रति आजीवन निष्ठा और कर्तव्य है।",
-    attribution: "— ले. कर्नल एम. एस. धोनी",
-  },
-  "balidan-maroon-wings-jumps": {
-    hindi: "हवा में कूदते वक्त डर सबको लगता है,\nफर्क सिर्फ इतना है कि पैराट्रूपर डर को मात देता है।",
-    attribution: "— आगरा २०१५",
-  },
-  "victor-force-kashmir-patrol": {
-    hindi: "शौहरत चाहे जितनी मिले,\nसच्चा सुकून देश की सीमा पर खड़े पहरेदार के साथ है।",
-    attribution: "— कश्मीर २०१९",
-  },
-  "the-first-rajdoot-restoration": {
-    hindi: "पुरानी चीज़ों में एक रूह होती है,\nजब अपने हाथों से संवारो तो वो कभी धोखा नहीं देतीं।",
-    attribution: "— राजदूत संस्मरण",
-  },
-  "glass-garage-hellcat-sanctuary": {
-    hindi: "मशीनें कभी झूठ नहीं बोलतीं।\nइंजन की आवाज़ में एक सच्ची खामोशी होती है।",
-    attribution: "— रांची गैराज",
-  },
-  "midnight-solo-ranchi-rides": {
-    hindi: "जब हेलमेट पहनते हो, तो कोई नहीं जानता तुम कौन हो।\nतुम बस सड़क और हवा के बीच एक मुसाफ़िर हो।",
-    attribution: "— धोनी",
-  },
-  "stump-mic-chronicles": {
-    hindi: "ओए श्री इधर देख, गर्लफ्रेंड नहीं है उधर,\nइधर देख ले!",
-    attribution: "— स्टंप माइक संवाद",
-  },
-  "point-zero-eight-second-stumping": {
-    hindi: "पलक झपकने में दशमलव दस सेकंड लगते हैं,\nऔर स्टंप की गिल्लियां उड़ने में केवल शून्य दशमलव शून्य आठ।",
-    attribution: "— ०.०८ सेकंड की बाजीगरी",
-  },
-  "the-open-hotel-room-protocol": {
-    hindi: "कमरे का दरवाज़ा हमेशा खुला रहता था,\nताकि कोई नया लड़का अपने कप्तान से डरना भूल जाए।",
-    attribution: "— कमरा नं. ७०७",
-  },
-  "csk-first-ipl-crown-2010": {
-    hindi: "ताकत के सामने चालाकी और सब्र,\nटी-२० क्रिकेट का सबसे बड़ा मंत्र है।",
-    attribution: "— डी.वाई. पाटिल २०१०",
-  },
-  "the-2018-comeback-tears": {
-    hindi: "जो रिश्ता दिल से जुड़ा हो,\nवो दो साल के वनवास से और भी गहरा हो जाता है।",
-    attribution: "— चेन्नई २०१८",
-  },
-  "lifting-jadeja-at-3am-2023": {
-    hindi: "रात के तीन बजे, जब सब थम गया,\nतो पीले समंदर ने फिर से साबित कर दिया कि जादू सच होता है।",
-    attribution: "— अहमदाबाद २०२३",
-  },
-  "nineteen-twenty-nine-retirement": {
-    hindi: "पल दो पल का शायर हूँ, पल दो पल मेरी कहानी है...\n१९२९ बजे से मुझे रिटायर्ड समझें।",
-    attribution: "— १५ अगस्त २०२०",
-  },
-  "mcg-2014-silent-test-exit": {
-    hindi: "अलविदा कहने के लिए तालियों की ज़रूरत नहीं होती,\nजब समय आए, तो सम्मान से कलम रख देनी चाहिए।",
-    attribution: "— मेलबर्न २०१४",
-  },
-  "the-mentor-silhouette": {
-    hindi: "सच्चा मार्गदर्शक वही है\nजो पर्दे के पीछे रहकर नई पीढ़ी को चमकने दे।",
-    attribution: "— दुबई २०२१",
-  },
-  "bengaluru-sprint-single-glove": {
-    hindi: "एक दस्ताना पहले ही उतार दिया था,\nक्योंकि मुझे पता था कि दौड़ने में मैं उससे तेज़ हूँ।",
-    attribution: "— बेंगलुरु २०१६",
-  },
-  "stepping-out-of-trophy-frame": {
-    hindi: "ट्रॉफी नए लड़कों के हाथों में दो और पीछे हट जाओ,\nकप्तान का काम जीतना है, तस्वीर खिंचवाना नहीं।",
-    attribution: "— नेतृत्व दर्शन",
-  },
-  "solitary-walk-ranchi-outfield": {
-    hindi: "कुछ सफर रनों और ट्रॉफियों में गिने जाते हैं,\nऔर कुछ सिर्फ उन लम्हों में जो कभी भुलाए नहीं जा सकते।",
-    attribution: "— रांची २०१९ (उपसंहार)",
-  },
-  "play-your-game-backing": {
-    hindi: "अपना स्वाभाविक खेल खेलो, मैं तुम्हारे पीछे खड़ा हूँ।\nस्कोरबोर्ड या अख़बारों की चिंता छोड़ो, बस खुद को व्यक्त करो।",
-    attribution: "— धोनी (युवा बल्लेबाजों को भरोसा)",
-  },
-  "cb-series-proving-cricinfo-wrong": {
-    hindi: "शुरू करने से पहले बता दूँ, मैंने क्रिकइन्फो पर आपका लेख पढ़ा था।\nआपने ऑस्ट्रेलिया को प्रबल दावेदार बताया था,\nआज मुझे लगता है कि मैंने और मेरे लड़कों ने आपको गलत साबित कर दिया।",
-    attribution: "— धोनी (इयान चैपल को सीधा जवाब, सिडनी २००८)",
-  },
-  "kishore-kumar-to-sean-paul": {
-    hindi: "किशोर कुमार से अब हम सीन पॉल तक पहुँच चुके हैं।\nड्रेसिंग रूम का संगीत बदल गया, ऊर्जा बदल गई, और विकेटों के बीच की दौड़ भी।",
-    attribution: "— धोनी (पीढ़ीगत बदलाव पर)",
-  },
-  "helicopter-stool-bouncers-quip": {
-    hindi: "बाउंसर पर मैं हेलीकॉप्टर शॉट तब तक नहीं खेल सकता,\nजब तक कि मुझे अपने साथ एक स्टूल न मिल जाए।",
-    attribution: "— धोनी (प्रेस कॉन्फ्रेंस चुटकुला)",
-  },
-  "duckworth-lewis-deadpan-quip": {
-    hindi: "साफ़ कहूँ तो मुझे डकवर्थ-लुईस नियम कभी समझ नहीं आता,\nमैं तो बस अंपायर के फ़ैसले का इंतज़ार करता हूँ।",
-    attribution: "— धोनी (प्रेस वार्ता)",
-  },
-  "ask-physio-press-release-quip": {
-    hindi: "शायद आपको उनके फ़िज़ियो से कहना चाहिए\nकि वो इस पर एक प्रेस विज्ञप्ति जारी कर दें।",
-    attribution: "— धोनी (सटीक हाज़िरजवाबी)",
-  },
-  "not-here-to-prove-champions-trophy": {
-    hindi: "मैं यहाँ किसी को यह साबित करने नहीं आया कि मैं कितना अच्छा हूँ।\nअगर मैं लोगों को साबित करने में लग गया,\nतो जो असली काम है, उससे मेरा ध्यान भटक जाएगा।",
-    attribution: "— धोनी (चैंपियंस ट्रॉफी जीत, बर्मिंघम २०१३)",
-  },
-  "you-want-me-to-retire-sam-ferris": {
-    hindi: "क्या आप चाहते हैं कि मैं संन्यास ले लूँ?\nक्या आपको लगता है मैं अनफ़िट हूँ?\nक्या मैं २०१९ विश्व कप तक खेल सकता हूँ?\n...तो फिर आपने खुद ही अपने सवाल का जवाब दे दिया!",
-    attribution: "— धोनी (सैम फेरिस से सीधा संवाद, २०१६)",
-  },
-  "dont-ride-all-bikes-at-a-time": {
-    hindi: "गैराज में कई सारी मोटरसाइकिलें हैं मेरे पास,\nलेकिन मैं एक समय में सारी गाड़ियाँ एक साथ नहीं चलाता।",
-    attribution: "— धोनी (टीम रोटेशन पर मशहूर मिसाल)",
-  },
-};
 
 interface StPageFlipBookProps {
   onOpenDrawer: () => void;
@@ -216,11 +31,14 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
 
   const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
   const [activeModalStory, setActiveModalStory] = useState<StoryEntry | null>(null);
-  const [modalMode, setModalMode] = useState<"media" | "context">("media");
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [modalMode, setModalMode] = useState<"media" | "source">("media");
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const totalPages = MAHI_STORY_LIBRARY.length * 2; // Each story is 2 pages (Left + Right)
+  // First 2 pages are the Book Front Cover spread (Cover + Inside Intro)
+  // Followed by 2 pages for each story in MAHI_STORY_LIBRARY
+  // Followed by 2 pages for Back Cover spread
+  // Total pages = 2 (front cover spread) + MAHI_STORY_LIBRARY.length * 2 + 2 (back cover spread)
+  const totalPages = 2 + MAHI_STORY_LIBRARY.length * 2 + 2;
 
   // Initialize StPageFlip on client
   useEffect(() => {
@@ -237,101 +55,319 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         const container = bookContainerRef.current;
         container.innerHTML = "";
 
-        // Build HTML pages dynamically inside container
         const pagesWrapper = document.createElement("div");
         pagesWrapper.className = "st-pages-wrapper";
 
-        // Create DOM pages for each story (Left page, then Right page)
-        MAHI_STORY_LIBRARY.forEach((story, idx) => {
-          const hindiData = PUSHO_HINDI_QUOTES[story.id] || {
-            hindi: story.quote.text || story.subtitle,
-            attribution: "— धोनी",
-          };
+        // ==========================================
+        // PAGE 1: HARDCOVER FRONT (External Cover)
+        // ==========================================
+        const frontCoverPage = document.createElement("div");
+        frontCoverPage.className =
+          "st-page select-none text-[#f6f2e8] flex flex-col justify-between p-6 sm:p-8 bg-[#120e0a] border-r-2 border-[#b89758] relative shadow-[inset_-30px_0_40px_-15px_rgba(0,0,0,0.85)] overflow-hidden";
+        frontCoverPage.setAttribute("data-density", "hard");
+        frontCoverPage.innerHTML = `
+          <!-- Leather spine crease & gold border accent -->
+          <div class="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none z-20"></div>
+          <div class="absolute inset-3 border-2 border-[#b89758]/60 rounded pointer-events-none z-20"></div>
+          <div class="absolute inset-4.5 border border-dashed border-[#b89758]/30 rounded pointer-events-none z-20"></div>
 
-          // LEFT PAGE
+          <!-- Cover Image artwork plate -->
+          <div class="relative z-10 w-full h-full flex flex-col justify-between items-center text-center py-2">
+            <div class="pt-2">
+              <span class="text-[10px] font-mono tracking-[0.3em] uppercase text-[#d6c7a1] font-bold drop-shadow">
+                PROJECT 7 · CHRONICLES
+              </span>
+            </div>
+
+            <!-- Artwork -->
+            <div class="w-[220px] sm:w-[270px] h-[260px] sm:h-[310px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-2xl relative my-auto">
+              <img src="/images/book-cover-best-thing-about-time.jpg" alt="Captain Cool Decoded" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Title Plate -->
+            <div class="p-3 w-full rounded bg-black/80 border border-[#b89758]/70 shadow-xl backdrop-blur-sm">
+              <h1 class="font-serif font-black text-xl sm:text-2xl text-white tracking-wide leading-tight">
+                CAPTAIN COOL DECODED
+              </h1>
+              <p class="font-serif text-[11px] sm:text-xs text-[#e6cb85] tracking-widest uppercase mt-0.5">
+                THE STORY OF MS DHONI
+              </p>
+              <p class="font-serif italic text-[11px] text-stone-300 mt-1">
+                &ldquo;Best thing about time — It changes.&rdquo;
+              </p>
+            </div>
+
+            <div class="text-[9px] font-mono tracking-widest text-[#b89758]/80 pb-1">
+              OPEN THE COVER TO BEGIN →
+            </div>
+          </div>
+        `;
+
+        // ==========================================
+        // PAGE 2: INSIDE FRONT COVER / PROLOGUE
+        // ==========================================
+        const insideCoverPage = document.createElement("div");
+        insideCoverPage.className =
+          "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-6 sm:p-8 border-l border-[#cfbfa8] relative shadow-[inset_25px_0_35px_-15px_rgba(80,50,20,0.18)]";
+        insideCoverPage.setAttribute("data-density", "hard");
+        insideCoverPage.innerHTML = `
+          <div class="flex items-center justify-between pb-3 border-b border-[#b89758]/30 text-[10px] font-mono tracking-widest uppercase text-[#78613d]">
+            <span>CAPTAIN COOL DECODED</span>
+            <span>PROLOGUE</span>
+          </div>
+
+          <div class="my-auto py-4 flex flex-col items-center text-center px-2">
+            <span class="text-xs font-mono tracking-widest text-[#92400e] uppercase font-bold">
+              ॥ श्री गणेशाय नमः ॥
+            </span>
+            <h2 class="font-serif font-black text-2xl sm:text-3xl text-[#1c1917] mt-3 leading-tight">
+              BEYOND THE NUMBERS.<br />BEYOND THE TROPHIES.
+            </h2>
+            <div class="w-16 h-[2px] bg-[#b89758] my-4"></div>
+            <p class="font-serif italic text-sm sm:text-base text-[#4a3f35] leading-relaxed max-w-sm">
+              &ldquo;The story of a boy from Ranchi who took the world by storm, not with loud words or flamboyant gestures, but with composure under fire, ruthless calculation, and unyielding self-belief.&rdquo;
+            </p>
+            <div class="mt-6 p-3 rounded bg-[#f5eedb] border border-[#b89758]/40 text-left text-xs font-serif text-[#4a3f35] leading-relaxed max-w-sm">
+              <strong class="font-mono text-[10px] text-[#92400e] uppercase block mb-1">
+                42 Chronological Moments (1995–2023)
+              </strong>
+              Every page documents a verified turning point, featuring high-resolution visuals, authentic quotations, historical context, and the tactical meaning behind the legend.
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-[#b89758]/30 flex items-center justify-between text-[10px] font-mono text-[#78613d]">
+            <span>PROJECT 7 ARCHIVES</span>
+            <span>PAGE ii</span>
+          </div>
+        `;
+
+        pagesWrapper.appendChild(frontCoverPage);
+        pagesWrapper.appendChild(insideCoverPage);
+
+        // ==========================================
+        // STORY SPREADS: FOR EACH OF THE 42 STORIES
+        // Left Page: Living Media Plate + Quote/Saying
+        // Right Page: High-Craft Editorial Book Page (English)
+        // ==========================================
+        MAHI_STORY_LIBRARY.forEach((story, idx) => {
+          const pageNumLeft = 2 + idx * 2 + 1;
+          const pageNumRight = 2 + idx * 2 + 2;
+
+          // First letter of narrative for drop cap
+          const firstLetter = story.narrative.charAt(0);
+          const remainingNarrative = story.narrative.slice(1);
+
+          // Quote details
+          const quoteText = story.quote.text || story.subtitle;
+          const quoteSpeaker = story.quote.speaker || "MS Dhoni";
+          const quoteSource = story.quote.sourceTitle || "Official Archive";
+
+          // ------------------------------------------
+          // LEFT PAGE: Living Visual Plate + Quote Block
+          // ------------------------------------------
           const leftPage = document.createElement("div");
-          leftPage.className = "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-6 sm:p-8 border-r border-[#cfbfa8] relative shadow-[inset_-25px_0_35px_-15px_rgba(80,50,20,0.18)]";
+          leftPage.className =
+            "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-5 sm:p-7 md:p-8 border-r border-[#cfbfa8] relative shadow-[inset_-25px_0_35px_-15px_rgba(80,50,20,0.18)]";
           leftPage.setAttribute("data-density", "soft");
           leftPage.innerHTML = `
             <!-- Top Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-[#c4b39b]/60 text-[11px] font-serif tracking-widest text-[#7a6449] uppercase">
-              <span>मही ज्ञान पीठ • भाग ${story.chapterNumber}</span>
-              <span class="font-bold tracking-wider text-[#543d26]">LORD MAHI</span>
+            <div class="flex items-center justify-between pb-2.5 border-b border-[#b89758]/30 text-[10px] font-mono tracking-widest uppercase text-[#78613d]">
+              <div class="flex items-center gap-1.5">
+                <span>✦ PLATE ${idx + 1} · CH ${story.chapterNumber}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-[#b89758]/15 border border-[#b89758]/35 font-bold text-[#63481b]">
+                ${story.category.replace(/_/g, " ")}
+              </span>
             </div>
 
-            <!-- Center Visual Plate -->
-            <div class="my-auto py-3 flex flex-col items-center">
-              <div class="relative w-[210px] sm:w-[260px] h-[210px] sm:h-[260px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_12px_30px_rgba(50,30,10,0.25)] group cursor-pointer" id="img-trigger-${idx}">
+            <!-- Center Living Media Plate -->
+            <div class="my-auto py-2 flex flex-col items-center">
+              <!-- Visual Frame with Zoom Trigger -->
+              <div class="relative w-[220px] sm:w-[270px] md:w-[310px] h-[190px] sm:h-[220px] md:h-[240px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_12px_28px_rgba(50,30,10,0.25)] group cursor-pointer" id="img-trigger-${idx}">
                 <img src="${story.media.posterUrl}" alt="${story.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none"></div>
-                <div class="absolute bottom-2 left-2 right-2 text-center">
+                
+                <!-- Bottom expansion chip -->
+                <div class="absolute bottom-2 left-2 right-2 text-center pointer-events-none">
                   <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-black/80 text-[10px] font-mono text-[#f3ece0] border border-[#b89758]/50 shadow">
-                    🔍 चित्र बड़ा करके देखें (Tap to expand)
+                    🔍 Expand Video / Photo Plate
                   </span>
                 </div>
               </div>
 
-              <!-- Voice / Video Pill Button -->
-              <button type="button" class="mt-4 px-4 py-2 rounded-full bg-[#3d1313] hover:bg-[#521919] border border-[#b89758]/60 text-[#f5eee2] text-xs font-serif font-semibold tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer" id="media-btn-${idx}">
-                <span>🎙️</span>
-                <span>LISTEN IN THE VOICE OF MAHI</span>
+              <!-- Media Launch Button -->
+              <button type="button" class="mt-3 px-4 py-2 rounded-full bg-[#1e1710] hover:bg-[#342416] border border-[#b89758]/70 text-[#f5eee2] text-xs font-serif font-semibold tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer" id="media-btn-${idx}">
+                <span>🎬</span>
+                <span>WATCH ARCHIVAL FOOTAGE</span>
               </button>
+
+              <!-- Archival Date & Location Badge -->
+              <div class="w-full max-w-[310px] flex items-center justify-between gap-2 px-1 text-[11px] font-mono text-[#574834] mt-3">
+                <div class="flex items-center gap-1">
+                  <span>📅</span>
+                  <span class="font-semibold">${story.eventDate}</span>
+                </div>
+                <div class="flex items-center gap-1 text-right truncate">
+                  <span>📍</span>
+                  <span class="truncate max-w-[170px]">${story.location}</span>
+                </div>
+              </div>
+
+              <!-- Highlighted Quotation / Saying Card on Left Page -->
+              <div class="w-full max-w-[310px] mt-3 p-3 rounded-lg bg-[#f5eedb] border-l-4 border-[#8B1E1E] border border-[#b89758]/30 shadow-sm text-left">
+                <p class="font-serif italic text-xs sm:text-[13px] text-[#1c1917] font-semibold leading-relaxed">
+                  &ldquo;${quoteText}&rdquo;
+                </p>
+                <div class="mt-1.5 text-right text-[10px] font-serif font-bold text-[#8B1E1E]">
+                  — ${quoteSpeaker}
+                </div>
+              </div>
             </div>
 
-            <!-- Footer -->
-            <div class="pt-3 border-t border-[#c4b39b]/60 flex items-center justify-between text-[11px] font-serif text-[#7a6449]">
-              <span>पृष्ठ ${idx * 2 + 1}</span>
-              <span class="tracking-widest">॥ शुभम् ॥</span>
-              <span>${story.eventDate}</span>
+            <!-- Left Page Footer -->
+            <div class="pt-2.5 border-t border-[#b89758]/30 flex items-center justify-between text-[10px] font-mono text-[#78613d]">
+              <span>CAPTAIN COOL DECODED</span>
+              <span>PAGE ${pageNumLeft}</span>
             </div>
           `;
 
-          // RIGHT PAGE
+          // ------------------------------------------
+          // RIGHT PAGE: High-Craft Book Page (English Editorial)
+          // ------------------------------------------
           const rightPage = document.createElement("div");
-          rightPage.className = "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-6 sm:p-8 border-l border-[#cfbfa8] relative shadow-[inset_25px_0_35px_-15px_rgba(80,50,20,0.18)]";
+          rightPage.className =
+            "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-5 sm:p-7 md:p-8 border-l border-[#cfbfa8] relative shadow-[inset_25px_0_35px_-15px_rgba(80,50,20,0.18)]";
           rightPage.setAttribute("data-density", "soft");
           rightPage.innerHTML = `
             <!-- Top Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-[#c4b39b]/60 text-[11px] font-serif tracking-widest text-[#7a6449]">
-              <span class="tracking-wider font-semibold">॥ श्री माही वचन ॥</span>
-              <span class="text-sm cursor-pointer opacity-70 hover:opacity-100" title="Share Moment" id="share-btn-${idx}">🔗</span>
+            <div class="flex items-center justify-between pb-2.5 border-b border-[#b89758]/30 text-[10px] font-mono tracking-widest uppercase text-[#78613d]">
+              <span>CHAPTER ${story.chapterNumber} · ${story.chapterTitle}</span>
+              <span class="text-xs cursor-pointer opacity-70 hover:opacity-100" title="Share Story" id="share-btn-${idx}">🔗 SHARE</span>
             </div>
 
-            <!-- Center Sacred Poetic Quote -->
-            <div class="my-auto py-4 flex flex-col justify-center">
-              <div class="border-l-4 border-[#8B1E1E] pl-4 sm:pl-5 py-2 my-2">
-                <p class="font-serif text-lg sm:text-xl md:text-2xl font-bold leading-relaxed text-[#1e1710] whitespace-pre-line tracking-wide">
-                  ${hindiData.hindi}
+            <!-- Central Editorial Text -->
+            <div class="my-auto py-2 overflow-y-auto max-h-[calc(100%-65px)] pr-1 scrollbar-thin">
+              <!-- Headline Title -->
+              <h2 class="text-lg sm:text-xl md:text-2xl font-serif font-black tracking-tight text-[#1c1917] leading-tight">
+                ${story.title}
+              </h2>
+
+              <!-- Subtitle -->
+              <p class="mt-1 text-xs sm:text-sm font-serif italic text-[#78350f] font-medium leading-relaxed">
+                ${story.subtitle}
+              </p>
+
+              <!-- Historical Context Card -->
+              <div class="my-3 p-2.5 rounded bg-[#f5eedb] border-l-2 border-[#b89758] text-[11px] sm:text-xs font-serif leading-relaxed text-[#574838]">
+                <strong class="font-mono text-[9px] uppercase tracking-wider text-[#92400e] block mb-0.5">
+                  Historical Context
+                </strong>
+                ${story.historicalContext}
+              </div>
+
+              <!-- Main Narrative with Classic Drop Cap -->
+              <div class="text-xs sm:text-[13px] font-serif leading-relaxed text-[#292524] text-justify space-y-2 mt-2">
+                <p>
+                  <span class="float-left text-3xl sm:text-4xl font-serif font-black text-[#92400e] pr-2 pt-0.5 leading-none select-none">
+                    ${firstLetter}
+                  </span>
+                  ${remainingNarrative}
                 </p>
-                <p class="mt-3 font-serif italic text-xs sm:text-sm text-[#5a4835] leading-relaxed">
-                  "${story.subtitle}"
+                <p class="italic text-[#6b4e28] pt-1 border-t border-[#b89758]/20">
+                  <strong class="text-[#92400e]">The Meaning:</strong> ${story.meaning}
                 </p>
               </div>
 
-              <div class="text-right mt-3">
-                <span class="font-serif font-bold text-base sm:text-lg text-[#8B1E1E] tracking-wider">
-                  ${hindiData.attribution}
+              <!-- Verified Source Citation Link -->
+              <div class="mt-3 pt-2 border-t border-[#b89758]/25 flex items-center justify-between text-[10px] font-mono text-[#78613d]">
+                <span class="flex items-center gap-1 font-semibold text-[#8B1E1E]">
+                  🛡️ ${story.contentType.replace(/_/g, " ")}
                 </span>
-              </div>
-
-              <!-- Context Accordion Trigger -->
-              <div class="mt-5 text-center">
-                <button type="button" class="px-3.5 py-1.5 rounded-full bg-[#e8ded0] hover:bg-[#ded1c0] border border-[#b89758]/40 text-[#423120] text-[11px] font-serif font-semibold tracking-wider transition-colors cursor-pointer" id="context-btn-${idx}">
-                  📖 संदर्भ एवं प्रसंग (Context &amp; Meaning)
-                </button>
+                ${
+                  story.quote.sourceUrl
+                    ? `<a href="${story.quote.sourceUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[#92400e] hover:underline font-semibold" title="View Source">
+                        <span>Source: ${quoteSource}</span> ↗
+                       </a>`
+                    : `<span class="italic text-stone-500">${quoteSource}</span>`
+                }
               </div>
             </div>
 
-            <!-- Footer -->
-            <div class="pt-3 border-t border-[#c4b39b]/60 flex items-center justify-between text-[11px] font-serif text-[#7a6449]">
-              <span>॥ ॐ तत्सत् ॥</span>
-              <span>पृष्ठ ${idx * 2 + 2}</span>
+            <!-- Right Page Footer -->
+            <div class="pt-2.5 border-t border-[#b89758]/30 flex items-center justify-between text-[10px] font-mono text-[#78613d]">
+              <span>MOMENT ${idx + 1} OF ${MAHI_STORY_LIBRARY.length}</span>
+              <span>PAGE ${pageNumRight}</span>
             </div>
           `;
 
           pagesWrapper.appendChild(leftPage);
           pagesWrapper.appendChild(rightPage);
         });
+
+        // ==========================================
+        // EPILOGUE & BACK COVER SPREAD (Last 2 pages)
+        // ==========================================
+        const epiloguePage = document.createElement("div");
+        epiloguePage.className =
+          "st-page pusho-parchment select-none text-[#2b241b] flex flex-col justify-between p-6 sm:p-8 border-r border-[#cfbfa8] relative shadow-[inset_-25px_0_35px_-15px_rgba(80,50,20,0.18)]";
+        epiloguePage.setAttribute("data-density", "hard");
+        epiloguePage.innerHTML = `
+          <div class="flex items-center justify-between pb-3 border-b border-[#b89758]/30 text-[10px] font-mono tracking-widest uppercase text-[#78613d]">
+            <span>CAPTAIN COOL DECODED</span>
+            <span>EPILOGUE</span>
+          </div>
+
+          <div class="my-auto py-4 flex flex-col items-center text-center px-2">
+            <h2 class="font-serif font-black text-2xl sm:text-3xl text-[#1c1917] leading-tight">
+              THE SILENT LEADER
+            </h2>
+            <div class="w-16 h-[2px] bg-[#b89758] my-4"></div>
+            <p class="font-serif italic text-sm text-[#4a3f35] leading-relaxed max-w-sm">
+              &ldquo;Trophies gather dust in display cabinets. Records exist only until someone else breaks them. What remains forever is the feeling of calm a nation felt whenever No. 7 walked out to the crease.&rdquo;
+            </p>
+            <div class="mt-6 text-xs font-mono tracking-wider text-[#92400e]">
+              1995 — 2023 AND BEYOND
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-[#b89758]/30 flex items-center justify-between text-[10px] font-mono text-[#78613d]">
+            <span>॥ ॐ तत्सत् ॥</span>
+            <span>PAGE ${totalPages - 1}</span>
+          </div>
+        `;
+
+        const backCoverPage = document.createElement("div");
+        backCoverPage.className =
+          "st-page select-none text-[#f6f2e8] flex flex-col justify-between p-6 sm:p-8 bg-[#120e0a] border-l-2 border-[#b89758] relative shadow-[inset_30px_0_40px_-15px_rgba(0,0,0,0.85)] overflow-hidden";
+        backCoverPage.setAttribute("data-density", "hard");
+        backCoverPage.innerHTML = `
+          <div class="absolute inset-3 border-2 border-[#b89758]/60 rounded pointer-events-none z-20"></div>
+          <div class="absolute inset-4.5 border border-dashed border-[#b89758]/30 rounded pointer-events-none z-20"></div>
+
+          <div class="relative z-10 w-full h-full flex flex-col justify-between items-center text-center py-4">
+            <span class="text-[10px] font-mono tracking-[0.25em] uppercase text-[#d6c7a1] font-bold">
+              PROJECT 7 DIGITAL PUBLISHING
+            </span>
+
+            <div class="my-auto px-4 max-w-xs">
+              <div class="w-16 h-16 mx-auto rounded-full border-2 border-[#b89758] flex items-center justify-center font-serif text-2xl font-bold text-[#b89758] mb-4">
+                7
+              </div>
+              <h3 class="font-serif font-black text-xl text-white">CAPTAIN COOL DECODED</h3>
+              <p class="font-serif italic text-xs text-[#d6c7a1] mt-2 leading-relaxed">
+                Dedicated to MS Dhoni and cricket lovers worldwide.
+              </p>
+            </div>
+
+            <div class="text-[9px] font-mono tracking-widest text-[#b89758]/80">
+              PROJECT 7 · REINVENTING CRICKET STORYTELLING
+            </div>
+          </div>
+        `;
+
+        pagesWrapper.appendChild(epiloguePage);
+        pagesWrapper.appendChild(backCoverPage);
 
         container.appendChild(pagesWrapper);
 
@@ -345,7 +381,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
           minHeight: 460,
           maxHeight: 880,
           maxShadowOpacity: 0.65,
-          showCover: false,
+          showCover: true,
           mobileScrollSupport: false,
           useMouseEvents: true,
           clickEventForward: true,
@@ -366,11 +402,10 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         pageFlipInstanceRef.current = pageFlip;
         setIsLoaded(true);
 
-        // Bind click events on pages for expanding media & context modals
+        // Bind click events on pages for expanding media & sharing
         MAHI_STORY_LIBRARY.forEach((story, idx) => {
           const imgTrigger = container.querySelector(`#img-trigger-${idx}`);
           const mediaBtn = container.querySelector(`#media-btn-${idx}`);
-          const contextBtn = container.querySelector(`#context-btn-${idx}`);
           const shareBtn = container.querySelector(`#share-btn-${idx}`);
 
           imgTrigger?.addEventListener("click", () => {
@@ -383,18 +418,15 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
             setModalMode("media");
           });
 
-          contextBtn?.addEventListener("click", () => {
-            setActiveModalStory(story);
-            setModalMode("context");
-          });
-
           shareBtn?.addEventListener("click", () => {
             if (navigator.share) {
-              navigator.share({
-                title: story.title,
-                text: `${story.title} - MS Dhoni Digital Storybook`,
-                url: window.location.href,
-              }).catch(() => {});
+              navigator
+                .share({
+                  title: story.title,
+                  text: `${story.title} - Captain Cool Decoded`,
+                  url: window.location.href,
+                })
+                .catch(() => {});
             }
           });
         });
@@ -436,7 +468,12 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
     pageFlipInstanceRef.current?.flipPrev();
   };
 
-  const currentStoryIdx = Math.floor(currentPageIndex / 2);
+  // Calculate which moment we are currently viewing
+  // Pages 0 & 1 = Cover spread
+  // Pages 2..85 = Story spreads (idx = Math.floor((currentPageIndex - 2) / 2))
+  const isCover = currentPageIndex <= 1;
+  const isBackCover = currentPageIndex >= totalPages - 2;
+  const currentStoryIdx = isCover ? 0 : Math.min(MAHI_STORY_LIBRARY.length - 1, Math.floor((currentPageIndex - 2) / 2));
   const currentStory = MAHI_STORY_LIBRARY[currentStoryIdx] || MAHI_STORY_LIBRARY[0];
   const displayedPages = `${currentPageIndex + 1}–${Math.min(totalPages, currentPageIndex + 2)}`;
 
@@ -447,7 +484,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         {/* Loading placeholder while StPageFlip boots */}
         {!isLoaded && (
           <div className="w-[500px] h-[680px] rounded-xl bg-[#ede3ce] animate-pulse flex flex-col items-center justify-center text-[#543d26] font-serif text-sm">
-            <span>Loading Sacred Pages...</span>
+            <span>Opening Captain Cool Decoded...</span>
           </div>
         )}
 
@@ -458,7 +495,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         />
       </div>
 
-      {/* Pusho.fun Bottom Control Strip (Exact match to reference Image 2) */}
+      {/* Pusho.fun Bottom Control Strip */}
       <div className="relative z-30 w-full max-w-4xl mx-auto flex items-center justify-between gap-4 pt-4 pb-2">
         {/* Far Left Circular Prev Button */}
         <button
@@ -477,10 +514,14 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         {/* Center Prompt & Page Counter */}
         <div className="flex flex-col items-center text-center">
           <span className="text-sm sm:text-base font-serif font-bold text-amber-400 tracking-wider">
-            Moment {currentStoryIdx + 1} • Page {displayedPages} / {totalPages}
+            {isCover
+              ? "Book Front Cover"
+              : isBackCover
+              ? "Book Epilogue & Back Cover"
+              : `Moment ${currentStoryIdx + 1} of ${MAHI_STORY_LIBRARY.length} · ${currentStory.title}`}
           </span>
           <span className="text-[11px] sm:text-xs font-serif text-stone-400 tracking-wide mt-0.5">
-            Page के edge को drag करें या Arrow बटन दबाएँ
+            Page {displayedPages} of {totalPages} · Drag page corners to flip or use arrows
           </span>
         </div>
 
@@ -499,7 +540,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
         </button>
       </div>
 
-      {/* Modal Lightbox for Media Video Player or Context / Meaning */}
+      {/* Modal Lightbox for Media Video Player */}
       {activeModalStory && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
           <div className="relative w-full max-w-2xl bg-[#14100c] border border-[#b89758]/50 rounded-2xl p-5 sm:p-7 shadow-2xl overflow-hidden">
@@ -513,54 +554,31 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({ onOpenDrawer }) 
               <X className="w-5 h-5" />
             </button>
 
-            {modalMode === "media" ? (
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#b89758]">
-                  <Film className="w-3.5 h-3.5" />
-                  <span>Archival Visual Plate · {activeModalStory.chapterTitle}</span>
-                </div>
-                <h3 className="font-serif font-bold text-xl sm:text-2xl text-white">
-                  {activeModalStory.title}
-                </h3>
-                <StoryVideoPlayer
-                  media={activeModalStory.media}
-                  title={activeModalStory.title}
-                  isActivePage={true}
-                />
-                <p className="text-xs font-serif italic text-stone-300">
-                  &ldquo;{activeModalStory.subtitle}&rdquo;
-                </p>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#b89758]">
+                <Film className="w-3.5 h-3.5" />
+                <span>Archival Visual Plate · {activeModalStory.chapterTitle}</span>
               </div>
-            ) : (
-              <div className="flex flex-col gap-3 max-h-[80vh] overflow-y-auto pr-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#b89758]">
-                  ऐतिहासिक संदर्भ एवं प्रसंग · CH {activeModalStory.chapterNumber}
-                </span>
-                <h3 className="font-serif font-bold text-2xl text-white">
-                  {activeModalStory.title}
-                </h3>
-                <div className="p-3 rounded-lg bg-[#b89758]/10 border border-[#b89758]/30 text-xs font-serif text-stone-300 leading-relaxed">
-                  <strong className="text-[#b89758] block mb-1">ऐतिहासिक पृष्ठभूमि (Historical Context):</strong>
-                  {activeModalStory.historicalContext}
+              <h3 className="font-serif font-bold text-xl sm:text-2xl text-white">
+                {activeModalStory.title}
+              </h3>
+              <StoryVideoPlayer
+                media={activeModalStory.media}
+                title={activeModalStory.title}
+                isActivePage={true}
+              />
+              <p className="text-xs font-serif italic text-stone-300">
+                &ldquo;{activeModalStory.subtitle}&rdquo;
+              </p>
+              {activeModalStory.quote.text && (
+                <div className="p-3 rounded bg-black/50 border-l-2 border-[#b89758] text-xs font-serif italic text-amber-200">
+                  &ldquo;{activeModalStory.quote.text}&rdquo;
+                  <span className="block mt-1 font-mono text-[10px] text-stone-400 not-italic">
+                    — {activeModalStory.quote.speaker} ({activeModalStory.quote.sourceTitle})
+                  </span>
                 </div>
-                <div className="text-sm font-serif leading-relaxed text-stone-200 space-y-2 mt-2">
-                  <p>{activeModalStory.narrative}</p>
-                  <p className="italic text-[#d4af37] pt-1">
-                    <strong>The Meaning:</strong> {activeModalStory.meaning}
-                  </p>
-                </div>
-                {activeModalStory.quote.text && (
-                  <div className="mt-3 p-3 rounded bg-black/60 border border-[#8B1E1E]/50 border-l-4 border-l-[#8B1E1E]">
-                    <p className="font-serif italic text-sm text-amber-200">
-                      &ldquo;{activeModalStory.quote.text}&rdquo;
-                    </p>
-                    <span className="block mt-1 text-[11px] font-mono text-stone-400">
-                      — {activeModalStory.quote.speaker} ({activeModalStory.quote.sourceTitle})
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}
