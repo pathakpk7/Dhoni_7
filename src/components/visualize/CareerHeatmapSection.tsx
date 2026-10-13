@@ -20,7 +20,7 @@ export const CareerHeatmapSection: React.FC<CareerHeatmapSectionProps> = ({ heat
     strikeRate: number | null;
   } | null>(null);
 
-  const formats = ["TEST", "ODI", "T20I", "IPL"];
+  const formats = ["TEST", "ODI", "T20I", "IPL", "CLT20"];
 
   // Color intensity scale
   const getCellColor = (val: number | null) => {
@@ -56,7 +56,7 @@ export const CareerHeatmapSection: React.FC<CareerHeatmapSectionProps> = ({ heat
               CAREER YEAR-BY-FORMAT HEATMAP
             </h2>
             <p className="text-sm font-mono text-slate-400 mt-1 max-w-2xl">
-              21 seasons (2004–2024) mapped across all formats. Empty cells denote format retirement or inactivity.
+              21 seasons (2004–2024) mapped across Test, ODI, T20I, IPL, and Champions League T20. Empty cells denote format retirement or inactivity.
             </p>
           </div>
 
@@ -81,13 +81,13 @@ export const CareerHeatmapSection: React.FC<CareerHeatmapSectionProps> = ({ heat
 
         {/* Heatmap Grid */}
         <div className="mt-6 overflow-x-auto pb-4 scrollbar-thin">
-          <div className="min-w-[680px]">
+          <div className="min-w-[760px]">
             {/* Format Headers */}
-            <div className="grid grid-cols-5 gap-2 mb-2 text-xs font-mono text-slate-400 font-bold uppercase">
+            <div className="grid grid-cols-6 gap-2 mb-2 text-xs font-mono text-slate-400 font-bold uppercase">
               <div className="p-2">Year</div>
               {formats.map((fmt) => (
                 <div key={fmt} className="p-2 text-center bg-black/40 rounded-lg border border-white/5">
-                  {fmt}
+                  {fmt === "CLT20" ? "Champions League" : fmt}
                 </div>
               ))}
             </div>
@@ -95,7 +95,7 @@ export const CareerHeatmapSection: React.FC<CareerHeatmapSectionProps> = ({ heat
             {/* Rows per year */}
             <div className="space-y-1.5">
               {heatmapData.map((row) => (
-                <div key={row.year} className="grid grid-cols-5 gap-2 text-xs font-mono">
+                <div key={row.year} className="grid grid-cols-6 gap-2 text-xs font-mono">
                   <div className="p-2 font-bold text-slate-300 flex items-center">
                     {row.year}
                   </div>

@@ -32,21 +32,21 @@ export const ScoringAnalytics: React.FC<ScoringAnalyticsProps> = ({ scoringData 
           </div>
 
           {/* Format selector */}
-          <div className="flex items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
-            {(["ALL_INTL", "TEST", "ODI", "T20I", "IPL"] as FormatKey[]).map((fmt) => (
+          <div className="flex flex-wrap items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
+            {(["ALL_INTL", "ODI", "TEST", "T20I", "IPL", "CLT20"] as FormatKey[]).map((fmt) => (
               <button
                 key={fmt}
                 onClick={() => setSelectedFormat(fmt)}
                 className={cn(
                   "px-3 py-1.5 rounded-lg transition-all cursor-pointer",
                   selectedFormat === fmt
-                    ? fmt === "IPL"
+                    ? fmt === "IPL" || fmt === "CLT20"
                       ? "bg-csk-gold/25 text-csk-yellow border border-csk-gold/50 font-bold"
                       : "bg-sky-500/25 text-sky-300 border border-sky-500/50 font-bold"
                     : "text-slate-400 hover:text-white"
                 )}
               >
-                {fmt === "ALL_INTL" ? "All Intl" : fmt}
+                {fmt === "ALL_INTL" ? "All Intl" : fmt === "CLT20" ? "Champions League" : fmt === "TEST" ? "Test" : fmt}
               </button>
             ))}
           </div>

@@ -176,11 +176,11 @@ export const TheFinisherSection: React.FC = () => {
       </div>
 
       {/* Arena Selector */}
-      <div className="flex items-center justify-center gap-2 mb-8">
-        {(["ODI", "IPL", "T20I"] as const).map((arena) => (
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+        {(["ODI", "T20I", "IPL", "CLT20"] as const).map((arena) => (
           <button
             key={arena}
-            onClick={() => setSelectedArena(arena)}
+            onClick={() => setSelectedArena(arena as any)}
             className={cn(
               "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all cursor-pointer",
               selectedArena === arena
@@ -188,7 +188,7 @@ export const TheFinisherSection: React.FC = () => {
                 : "bg-surface-raised border border-white/10 text-slate-400 hover:text-white"
             )}
           >
-            {arena} DEATH OVERS
+            {arena === "CLT20" ? "CHAMPIONS LEAGUE DEATH OVERS" : `${arena} DEATH OVERS`}
           </button>
         ))}
       </div>

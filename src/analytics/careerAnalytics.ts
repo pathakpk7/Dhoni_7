@@ -135,7 +135,7 @@ export function calculateStatsFromInnings(inningsList: MatchRecord[]): {
 
 // Compute format-by-format breakdown
 function computeFormatBreakdown(inningsList: MatchRecord[]): Record<string, FormatSubStat> {
-  const formats = ["TEST", "ODI", "T20I", "IPL"];
+  const formats = ["TEST", "ODI", "T20I", "IPL", "CLT20"];
   const result: Record<string, FormatSubStat> = {};
 
   for (const fmt of formats) {
@@ -167,7 +167,11 @@ export function filterMatches(filters: Partial<FilterState>): MatchRecord[] {
   return ALL_MATCHES.filter((m) => {
     // Format filter
     if (filters.format && filters.format !== "ALL") {
-      if (m.format !== filters.format) return false;
+      if (filters.format === "ALL_INTL") {
+        if (!["TEST", "ODI", "T20I"].includes(m.format)) return false;
+      } else if (m.format !== filters.format) {
+        return false;
+      }
     }
 
     // Location filter (HOME / AWAY / NEUTRAL)

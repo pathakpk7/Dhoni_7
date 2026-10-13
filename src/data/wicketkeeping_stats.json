@@ -1,56 +1,65 @@
 [
   {
-    "format": "TEST",
-    "matches": "86",
-    "catches": "248",
-    "stumpings": "36",
-    "run_outs": "10",
-    "total_dismissals": "284",
-    "dismissals_per_match": "3.30"
+    "format": "ALL_INTERNATIONAL",
+    "matches": "538",
+    "catches": "634",
+    "stumpings": "195",
+    "run_outs": "116",
+    "total_dismissals": "829",
+    "dismissals_per_match": "1.54"
   },
   {
     "format": "ODI",
-    "matches": "331",
-    "catches": "308",
-    "stumpings": "118",
+    "matches": "350",
+    "catches": "321",
+    "stumpings": "123",
     "run_outs": "85",
-    "total_dismissals": "426",
-    "dismissals_per_match": "1.29"
+    "total_dismissals": "444",
+    "dismissals_per_match": "1.27"
+  },
+  {
+    "format": "TEST",
+    "matches": "90",
+    "catches": "256",
+    "stumpings": "38",
+    "run_outs": "10",
+    "total_dismissals": "294",
+    "dismissals_per_match": "3.27"
   },
   {
     "format": "T20I",
-    "matches": "95",
-    "catches": "52",
+    "matches": "98",
+    "catches": "57",
     "stumpings": "34",
     "run_outs": "21",
-    "total_dismissals": "86",
-    "dismissals_per_match": "0.91"
+    "total_dismissals": "91",
+    "dismissals_per_match": "0.93"
   },
   {
     "format": "IPL",
-    "matches": "277",
-    "catches": "158",
-    "stumpings": "47",
-    "run_outs": "53",
-    "total_dismissals": "205",
-    "dismissals_per_match": "0.74"
+    "matches": "264",
+    "catches": "148",
+    "stumpings": "42",
+    "run_outs": "24",
+    "total_dismissals": "190",
+    "dismissals_per_match": "0.72"
   },
   {
-    "format": "ALL_INTERNATIONAL",
-    "matches": "512",
-    "catches": "608",
-    "stumpings": "188",
-    "run_outs": "116",
-    "total_dismissals": "796",
-    "dismissals_per_match": "1.55"
+    "format": "CLT20",
+    "matches": "24",
+    "catches": "13",
+    "stumpings": "5",
+    "run_outs": "3",
+    "total_dismissals": "18",
+    "dismissals_per_match": "0.75"
   },
   {
     "format": "OVERALL",
-    "matches": "789",
-    "catches": "766",
-    "stumpings": "235",
-    "run_outs": "169",
-    "total_dismissals": "1001",
-    "dismissals_per_match": "1.27"
+    "matches": "826",
+    "catches": "795",
+    "stumpings": "242",
+    "run_outs": "143",
+    "total_dismissals": "1037",
+    "dismissals_per_match": "1.26"
   }
 ]

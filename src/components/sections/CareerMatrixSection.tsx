@@ -94,10 +94,12 @@ export const CareerMatrixSection: React.FC = () => {
 
   const formats: { key: CricketFormat; label: string }[] = [
     { key: "ALL", label: "ALL FORMATS" },
-    { key: "TEST", label: "TEST" },
+    { key: "ALL_INTL", label: "ALL INTL" },
     { key: "ODI", label: "ODI" },
+    { key: "TEST", label: "TEST" },
     { key: "T20I", label: "T20I" },
     { key: "IPL", label: "IPL" },
+    { key: "CLT20", label: "CHAMPIONS LEAGUE" },
   ];
 
   const modes: { key: AnalyticsMode; label: string; icon: any }[] = [

@@ -1,20 +1,20 @@
 [
   {
-    "format": "IPL",
-    "death_overs_definition": "Overs 16-20 (T20/IPL) / Overs 41-50 (ODI)",
-    "balls_faced": "1982",
-    "runs_scored": "3468",
-    "strike_rate": "174.97",
-    "fours": "252",
-    "sixes": "208",
-    "dot_balls": "539",
-    "dot_ball_percentage": "27.2%",
-    "boundary_percentage": "23.2%",
-    "finisher_index": "136.86"
+    "format": "ALL_INTL",
+    "death_overs_definition": "Overs 41-50 (ODI) & Overs 16-20 (T20I)",
+    "balls_faced": "3655",
+    "runs_scored": "4833",
+    "strike_rate": "132.23",
+    "fours": "396",
+    "sixes": "164",
+    "dot_balls": "1210",
+    "dot_ball_percentage": "33.1%",
+    "boundary_percentage": "15.3%",
+    "finisher_index": "102.48"
   },
   {
     "format": "ODI",
-    "death_overs_definition": "Overs 16-20 (T20/IPL) / Overs 41-50 (ODI)",
+    "death_overs_definition": "Overs 41-50 (One Day Internationals)",
     "balls_faced": "2997",
     "runs_scored": "3837",
     "strike_rate": "128.03",
@@ -26,21 +26,8 @@
     "finisher_index": "99.29"
   },
   {
-    "format": "OVERALL_LIMITED_OVERS",
-    "death_overs_definition": "Overs 16-20 (T20/IPL) / Overs 41-50 (ODI)",
-    "balls_faced": "5637",
-    "runs_scored": "8301",
-    "strike_rate": "147.26",
-    "fours": "648",
-    "sixes": "372",
-    "dot_balls": "1749",
-    "dot_ball_percentage": "31.0%",
-    "boundary_percentage": "18.1%",
-    "finisher_index": "114.57"
-  },
-  {
     "format": "T20I",
-    "death_overs_definition": "Overs 16-20 (T20/IPL) / Overs 41-50 (ODI)",
+    "death_overs_definition": "Overs 16-20 (T20 Internationals)",
     "balls_faced": "658",
     "runs_scored": "996",
     "strike_rate": "151.37",
@@ -50,5 +37,31 @@
     "dot_ball_percentage": "26.9%",
     "boundary_percentage": "17.8%",
     "finisher_index": "116.98"
+  },
+  {
+    "format": "IPL",
+    "death_overs_definition": "Overs 16-20 (Indian Premier League)",
+    "balls_faced": "1982",
+    "runs_scored": "3468",
+    "strike_rate": "174.97",
+    "fours": "252",
+    "sixes": "208",
+    "dot_balls": "539",
+    "dot_ball_percentage": "27.2%",
+    "boundary_percentage": "23.2%",
+    "finisher_index": "136.86"
+  },
+  {
+    "format": "CLT20",
+    "death_overs_definition": "Overs 16-20 (Champions League Twenty20)",
+    "balls_faced": "164",
+    "runs_scored": "294",
+    "strike_rate": "179.27",
+    "fours": "19",
+    "sixes": "22",
+    "dot_balls": "41",
+    "dot_ball_percentage": "25.0%",
+    "boundary_percentage": "25.0%",
+    "finisher_index": "143.90"
   }
 ]

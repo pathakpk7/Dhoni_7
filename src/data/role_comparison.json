@@ -433,5 +433,50 @@
     "hundreds": "0",
     "fours": "5",
     "sixes": "1"
+  },
+  {
+    "format": "CLT20",
+    "role_group": "POS_1_4",
+    "innings": "1",
+    "runs": "17",
+    "balls": "12",
+    "dismissals": "0",
+    "not_outs": "1",
+    "average": "17.00",
+    "strike_rate": "141.67",
+    "fifties": "0",
+    "hundreds": "0",
+    "fours": "2",
+    "sixes": "0"
+  },
+  {
+    "format": "CLT20",
+    "role_group": "POS_5_7",
+    "innings": "20",
+    "runs": "432",
+    "balls": "316",
+    "dismissals": "11",
+    "not_outs": "9",
+    "average": "39.27",
+    "strike_rate": "136.71",
+    "fifties": "1",
+    "hundreds": "0",
+    "fours": "29",
+    "sixes": "27"
+  },
+  {
+    "format": "CLT20",
+    "role_group": "MIDDLE_ORDER_4_6",
+    "innings": "21",
+    "runs": "449",
+    "balls": "328",
+    "dismissals": "11",
+    "not_outs": "10",
+    "average": "40.82",
+    "strike_rate": "136.89",
+    "fifties": "1",
+    "hundreds": "0",
+    "fours": "31",
+    "sixes": "27"
   }
 ]

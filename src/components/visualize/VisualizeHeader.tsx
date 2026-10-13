@@ -14,6 +14,7 @@ interface VisualizeHeaderProps {
 export const VISUALIZE_MODULES = [
   { id: "career-overview", label: "Career Overview" },
   { id: "signature-opponent-runs", label: "Opponent Evolution", highlight: true },
+  { id: "bowler-dominance", label: "Runs vs Bowlers", highlight: true },
   { id: "annual-progression", label: "Annual Progression" },
   { id: "career-timeline", label: "Runs Timeline" },
   { id: "batting-position", label: "Batting Position" },

@@ -7,7 +7,7 @@ import { Trophy, Shield, Activity, Target, Crown, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils";
 
 export const IndiaCsSection: React.FC = () => {
-  const [activeUniverse, setActiveUniverse] = useState<"india" | "csk">("india");
+  const [activeUniverse, setActiveUniverse] = useState<"india" | "csk_ipl" | "csk_clt20">("india");
 
   const indiaData = {
     title: "TEAM INDIA",
@@ -15,7 +15,7 @@ export const IndiaCsSection: React.FC = () => {
     matches: "538",
     runs: "17,266",
     average: "44.96",
-    strikeRate: "79.07",
+    strikeRate: "79.08",
     hundreds: "16",
     fifties: "108",
     catches: "634",
@@ -27,25 +27,48 @@ export const IndiaCsSection: React.FC = () => {
     colorTheme: "from-sky-600 to-blue-900 border-sky-500/40 text-sky-400 shadow-glow-blue",
   };
 
-  const cskData = {
-    title: "CHENNAI SUPER KINGS",
-    tagline: "Thala & The Yellow Army",
-    matches: "264 (IPL) + 24 (CLT20)",
-    runs: "5,243 (IPL)",
+  const cskIplData = {
+    title: "CSK · INDIAN PREMIER LEAGUE",
+    tagline: "Thala & The Yellow Army (IPL Isolated)",
+    matches: "264 (IPL)",
+    runs: "5,243",
     average: "39.13",
     strikeRate: "137.54",
     hundreds: "0",
     fifties: "24",
-    catches: "142",
+    catches: "148",
     stumpings: "42",
-    captaincyMatches: "226 (IPL) + 24 (CLT20)",
-    captaincyWins: "133 (IPL) + 15 (CLT20)",
-    winRate: "58.85% (IPL) • 65.2% (CLT20)",
-    trophies: "5x IPL Titles (2010, 2011, 2018, 2021, 2023) • 2x CLT20 Titles (2010, 2014)",
+    captaincyMatches: "226 (IPL)",
+    captaincyWins: "133 (IPL)",
+    winRate: "59.38% (IPL)",
+    trophies: "5x IPL Titles (2010, 2011, 2018, 2021, 2023) • 10 IPL Finals",
     colorTheme: "from-amber-500 to-yellow-600 border-csk-gold/40 text-csk-yellow shadow-glow-gold",
   };
 
-  const current = activeUniverse === "india" ? indiaData : cskData;
+  const cskClt20Data = {
+    title: "CSK · CHAMPIONS LEAGUE T20",
+    tagline: "Global Club Supremacy (CLT20 Isolated)",
+    matches: "24 (CLT20)",
+    runs: "449",
+    average: "40.82",
+    strikeRate: "136.89",
+    hundreds: "0",
+    fifties: "1 (HS: 63*)",
+    catches: "13",
+    stumpings: "5",
+    captaincyMatches: "24 (CLT20)",
+    captaincyWins: "14 (+1 Super Over Tie)",
+    winRate: "63.04% (CLT20)",
+    trophies: "2x Champions League Twenty20 Titles (2010 in South Africa, 2014 in India)",
+    colorTheme: "from-amber-500 to-yellow-600 border-csk-gold/40 text-csk-yellow shadow-glow-gold",
+  };
+
+  const current =
+    activeUniverse === "india"
+      ? indiaData
+      : activeUniverse === "csk_ipl"
+      ? cskIplData
+      : cskClt20Data;
   const currentBgImage = activeUniverse === "india" 
     ? "/images/two-worlds/dhoni_india_jersey7_back.jpg" 
     : "/images/two-worlds/dhoni_csk_action_shot.jpg";
@@ -55,36 +78,48 @@ export const IndiaCsSection: React.FC = () => {
       <SectionHeader
         badge="CHAPTER VIII · TWO WORLDS"
         title="INDIA BLUE & CSK YELLOW"
-        subtitle="“One heartbeat, two immortal jerseys. Same composure—nation on his chest, yellow in his veins.”"
+        subtitle="“One heartbeat, two immortal jerseys. Strict analytical separation between International, IPL, and Champions League T20.”"
         accentColor={activeUniverse === "india" ? "blue" : "gold"}
         bgImage={currentBgImage}
         bgOpacity={activeUniverse === "india" ? "opacity-45 sm:opacity-35" : "opacity-35 sm:opacity-30"}
       />
 
       {/* Universe Switcher Tabs */}
-      <div className="flex items-center justify-center gap-4 mb-10">
+      <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
         <button
           onClick={() => setActiveUniverse("india")}
           className={cn(
-            "px-6 sm:px-8 py-3 rounded-2xl text-xs sm:text-sm font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer",
+            "px-5 sm:px-7 py-3 rounded-2xl text-xs sm:text-sm font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer",
             activeUniverse === "india"
               ? "bg-gradient-to-r from-sky-600 to-blue-700 text-white shadow-glow-blue scale-105"
               : "bg-surface-raised border border-white/10 text-slate-400 hover:text-white"
           )}
         >
-          <span>🇮🇳 1. TEAM INDIA (BLUE)</span>
+          <span>🇮🇳 1. TEAM INDIA (INTL)</span>
         </button>
 
         <button
-          onClick={() => setActiveUniverse("csk")}
+          onClick={() => setActiveUniverse("csk_ipl")}
           className={cn(
-            "px-6 sm:px-8 py-3 rounded-2xl text-xs sm:text-sm font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer",
-            activeUniverse === "csk"
+            "px-5 sm:px-7 py-3 rounded-2xl text-xs sm:text-sm font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer",
+            activeUniverse === "csk_ipl"
               ? "bg-gradient-to-r from-csk-gold to-csk-yellow text-black shadow-glow-gold scale-105 font-bold"
               : "bg-surface-raised border border-white/10 text-slate-400 hover:text-white"
           )}
         >
-          <span>🟡 2. CHENNAI SUPER KINGS (YELLOW)</span>
+          <span>🟡 2. CSK (IPL ONLY)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveUniverse("csk_clt20")}
+          className={cn(
+            "px-5 sm:px-7 py-3 rounded-2xl text-xs sm:text-sm font-mono font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer",
+            activeUniverse === "csk_clt20"
+              ? "bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-glow-gold scale-105 font-bold"
+              : "bg-surface-raised border border-white/10 text-slate-400 hover:text-white"
+          )}
+        >
+          <span>🏆 3. CSK (CHAMPIONS LEAGUE)</span>
         </button>
       </div>
 

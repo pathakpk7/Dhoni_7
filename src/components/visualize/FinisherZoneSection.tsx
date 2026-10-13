@@ -33,7 +33,7 @@ export const FinisherZoneSection: React.FC<FinisherZoneSectionProps> = ({ finish
           </div>
 
           {/* Format selector */}
-          <div className="flex items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
+          <div className="flex flex-wrap items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
             {finishingStats.map((item) => (
               <button
                 key={item.format}
@@ -45,7 +45,11 @@ export const FinisherZoneSection: React.FC<FinisherZoneSectionProps> = ({ finish
                     : "text-slate-400 hover:text-white"
                 )}
               >
-                {item.format.replace("_", " ")}
+                {item.format === "ALL_INTL"
+                  ? "All Intl"
+                  : item.format === "CLT20"
+                  ? "Champions League"
+                  : item.format.replace(/_/g, " ")}
               </button>
             ))}
           </div>

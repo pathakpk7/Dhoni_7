@@ -63,6 +63,16 @@ const FORMAT_POSITION_MEDIA: Record<string, FormatMediaConfig> = {
       caption: "84* vs RCB • 2,500+ Death Overs Runs • 5 IPL Trophies"
     }
   },
+  "CLT20": {
+    pos1_4: {
+      src: "/images/moments/moment_04_dharamsala_2010.png",
+      caption: "17* vs Warriors (2010 CLT20 Final at Johannesburg)"
+    },
+    pos5_7: {
+      src: "/images/moments/moment_10_rcb_84_2019.png",
+      caption: "63* (19) vs SRH at Ranchi • 2x CLT20 Champion (2010 & 2014)"
+    }
+  },
   "ALL_INTERNATIONAL": {
     pos1_4: {
       src: "/images/moments/moment_01_vizag_148.jpg",
@@ -89,7 +99,7 @@ export const TheBatsmanSection: React.FC = () => {
   const [selectedFormat, setSelectedFormat] = useState<string>("ODI");
   const [roleMode, setRoleMode] = useState<"custom" | "standard">("custom");
 
-  const formats = ["ODI", "TEST", "T20I", "IPL", "ALL_INTERNATIONAL", "OVERALL"];
+  const formats = ["ALL_INTERNATIONAL", "ODI", "TEST", "T20I", "IPL", "CLT20"];
 
   // Format stat for selected format
   const currentFormatStat = formatStatsData.find((f) => f.format === selectedFormat) || formatStatsData[0];

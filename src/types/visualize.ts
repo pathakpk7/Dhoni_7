@@ -1,4 +1,4 @@
-export type FormatKey = "ALL_INTL" | "TEST" | "ODI" | "T20I" | "IPL";
+export type FormatKey = "ALL_INTL" | "ODI" | "TEST" | "T20I" | "IPL" | "CLT20";
 
 export interface CareerSummary {
   format: FormatKey;
@@ -233,6 +233,36 @@ export interface BowlerDismissalItem {
   dismissals: number;
 }
 
+export interface BowlerDominanceRecord {
+  bowler: string;
+  rawName: string;
+  team: string;
+  runs: number;
+  balls: number;
+  innings: number;
+  dismissals: number;
+  average: number | null;
+  strikeRate: number;
+  fours: number;
+  sixes: number;
+  boundaryRuns: number;
+  boundaryPercentage: number;
+  dots: number;
+  dotBallPercentage: number;
+  dominanceScore: number;
+  dominanceTier: string;
+}
+
+export interface BowlerDominanceFormatData {
+  format: FormatKey;
+  totalBowlersFaced: number;
+  unbeatenBowlersCount: number;
+  sixHitBowlersCount: number;
+  totalRunsOffBowlers: number;
+  totalBallsOffBowlers: number;
+  bowlers: BowlerDominanceRecord[];
+}
+
 export interface VerifiedBowlingItem {
   format: string;
   matches: number;
@@ -256,6 +286,7 @@ export interface VisualizeMahiData {
   };
   careerOverview: Record<FormatKey, CareerSummary>;
   opponentEvolution: Record<FormatKey, OpponentEvolutionData>;
+  bowlerDominance: Record<FormatKey, BowlerDominanceFormatData>;
   annualProgression: Record<FormatKey, AnnualRecord[]>;
   calculatedMilestones: CalculatedMilestone[];
   historicalMilestones: Array<{ date: string; milestone: string; format: string; details: string }>;
@@ -269,6 +300,7 @@ export interface VisualizeMahiData {
   indiaVsCskBatting: {
     india: CareerSummary & { label: string };
     csk: CareerSummary & { label: string };
+    clt20?: CareerSummary & { label: string };
     rps: CareerSummary & { label: string };
   };
   careerHeatmap: HeatmapYearRow[];
@@ -278,3 +310,4 @@ export interface VisualizeMahiData {
   topDismissers: BowlerDismissalItem[];
   verifiedBowling: VerifiedBowlingItem[];
 }
+

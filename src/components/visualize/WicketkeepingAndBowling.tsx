@@ -42,19 +42,27 @@ export const WicketkeepingAndBowling: React.FC<WicketkeepingAndBowlingProps> = (
           </div>
 
           {/* Format selector */}
-          <div className="flex items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
-            {wicketkeeping.map((item) => (
+          <div className="flex flex-wrap items-center p-1 bg-black/60 rounded-xl border border-white/10 text-xs font-mono">
+            {wicketkeeping.filter((w) => w.format !== "OVERALL").map((item) => (
               <button
                 key={item.format}
                 onClick={() => setSelectedFormat(item.format)}
                 className={cn(
                   "px-3 py-1.5 rounded-lg transition-all cursor-pointer",
                   selectedFormat === item.format
-                    ? "bg-sky-500/25 text-sky-300 border border-sky-500/50 font-bold"
+                    ? item.format === "IPL" || item.format === "CLT20"
+                      ? "bg-csk-gold/25 text-csk-yellow border border-csk-gold/50 font-bold"
+                      : "bg-sky-500/25 text-sky-300 border border-sky-500/50 font-bold"
                     : "text-slate-400 hover:text-white"
                 )}
               >
-                {item.format === "ALL_INTERNATIONAL" ? "All Intl" : item.format}
+                {item.format === "ALL_INTERNATIONAL"
+                  ? "All Intl"
+                  : item.format === "CLT20"
+                  ? "Champions League"
+                  : item.format === "TEST"
+                  ? "Test"
+                  : item.format}
               </button>
             ))}
           </div>

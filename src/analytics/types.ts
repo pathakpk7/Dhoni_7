@@ -1,4 +1,4 @@
-export type CricketFormat = "ALL" | "TEST" | "ODI" | "T20I" | "IPL";
+export type CricketFormat = "ALL" | "ALL_INTL" | "TEST" | "ODI" | "T20I" | "IPL" | "CLT20";
 export type AnalyticsMode = "OPPONENTS" | "VENUES" | "COUNTRIES" | "HOME_AWAY" | "YEARS" | "TOURNAMENTS";
 export type LocationType = "ALL" | "HOME" | "AWAY" | "NEUTRAL";
 
@@ -8,7 +8,7 @@ export interface MatchRecord {
   date: string;
   year: number;
   month: number;
-  format: "TEST" | "ODI" | "T20I" | "IPL";
+  format: "TEST" | "ODI" | "T20I" | "IPL" | "CLT20";
   competition: string;
   season: string;
   team: string;

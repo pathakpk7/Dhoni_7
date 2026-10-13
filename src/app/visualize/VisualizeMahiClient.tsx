@@ -6,6 +6,7 @@ import type { VisualizeMahiData, FormatKey } from "@/types/visualize";
 import { VisualizeHeader } from "@/components/visualize/VisualizeHeader";
 import { CareerOverview } from "@/components/visualize/CareerOverview";
 import { OpponentRunsBarChart } from "@/components/visualize/OpponentRunsBarChart";
+import { BowlerDominanceSection } from "@/components/visualize/BowlerDominanceSection";
 import { AnnualProgressionSection } from "@/components/visualize/AnnualProgressionSection";
 import { CareerRunsTimeline } from "@/components/visualize/CareerRunsTimeline";
 import { BattingPositionAnalytics } from "@/components/visualize/BattingPositionAnalytics";
@@ -48,6 +49,12 @@ export default function VisualizeMahiClient() {
         {/* Module 2: Runs Against Every Opponent (Flagship) */}
         <OpponentRunsBarChart
           evolutionData={data.opponentEvolution}
+          initialFormat={globalFormat}
+        />
+
+        {/* Module 2B: Runs Against Bowlers (Bowler Dominance Matrix) */}
+        <BowlerDominanceSection
+          bowlerData={data.bowlerDominance}
           initialFormat={globalFormat}
         />
 

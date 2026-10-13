@@ -510,5 +510,53 @@
     "fifties": "3",
     "hundreds": "2",
     "highest_score": "144"
+  },
+  {
+    "format": "CLT20",
+    "batting_position": "4",
+    "innings": "1",
+    "runs": "17",
+    "balls_faced": "12",
+    "dismissals": "0",
+    "not_outs": "1",
+    "average": "0.00",
+    "strike_rate": "141.67",
+    "fours": "2",
+    "sixes": "0",
+    "fifties": "0",
+    "hundreds": "0",
+    "highest_score": "17*"
+  },
+  {
+    "format": "CLT20",
+    "batting_position": "5",
+    "innings": "14",
+    "runs": "316",
+    "balls_faced": "242",
+    "dismissals": "9",
+    "not_outs": "5",
+    "average": "35.11",
+    "strike_rate": "130.58",
+    "fours": "22",
+    "sixes": "18",
+    "fifties": "1",
+    "hundreds": "0",
+    "highest_score": "63*"
+  },
+  {
+    "format": "CLT20",
+    "batting_position": "6",
+    "innings": "6",
+    "runs": "116",
+    "balls_faced": "74",
+    "dismissals": "2",
+    "not_outs": "4",
+    "average": "58.00",
+    "strike_rate": "156.76",
+    "fours": "7",
+    "sixes": "9",
+    "fifties": "0",
+    "hundreds": "0",
+    "highest_score": "35*"
   }
 ]

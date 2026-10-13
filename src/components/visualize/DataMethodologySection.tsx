@@ -31,13 +31,13 @@ export const DataMethodologySection: React.FC = () => {
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                 <span>
-                  <strong className="text-white">Primary Ingestion:</strong> Official ball-by-ball and match scorecard archives covering 755 appearances (2004–2024).
+                  <strong className="text-white">Primary Ingestion:</strong> Official ball-by-ball and match scorecard archives covering 826 career appearances (2004–2024).
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                 <span>
-                  <strong className="text-white">Strict Format Segregation:</strong> Tests (90 matches), ODIs (350 matches), T20Is (98 matches), and IPL (264 matches) are isolated from unlabelled combinations.
+                  <strong className="text-white">Strict Format Segregation:</strong> Tests (90 matches), ODIs (350 matches), T20Is (98 matches), IPL (264 matches), and Champions League T20 (24 matches) are strictly isolated from one another.
                 </span>
               </li>
               <li className="flex items-start gap-2">

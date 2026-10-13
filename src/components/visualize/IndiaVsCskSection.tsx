@@ -8,24 +8,25 @@ interface IndiaVsCskProps {
   data: {
     india: CareerSummary & { label: string };
     csk: CareerSummary & { label: string };
+    clt20?: CareerSummary & { label: string };
     rps: CareerSummary & { label: string };
   };
 }
 
 export const IndiaVsCskSection: React.FC<IndiaVsCskProps> = ({ data }) => {
-  const { india, csk } = data;
+  const { india, csk, clt20 } = data;
 
   const compareRows = [
-    { label: "Matches Played", india: india.matches.toLocaleString(), csk: csk.matches.toLocaleString() },
-    { label: "Innings Batted", india: india.innings.toLocaleString(), csk: csk.innings.toLocaleString() },
-    { label: "Runs Scored", india: india.runs.toLocaleString(), csk: csk.runs.toLocaleString(), highlight: true },
-    { label: "Batting Average", india: india.average?.toFixed(2) ?? "N/A", csk: csk.average?.toFixed(2) ?? "N/A", highlight: true },
-    { label: "Strike Rate", india: india.strikeRate?.toFixed(2) ?? "N/A", csk: csk.strikeRate?.toFixed(2) ?? "N/A", highlight: true },
-    { label: "Highest Score", india: india.highestScore, csk: csk.highestScore },
-    { label: "Centuries (100s)", india: india.hundreds.toString(), csk: csk.hundreds.toString() },
-    { label: "Half-Centuries (50s)", india: india.fifties.toString(), csk: csk.fifties.toString() },
-    { label: "Boundaries (4s / 6s)", india: `${india.fours} / ${india.sixes}`, csk: `${csk.fours} / ${csk.sixes}` },
-    { label: "Not Outs", india: india.notOuts.toString(), csk: csk.notOuts.toString() },
+    { label: "Matches Played", india: india.matches.toLocaleString(), csk: csk.matches.toLocaleString(), clt20: clt20 ? clt20.matches.toLocaleString() : "24" },
+    { label: "Innings Batted", india: india.innings.toLocaleString(), csk: csk.innings.toLocaleString(), clt20: clt20 ? clt20.innings.toLocaleString() : "21" },
+    { label: "Runs Scored", india: india.runs.toLocaleString(), csk: csk.runs.toLocaleString(), clt20: clt20 ? clt20.runs.toLocaleString() : "449", highlight: true },
+    { label: "Batting Average", india: india.average?.toFixed(2) ?? "N/A", csk: csk.average?.toFixed(2) ?? "N/A", clt20: clt20?.average?.toFixed(2) ?? "40.82", highlight: true },
+    { label: "Strike Rate", india: india.strikeRate?.toFixed(2) ?? "N/A", csk: csk.strikeRate?.toFixed(2) ?? "N/A", clt20: clt20?.strikeRate?.toFixed(2) ?? "136.89", highlight: true },
+    { label: "Highest Score", india: india.highestScore, csk: csk.highestScore, clt20: clt20?.highestScore ?? "63*" },
+    { label: "Centuries (100s)", india: india.hundreds.toString(), csk: csk.hundreds.toString(), clt20: clt20 ? clt20.hundreds.toString() : "0" },
+    { label: "Half-Centuries (50s)", india: india.fifties.toString(), csk: csk.fifties.toString(), clt20: clt20 ? clt20.fifties.toString() : "1" },
+    { label: "Boundaries (4s / 6s)", india: `${india.fours} / ${india.sixes}`, csk: `${csk.fours} / ${csk.sixes}`, clt20: clt20 ? `${clt20.fours} / ${clt20.sixes}` : "31 / 27" },
+    { label: "Not Outs", india: india.notOuts.toString(), csk: csk.notOuts.toString(), clt20: clt20 ? clt20.notOuts.toString() : "10" },
   ];
 
   return (
@@ -35,13 +36,13 @@ export const IndiaVsCskSection: React.FC<IndiaVsCskProps> = ({ data }) => {
         <div className="pb-6 border-b border-white/10">
           <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-sky-400 uppercase mb-1">
             <span className="w-2 h-2 rounded-full bg-sky-400" />
-            <span>MODULE 14 · INTERNATIONAL VS FRANCHISE BATTING</span>
+            <span>MODULE 14 · INTERNATIONAL VS FRANCHISE BATTING (IPL & CLT20 SEPARATED)</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-white tracking-wide">
-            INDIA VS CHENNAI SUPER KINGS
+            INDIA VS CHENNAI SUPER KINGS (IPL & CHAMPIONS LEAGUE)
           </h2>
           <p className="text-sm font-mono text-slate-400 mt-1 max-w-2xl">
-            Clean analytical separation between Dhoni&apos;s 16 years representing Team India and his 15 seasons anchoring the Chennai Super Kings.
+            Clean analytical separation between Dhoni&apos;s 16 years representing Team India, his IPL career for CSK, and his Champions League T20 campaigns.
           </p>
         </div>
 
@@ -52,10 +53,13 @@ export const IndiaVsCskSection: React.FC<IndiaVsCskProps> = ({ data }) => {
               <tr className="border-b border-white/10">
                 <th className="py-3 px-4 text-left text-slate-400 uppercase">Metric</th>
                 <th className="py-3 px-4 text-center bg-blue-950/20 text-sky-300 font-bold border-x border-white/5 uppercase">
-                  🇮🇳 Team India (International)
+                  🇮🇳 Team India (Intl)
                 </th>
-                <th className="py-3 px-4 text-center bg-amber-950/20 text-csk-yellow font-bold uppercase">
-                  🦁 Chennai Super Kings (IPL)
+                <th className="py-3 px-4 text-center bg-amber-950/20 text-csk-yellow font-bold border-r border-white/5 uppercase">
+                  🦁 CSK (IPL Only)
+                </th>
+                <th className="py-3 px-4 text-center bg-amber-900/15 text-amber-300 font-bold uppercase">
+                  🏆 CSK (Champions League T20)
                 </th>
               </tr>
             </thead>
@@ -71,11 +75,18 @@ export const IndiaVsCskSection: React.FC<IndiaVsCskProps> = ({ data }) => {
                     {r.india}
                   </td>
                   <td
-                    className={`py-3 px-4 text-center font-bold ${
+                    className={`py-3 px-4 text-center border-r border-white/5 font-bold ${
                       r.highlight ? "text-csk-yellow text-sm" : "text-white"
                     }`}
                   >
                     {r.csk}
+                  </td>
+                  <td
+                    className={`py-3 px-4 text-center font-bold ${
+                      r.highlight ? "text-amber-300 text-sm" : "text-white"
+                    }`}
+                  >
+                    {r.clt20}
                   </td>
                 </tr>
               ))}
