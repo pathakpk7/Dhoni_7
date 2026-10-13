@@ -67,12 +67,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
 
             <a
-              href="/visualize"
-              className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 hover:border-sky-400 text-sky-400 hover:text-sky-300 font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_12px_rgba(14,165,233,0.15)]"
-              title="Visualize Mahi: Interactive Cricket Analytics"
+              href="/visualize-mahi/story"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#b89758]/50 bg-[#b89758]/15 hover:bg-[#b89758]/25 hover:border-[#d4af37] text-[#f6f2e8] hover:text-white font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_15px_rgba(184,151,88,0.25)]"
+              title="Visualize Mahi: The Story of MS Dhoni (Interactive Digital Storybook)"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-pulse shrink-0" />
               <span>VISUALIZE MAHI</span>
+            </a>
+
+            <a
+              href="/visualize"
+              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 sm:py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 hover:text-sky-300 font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer"
+              title="Cricket Analytics & Telemetry"
+            >
+              <span>STATS</span>
             </a>
           </div>
 

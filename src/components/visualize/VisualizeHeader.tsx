@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, BarChart3, Database, Layers, Sparkles, Filter, Info, ShieldCheck } from "lucide-react";
+import { ArrowLeft, BarChart3, Database, Layers, Sparkles, Filter, Info, ShieldCheck, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface VisualizeHeaderProps {
@@ -79,6 +79,16 @@ export const VisualizeHeader: React.FC<VisualizeHeaderProps> = ({
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <Link
+            href="/visualize-mahi/story"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-[#b89758]/20 to-[#d4af37]/30 border border-[#b89758]/50 text-[#f6f2e8] hover:text-white hover:border-[#d4af37] text-[10px] sm:text-xs font-mono font-bold transition-all shadow-[0_0_15px_rgba(184,151,88,0.25)]"
+            title="Open Interactive Digital Storybook"
+          >
+            <BookOpen className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#d4af37] shrink-0" />
+            <span className="hidden sm:inline">STORYBOOK</span>
+            <span className="sm:hidden">STORY</span>
+          </Link>
+
           <a
             href="#signature-opponent-runs"
             className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-gradient-to-r from-sky-600/20 to-blue-600/30 border border-sky-500/40 text-sky-300 hover:text-white hover:border-sky-400 text-[10px] sm:text-xs font-mono font-bold transition-all shadow-[0_0_15px_rgba(14,165,233,0.2)]"

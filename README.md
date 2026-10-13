@@ -16,6 +16,15 @@ A high-precision, verified cricket data warehouse and cinematic interactive web 
   - **Annual Progression, Career Milestones & Batting Position Analytics**: Mathematical derivation of batting metrics across positions 3 to 8, milestone crossing innings (`1,000` to `17,000` international runs), and scoring/boundary splits.
   - **Chasing vs Setting, Finisher Zone & Match Results**: Deep dive into Dhoni's `102.71` average in successful ODI chases (`47 not outs`), death-over acceleration, and win/loss/draw splits.
   - **Wicketkeeping, Verified Bowling, Captaincy & Venue Explorer**: World-record `829` international dismissals (`195 stumpings`), `190` IPL dismissals (`42 stumpings`), `24` CLT20 dismissals, verified bowling spells, captaincy trophies (`2007 T20 WC`, `2011 CWC`, `2013 CT`, `5x IPL`, `2x CLT20`), and stadium-by-stadium telemetry.
+- **📖 The Story of MS Dhoni (`/visualize-mahi/story` or `/story`) — Cinematic Page-Turning Digital Storybook**:
+  - **Interactive 2-Page Physical Book Experience**: Inspired by editorial craftsmanship, realistic open two-page digital book spread on desktop with center binding spine, realistic paper grain, and responsive single-page mode on mobile.
+  - **Realistic Page-Turning Animation & Sound**: 3D perspective page flips accompanied by a procedural Web Audio API paper-rustle synthesizer with zero external asset dependencies.
+  - **36 Verified Historical Moments & Authentic Quotations**: Spanning **12 structured chapters**—from the red soil of Shyamali, football goalkeeping, and Kharagpur railway platforms to the 2007 T20 World Cup, 2011 winning six at Wankhede, Territorial Army paratrooper training in Agra, Kashmir deployment, motorcycle collection, stump mic wit, CSK championships, and the August 15 19:29 retirement.
+  - **Real Media Player & Source Provenance**: Real video controls (Play, Pause, Mute, Volume, Replay, Seek, Fullscreen) for HTML5 video and YouTube embeds, with verified official source links (BCCI, ICC, Indian Army, ESPNcricinfo).
+  - **Three Architectural States**:
+    - **State A (Introduction)**: Cinematic book cover *"Mahi: The Man Behind the Legend"* with *"Open the Story"* and *"Explore Chapters"*.
+    - **State B (Storybook)**: Interactive two-page reading canvas with keyboard arrow navigation and mobile touch swipe.
+    - **State C (Ending)**: Elegant epilogue *"The Legacy Continues"* with portals to revisit stories, explore analytics, or return to Project 7.
 - **Cinematic Interactive Web App (`/`)**: Next.js 14+, TypeScript, Tailwind CSS, Framer Motion, dark stadium aesthetic, dual-universe switcher (India Tri-Color vs CSK Yellove), Mahi Tactical Lab scenario simulator, Ask Mahi AI data intelligence, and Number 7 easter eggs.
 
 ---
