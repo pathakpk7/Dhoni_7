@@ -52,6 +52,7 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
   useEffect(() => {
     setSelectedFormat(initialFormat);
     setSelectedBowlerName(null);
+    setShowAll(false);
   }, [initialFormat]);
 
   const currentFormatData = bowlerData?.[selectedFormat] || bowlerData?.ALL_INTL;
@@ -77,11 +78,11 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
     list.sort((a, b) => {
       switch (sortMode) {
         case "runs":
-          return b.runs - a.runs || b.strikeRate - a.strikeRate;
+          return b.runs - a.runs || b.balls - a.balls || b.strikeRate - a.strikeRate;
         case "strikeRate": {
-          // Prioritize bowlers with at least 12 balls faced for meaningful SR ranking
-          const aValid = a.balls >= 12 ? 1 : 0;
-          const bValid = b.balls >= 12 ? 1 : 0;
+          // Prioritize bowlers with at least 6 balls faced for meaningful SR ranking while still listing all bowlers
+          const aValid = a.balls >= 6 ? 1 : 0;
+          const bValid = b.balls >= 6 ? 1 : 0;
           if (aValid !== bValid) return bValid - aValid;
           return b.strikeRate - a.strikeRate || b.runs - a.runs;
         }
@@ -101,7 +102,7 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
 
   const displayedBowlers = showAll
     ? filteredAndSortedBowlers
-    : filteredAndSortedBowlers.slice(0, 14);
+    : filteredAndSortedBowlers.slice(0, 30);
 
   const activeBowler: BowlerDominanceRecord | undefined = useMemo(() => {
     if (selectedBowlerName) {
@@ -158,6 +159,7 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
                   onClick={() => {
                     setSelectedFormat(fmt.key);
                     setSelectedBowlerName(null);
+                    setShowAll(false);
                   }}
                   className={cn(
                     "px-3 py-1.5 rounded-lg transition-all cursor-pointer whitespace-nowrap",
@@ -307,7 +309,7 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
                   </p>
                 </div>
                 <span className="text-[11px] font-mono text-amber-400 font-bold">
-                  {filteredAndSortedBowlers.length} Bowlers Listed
+                  Showing {displayedBowlers.length} of {filteredAndSortedBowlers.length} Bowlers
                 </span>
               </div>
 
@@ -316,10 +318,10 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
                   No bowlers matched &ldquo;{searchQuery}&rdquo; in this format filter.
                 </div>
               ) : (
-                <div className="space-y-2.5 max-h-[560px] overflow-y-auto pr-1 scrollbar-thin">
+                <div className="space-y-2.5 max-h-[580px] overflow-y-auto pr-1 scrollbar-thin">
                   {displayedBowlers.map((b, idx) => {
                     const isSelected = activeBowler?.bowler === b.bowler;
-                    const widthPct = Math.max(8, Math.round((b.runs / maxRunsInList) * 100));
+                    const widthPct = Math.max(6, Math.round((b.runs / maxRunsInList) * 100));
                     const boundaryWidthPct =
                       b.runs > 0 ? Math.round((b.boundaryRuns / b.runs) * 100) : 0;
 
@@ -346,7 +348,7 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
                           <div className="flex items-center gap-2 min-w-0">
                             <span
                               className={cn(
-                                "w-6 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0",
+                                "min-w-7 h-5 px-1 rounded flex items-center justify-center text-[10px] font-bold shrink-0",
                                 idx === 0
                                   ? "bg-amber-400 text-black"
                                   : idx === 1
@@ -410,23 +412,23 @@ export const BowlerDominanceSection: React.FC<BowlerDominanceSectionProps> = ({
               )}
             </div>
 
-            {/* Show More / Less Toggle */}
-            {filteredAndSortedBowlers.length > 14 && (
+            {/* Show All / Top 30 Toggle */}
+            {filteredAndSortedBowlers.length > 30 && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="mt-4 w-full py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-slate-300 hover:text-white flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                className="mt-4 w-full py-2.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs font-mono font-bold text-amber-300 hover:text-amber-200 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
               >
                 {showAll ? (
                   <>
-                    <ChevronUp className="w-3.5 h-3.5" />
-                    <span>Show Top 14 Bowlers</span>
+                    <ChevronUp className="w-4 h-4" />
+                    <span>Show Top 30 Bowlers</span>
                   </>
                 ) : (
                   <>
-                    <ChevronDown className="w-3.5 h-3.5" />
+                    <ChevronDown className="w-4 h-4" />
                     <span>
-                      Show All {filteredAndSortedBowlers.length} Bowlers in{" "}
-                      {FORMAT_OPTIONS.find((f) => f.key === selectedFormat)?.label}
+                      Show All ({filteredAndSortedBowlers.length} Bowlers in{" "}
+                      {FORMAT_OPTIONS.find((f) => f.key === selectedFormat)?.label})
                     </span>
                   </>
                 )}
