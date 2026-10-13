@@ -15,7 +15,7 @@ import {
 import type { StorybookState } from "@/types/storybook";
 import { MAHI_STORY_LIBRARY, STORYBOOK_CHAPTERS } from "@/data/mahiStoryLibrary";
 import { StoryIntroduction } from "./StoryIntroduction";
-import { StorySpread } from "./StorySpread";
+import { StPageFlipBook } from "./StPageFlipBook";
 import { StoryEnding } from "./StoryEnding";
 import { ChapterDrawer } from "./ChapterDrawer";
 import { storyAudio } from "./StoryAudio";
@@ -177,25 +177,10 @@ export const MahiStoryExperience: React.FC = () => {
         </div>
       </header>
 
-      {/* Main 2-Page Digital Storybook Canvas */}
+      {/* Main 2-Page Digital Storybook Canvas with Real StPageFlip Engine */}
       <main className="relative z-10 flex-1 flex items-center justify-center py-2 sm:py-4">
-        <StorySpread
-          currentStory={currentStory}
-          currentIndex={currentIndex}
-          totalStories={totalStories}
-          onNext={handleNext}
-          onPrev={handlePrev}
-          canGoNext={canGoNext}
-          canGoPrev={canGoPrev}
-          onOpenChapters={() => setIsDrawerOpen(true)}
-        />
+        <StPageFlipBook onOpenDrawer={() => setIsDrawerOpen(true)} />
       </main>
-
-      {/* Subtle Bottom Ambient Help Bar */}
-      <footer className="relative z-20 w-full text-center py-2 text-[10px] font-mono text-stone-500 border-t border-white/5 bg-black/40">
-        <span className="hidden sm:inline">Keyboard arrows (← / →) or swipe to turn pages · </span>
-        <span>Verified Cricket Telemetry &amp; Authentic Dhoni Testimony</span>
-      </footer>
 
       {/* Table of Contents Drawer */}
       <ChapterDrawer
