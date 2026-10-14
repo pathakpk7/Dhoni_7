@@ -38,6 +38,7 @@ export const DhoniRoomWall: React.FC<DhoniRoomWallProps> = ({
   const [isTrophyModalOpen, setIsTrophyModalOpen] = useState<boolean>(false);
   const [isJerseyModalOpen, setIsJerseyModalOpen] = useState<boolean>(false);
   const [activeBookVolume, setActiveBookVolume] = useState<number>(1);
+  const [activeChant, setActiveChant] = useState<"dhoni" | "mahi" | "thala" | null>(null);
 
   const handleOpenBook = (bookId: string) => {
     storyAudio.playBookThudSound();
@@ -46,6 +47,14 @@ export const DhoniRoomWall: React.FC<DhoniRoomWallProps> = ({
     } else {
       setSelectedBookId(bookId);
     }
+  };
+
+  const handlePlayChant = (type: "dhoni" | "mahi" | "thala") => {
+    setActiveChant(type);
+    if (type === "dhoni") storyAudio.playDhoniChant();
+    else if (type === "mahi") storyAudio.playMahiChant();
+    else if (type === "thala") storyAudio.playThalaChant();
+    setTimeout(() => setActiveChant(null), 4200);
   };
 
   const currentFeaturedBook =
@@ -62,7 +71,7 @@ export const DhoniRoomWall: React.FC<DhoniRoomWallProps> = ({
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(212,175,55,0.12)_0%,transparent_60%)] pointer-events-none -z-10" />
 
       {/* Museum Gallery Title & Plaque */}
-      <div className="text-center mb-12 sm:mb-16">
+      <div className="text-center mb-8 sm:mb-12">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#b89758]/15 border border-[#b89758]/40 text-[#ffd700] text-xs font-mono tracking-[0.25em] uppercase mb-4 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
           <Sparkles className="w-3.5 h-3.5 text-[#ffd700] animate-pulse" />
           <span>THE SANCTUM OF NUMBER 7 · OFFICIAL ARCHIVES</span>
@@ -75,50 +84,468 @@ export const DhoniRoomWall: React.FC<DhoniRoomWallProps> = ({
           &ldquo;Every bat has an echo, every trophy a heartbeat, and every jersey a million roars.
           Step inside the wall of motifs that defined Indian cricket.&rdquo;
         </p>
+      </div>
 
-        {/* Quick Clickable Motifs Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-6">
-          <button
-            onClick={() => handleOpenBook(currentFeaturedBook.id)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>4 COLLECTOR BOOKS</span>
-          </button>
+      {/* =========================================================================
+          MASTER INTERACTIVE 3D ROOM SANCTUM (DIRECT FROM MASTER REFERENCE BLUEPRINT)
+         ========================================================================= */}
+      <div className="relative w-full rounded-3xl bg-[#140e09] border-2 border-[#b89758]/60 shadow-[0_30px_90px_rgba(0,0,0,0.98),0_0_60px_rgba(212,175,55,0.25)] p-4 sm:p-6 lg:p-8 overflow-hidden my-8">
+        
+        {/* Overhead Spotlights Ambient Cones */}
+        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#ffd700]/10 via-[#ffd700]/[0.02] to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-[14%] w-24 h-44 bg-[#ffd700]/15 blur-2xl pointer-events-none -translate-x-1/2" />
+        <div className="absolute top-0 left-[38%] w-32 h-52 bg-[#ffd700]/15 blur-2xl pointer-events-none -translate-x-1/2" />
+        <div className="absolute top-0 left-[62%] w-28 h-48 bg-orange-500/15 blur-2xl pointer-events-none -translate-x-1/2" />
+        <div className="absolute top-0 left-[86%] w-32 h-52 bg-sky-500/15 blur-2xl pointer-events-none -translate-x-1/2" />
 
-          <button
-            onClick={() => {
-              storyAudio.playBatImpactSound();
-              setIsBatModalOpen(true);
-            }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AUTOGRAPHED REEBOK BAT</span>
-          </button>
-
-          <button
-            onClick={() => {
-              storyAudio.playBookThudSound();
-              setIsTrophyModalOpen(true);
-            }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
-          >
-            <Trophy className="w-3.5 h-3.5" />
-            <span>TROPHY CABINET (DUAL PLANKS)</span>
-          </button>
-
-          <button
-            onClick={() => {
-              storyAudio.playTrophyChime();
-              setIsJerseyModalOpen(true);
-            }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
-          >
-            <Shirt className="w-3.5 h-3.5" />
-            <span>JERSEY WARDROBE (2004–2026)</span>
-          </button>
+        {/* Master Room Blueprint Header Banner */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-6 border-b border-[#b89758]/30 gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ffd700] animate-ping" />
+            <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#ffd700] uppercase">
+              INTERACTIVE 3D ROOM WALL · CLICK ANY MOTIF TO ENGAGE
+            </span>
+          </div>
+          <span className="text-[11px] font-mono text-stone-400">
+            BLUEPRINT: 4 BOOKS · 29 TROPHIES · REEBOK WILLOW · TV & CHANTS · VERIFIED JERSEYS
+          </span>
         </div>
+
+        {/* 4-Zone Panoramic Wall Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          {/* ZONE 1 (3 of 12 cols): BOOKSHELF & MEMORABILIA */}
+          <div className="lg:col-span-3 flex flex-col justify-between p-4 rounded-2xl bg-black/50 border border-[#b89758]/40 shadow-inner relative text-left">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-mono font-bold text-[#ffd700] tracking-wider uppercase">
+                  BOOKSHELF (4 VOLUMES)
+                </span>
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#b89758]/20 text-[#ffd700]">
+                  CLICK TO READ
+                </span>
+              </div>
+
+              {/* Upper Shelf: 4 Standing Collector Books with Spines */}
+              <div className="p-3 rounded-xl bg-[#1b140d] border-b-4 border-[#523b1c] shadow-lg mb-4">
+                <div className="flex items-end justify-center gap-2 py-2">
+                  {COLLECTOR_BOOKS.map((book) => (
+                    <div
+                      key={book.id}
+                      onClick={() => handleOpenBook(book.id)}
+                      className="group/book relative w-12 sm:w-14 h-40 rounded-t-sm bg-gradient-to-r from-[#21170d] via-[#3d2a17] to-[#1a1109] border border-[#b89758]/60 hover:border-[#ffd700] hover:-translate-y-2 hover:shadow-[0_10px_20px_rgba(212,175,55,0.4)] transition-all cursor-pointer flex flex-col justify-between py-2 items-center select-none shadow-md"
+                      title={`${book.title} (Vol ${book.romanNumeral})`}
+                    >
+                      <span className="text-[8px] font-mono text-[#ffd700] font-bold">
+                        V{book.romanNumeral}
+                      </span>
+                      <span className="[writing-mode:vertical-rl] rotate-180 text-[8px] sm:text-[9px] font-mono tracking-widest uppercase text-stone-200 group-hover/book:text-[#ffd700] font-bold truncate max-h-24">
+                        {book.shortTitle}
+                      </span>
+                      <div className="w-2.5 h-1 bg-[#ffd700]/70 rounded-full" />
+                    </div>
+                  ))}
+                </div>
+                <div className="text-center pt-1 border-t border-white/10 text-[9px] font-mono text-stone-400">
+                  WOODEN UPPER SHELF
+                </div>
+              </div>
+
+              {/* Lower Shelf: Young Dhoni Sketch, Quote & Motorbike */}
+              <div className="p-3 rounded-xl bg-[#181109] border border-white/10 text-center space-y-2.5">
+                {/* Young Dhoni Framed Sketch */}
+                <div className="relative w-full h-24 rounded-lg overflow-hidden border border-[#b89758]/40 bg-black/60 shadow">
+                  <Image
+                    src="/images/stories/dhoni_early_railways.jpg"
+                    alt="Young Dhoni Sketch"
+                    fill
+                    sizes="200px"
+                    className="object-cover filter contrast-125 sepia-[0.3]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-1 inset-x-0 text-[8px] font-mono text-[#ffd700]">
+                    ORIGINAL RANCHI SKETCH
+                  </span>
+                </div>
+
+                {/* Framed Quote */}
+                <div className="p-2 rounded bg-black/60 border-l-2 border-[#ffd700] text-left">
+                  <p className="text-[10px] font-serif italic text-stone-200">
+                    &ldquo;Calm Mind, Sharper Choices.&rdquo;
+                  </p>
+                  <span className="text-[8px] font-mono text-[#ffd700]">
+                    — MS Dhoni Desk Motto
+                  </span>
+                </div>
+
+                {/* Miniature Motorbike Note */}
+                <div className="flex items-center justify-between text-[9px] font-mono text-stone-400 px-1 pt-1 border-t border-white/5">
+                  <span>🏍️ VINTAGE MOTORBIKE</span>
+                  <span className="text-[#ffd700]">YAMAHA RD350</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => handleOpenBook(COLLECTOR_BOOKS[0].id)}
+              className="mt-3 w-full py-1.5 rounded-lg bg-[#b89758]/20 hover:bg-[#b89758]/40 border border-[#b89758]/50 text-[#ffd700] font-mono text-xs font-bold transition-all cursor-pointer"
+            >
+              BROWSE 4 BOOKS →
+            </button>
+          </div>
+
+          {/* ZONE 2 (4 of 12 cols): 6-TIER ILLUMINATED TROPHY CABINET */}
+          <div className="lg:col-span-4 flex flex-col justify-between p-4 rounded-2xl bg-black/50 border border-[#b89758]/40 shadow-inner relative text-left">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <Trophy className="w-3.5 h-3.5 text-[#ffd700]" />
+                  <span className="text-[10px] font-mono font-bold text-[#ffd700] tracking-wider uppercase">
+                    6-TIER TROPHY CABINET
+                  </span>
+                </div>
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#ffd700]/20 text-[#ffd700]">
+                  29 TITLES
+                </span>
+              </div>
+
+              {/* 6 Shelves Preview with Ambient Spotlights */}
+              <div
+                onClick={() => {
+                  storyAudio.playBookThudSound();
+                  setIsTrophyModalOpen(true);
+                }}
+                className="group relative rounded-xl bg-gradient-to-b from-[#1b140c] via-[#100b06] to-[#070503] border-2 border-[#b89758]/50 p-2.5 cursor-pointer shadow-lg hover:border-[#ffd700] transition-all"
+              >
+                {/* 6 Glass Shelf Bars */}
+                <div className="space-y-2">
+                  {/* Tier 1: ICC Global */}
+                  <div className="p-1 rounded bg-black/40 border-b border-cyan-500/30 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-cyan-300 font-bold">1. ICC GLOBAL</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(0, 3).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tier 2: ICC Rankings */}
+                  <div className="p-1 rounded bg-black/40 border-b border-yellow-500/30 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-yellow-300 font-bold">2. TEST MACES & SHIELD</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(3, 6).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tier 3: Asia Cup */}
+                  <div className="p-1 rounded bg-black/40 border-b border-amber-500/30 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-amber-300 font-bold">3. ASIA CUPS</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(6, 8).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tier 4: Bilaterals & CB Series */}
+                  <div className="p-1 rounded bg-black/40 border-b border-orange-500/30 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-orange-300 font-bold">4. MULTI-NATION & BGT</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(8, 13).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tier 5: CSK Titles */}
+                  <div className="p-1 rounded bg-black/40 border-b border-amber-400/40 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-amber-300 font-bold">5. CSK IPL & CLT20</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(13, 20).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tier 6: Domestic & Civic Honours */}
+                  <div className="p-1 rounded bg-black/40 flex items-center justify-between">
+                    <span className="text-[8px] font-mono text-stone-300 font-bold">6. CIVIC & HONOURS</span>
+                    <div className="flex items-center gap-1">
+                      {TROPHIES_VAULT.slice(20, 26).map((t) => (
+                        <div key={t.id} className="relative w-6 h-6">
+                          <Image src={t.cutoutUrl} alt={t.name} fill sizes="24px" className="object-contain" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dual-Plank Glass Doors Effect with Handles */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 rounded-xl pointer-events-none border border-white/10" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-xl">
+                  <span className="px-3 py-1.5 rounded-full bg-[#ffd700] text-black font-bold text-xs font-mono shadow-lg">
+                    SWING OPEN BOTH PLANKS →
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                storyAudio.playBookThudSound();
+                setIsTrophyModalOpen(true);
+              }}
+              className="mt-3 w-full py-1.5 rounded-lg bg-gradient-to-r from-[#b89758] to-[#ffd700] text-black font-mono text-xs font-bold transition-all cursor-pointer shadow"
+            >
+              OPEN CABINET (29 TROPHIES) →
+            </button>
+          </div>
+
+          {/* ZONE 3 (2 of 12 cols): CENTER TV, AUTOGRAPHED WILLOW & STADIUM CHANTS */}
+          <div className="lg:col-span-2 flex flex-col justify-between p-3.5 rounded-2xl bg-black/50 border border-orange-500/30 shadow-inner text-center">
+            <div>
+              {/* Center TV: 2011 WC Final Broadcast */}
+              <div className="p-1 rounded-lg bg-[#14100c] border border-white/10 shadow-md mb-3">
+                <div className="relative w-full aspect-video rounded overflow-hidden bg-black border border-orange-500/40">
+                  <Image
+                    src="/images/stories/dhoni_cwc_2011_six.jpg"
+                    alt="Dhoni 2011 World Cup Winning Six"
+                    fill
+                    sizes="180px"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />
+                  <span className="absolute bottom-1 inset-x-0 text-[8px] font-mono text-[#ffd700] font-bold">
+                    INDIA WIN BY 6 WICKETS
+                  </span>
+                </div>
+              </div>
+
+              {/* Autographed Willow Leaning */}
+              <div
+                onClick={() => {
+                  storyAudio.playSixBatStrikeSound();
+                  setIsBatModalOpen(true);
+                }}
+                className="group relative h-36 flex items-center justify-center p-2 rounded-xl bg-black/70 border border-[#b89758]/40 hover:border-orange-400 cursor-pointer transition-all shadow-inner mb-3"
+                title="Click to play Six sound and inspect willow"
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/images/motifs/dhoni_reebok_bat.png"
+                    alt="Dhoni Autographed Reebok Bat"
+                    fill
+                    sizes="120px"
+                    className="object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)] group-hover:scale-105 group-hover:rotate-1 transition-transform"
+                  />
+                </div>
+                <div className="absolute bottom-1 px-2 py-0.5 rounded-full bg-black/80 text-[8px] font-mono text-orange-300 border border-orange-500/30">
+                  🏏 HIT FOR SIX
+                </div>
+              </div>
+
+              {/* Stadium Crowd Chants Soundboard */}
+              <div className="space-y-1.5 text-left">
+                <span className="text-[8px] font-mono text-stone-400 uppercase block text-center">
+                  GROUND CHANTS CONSOLE
+                </span>
+
+                <button
+                  onClick={() => handlePlayChant("dhoni")}
+                  className={`w-full py-1 px-2 rounded text-[10px] font-mono font-bold flex items-center justify-between transition-all cursor-pointer ${
+                    activeChant === "dhoni"
+                      ? "bg-amber-400 text-black shadow-[0_0_12px_rgba(251,191,36,0.6)] animate-pulse"
+                      : "bg-white/5 hover:bg-white/10 text-stone-300 border border-white/10"
+                  }`}
+                >
+                  <span>🔊 DHONI! DHONI!</span>
+                  <span>👏 👏</span>
+                </button>
+
+                <button
+                  onClick={() => handlePlayChant("mahi")}
+                  className={`w-full py-1 px-2 rounded text-[10px] font-mono font-bold flex items-center justify-between transition-all cursor-pointer ${
+                    activeChant === "mahi"
+                      ? "bg-sky-400 text-black shadow-[0_0_12px_rgba(56,189,248,0.6)] animate-pulse"
+                      : "bg-white/5 hover:bg-white/10 text-stone-300 border border-white/10"
+                  }`}
+                >
+                  <span>🔊 MAHI! MAHI!</span>
+                  <span>👏 👏</span>
+                </button>
+
+                <button
+                  onClick={() => handlePlayChant("thala")}
+                  className={`w-full py-1 px-2 rounded text-[10px] font-mono font-bold flex items-center justify-between transition-all cursor-pointer ${
+                    activeChant === "thala"
+                      ? "bg-yellow-400 text-black shadow-[0_0_12px_rgba(250,204,21,0.6)] animate-pulse"
+                      : "bg-white/5 hover:bg-white/10 text-stone-300 border border-white/10"
+                  }`}
+                >
+                  <span>🔊 THALA! THALA!</span>
+                  <span>🎵 👏</span>
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                storyAudio.playSixBatStrikeSound();
+                setIsBatModalOpen(true);
+              }}
+              className="mt-3 w-full py-1.5 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-orange-300 font-mono text-xs font-bold transition-all cursor-pointer"
+            >
+              INSPECT WILLOW →
+            </button>
+          </div>
+
+          {/* ZONE 4 (3 of 12 cols): 3-TIER ILLUMINATED JERSEY WARDROBE (VERIFIED KITS) */}
+          <div className="lg:col-span-3 flex flex-col justify-between p-4 rounded-2xl bg-black/50 border border-sky-500/40 shadow-inner relative text-left">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <Shirt className="w-3.5 h-3.5 text-sky-400" />
+                  <span className="text-[10px] font-mono font-bold text-sky-400 tracking-wider uppercase">
+                    JERSEY WARDROBE
+                  </span>
+                </div>
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">
+                  {JERSEYS_VAULT.length} REAL KITS
+                </span>
+              </div>
+
+              {/* 3 Illuminated Glass Tiers Preview */}
+              <div
+                onClick={() => {
+                  storyAudio.playTrophyChime();
+                  setIsJerseyModalOpen(true);
+                }}
+                className="group relative rounded-xl bg-gradient-to-b from-[#0e1420] via-[#090d15] to-[#05080d] border-2 border-sky-500/40 p-2.5 cursor-pointer shadow-lg hover:border-sky-300 transition-all space-y-2.5"
+              >
+                {/* Tier 1: India */}
+                <div className="p-1.5 rounded bg-black/40 border-b border-sky-500/30">
+                  <span className="text-[8px] font-mono text-sky-400 font-bold block mb-1">
+                    TIER 1: TEAM INDIA KITS
+                  </span>
+                  <div className="grid grid-cols-4 gap-1 items-center">
+                    {JERSEYS_VAULT.filter((j) => j.team === "India").slice(0, 4).map((j) => (
+                      <div key={j.id} className="relative w-full h-10 rounded overflow-hidden bg-black/40 border border-white/10">
+                        {j.imageSrc && (
+                          <img src={j.imageSrc} alt={j.title} className="w-full h-full object-contain p-0.5" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tier 2: CSK & CLT20 */}
+                <div className="p-1.5 rounded bg-black/40 border-b border-amber-400/30">
+                  <span className="text-[8px] font-mono text-amber-300 font-bold block mb-1">
+                    TIER 2: CSK & CLT20 KITS
+                  </span>
+                  <div className="grid grid-cols-4 gap-1 items-center">
+                    {JERSEYS_VAULT.filter((j) => j.tournamentType === "IPL" || j.tournamentType === "CLT20").slice(0, 4).map((j) => (
+                      <div key={j.id} className="relative w-full h-10 rounded overflow-hidden bg-black/40 border border-white/10">
+                        {j.imageSrc && (
+                          <img src={j.imageSrc} alt={j.title} className="w-full h-full object-contain p-0.5" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tier 3: Army / Domestic */}
+                <div className="p-1.5 rounded bg-black/40">
+                  <span className="text-[8px] font-mono text-emerald-400 font-bold block mb-1">
+                    TIER 3: MILITARY & DOMESTIC KITS
+                  </span>
+                  <div className="grid grid-cols-4 gap-1 items-center">
+                    {JERSEYS_VAULT.filter((j) => j.tournamentType === "MILITARY" || j.tournamentType === "DOMESTIC" || j.tournamentType === "IPL").slice(0, 4).map((j) => (
+                      <div key={j.id} className="relative w-full h-10 rounded overflow-hidden bg-black/40 border border-white/10">
+                        {j.imageSrc && (
+                          <img src={j.imageSrc} alt={j.title} className="w-full h-full object-contain p-0.5" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover inspect prompt */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 rounded-xl">
+                  <span className="px-3 py-1.5 rounded-full bg-sky-500 text-black font-bold text-xs font-mono shadow-lg">
+                    INSPECT ALL VERIFIED JERSEYS →
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                storyAudio.playTrophyChime();
+                setIsJerseyModalOpen(true);
+              }}
+              className="mt-3 w-full py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-black font-mono text-xs font-bold transition-all cursor-pointer shadow"
+            >
+              OPEN WARDROBE ({JERSEYS_VAULT.length} KITS) →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Motifs Shortcut Switcher */}
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+        <button
+          onClick={() => handleOpenBook(currentFeaturedBook.id)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          <span>4 COLLECTOR BOOKS</span>
+        </button>
+
+        <button
+          onClick={() => {
+            storyAudio.playSixBatStrikeSound();
+            setIsBatModalOpen(true);
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>AUTOGRAPHED REEBOK BAT</span>
+        </button>
+
+        <button
+          onClick={() => {
+            storyAudio.playBookThudSound();
+            setIsTrophyModalOpen(true);
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
+        >
+          <Trophy className="w-3.5 h-3.5" />
+          <span>TROPHY CABINET (DUAL PLANKS)</span>
+        </button>
+
+        <button
+          onClick={() => {
+            storyAudio.playTrophyChime();
+            setIsJerseyModalOpen(true);
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-300 font-mono text-xs uppercase tracking-wider transition-all cursor-pointer shadow-sm hover:scale-105"
+        >
+          <Shirt className="w-3.5 h-3.5" />
+          <span>JERSEY WARDROBE (2004–2026)</span>
+        </button>
       </div>
 
       {/* =========================================================================

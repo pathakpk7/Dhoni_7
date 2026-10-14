@@ -307,22 +307,22 @@ const BOOK_4_EXTRA_STORIES: StoryEntry[] = [
 
 export const COLLECTOR_BOOKS: CollectorBook[] = [
   // =========================================================================
-  // BOOK I: 1995 to Mid-2007
+  // BOOK I: 1995 to Mid-2007 (A Longhaired Hero — The Early Days)
   // =========================================================================
   {
     id: "book-1-the-genesis",
     volumeNumber: 1,
     romanNumeral: "I",
-    title: "THE UNTAMED ROOTS & THE SWASHBUCKLER",
-    shortTitle: "Vol I: The Roots (1995–2007)",
-    subtitle: "Before Debut up to Before the 2007 T20 World Cup",
+    title: "A LONGHAIRED HERO",
+    shortTitle: "The Early Days (1995–2007)",
+    subtitle: "From Ranchi Goalposts & Platform 3 to International Arrival",
     era: "1995 – Mid 2007",
     timelineSpan: "Origins · Railway Platform 3 · Kenya · Vizag 148 · Jaipur 183*",
     tagline: "“Best thing about time — It changes.”",
     coverImage: "/images/book-cover-best-thing-about-time.jpg",
-    themeColor: "#d97706", // Amber / leather brown
-    spineColor: "#2e1c0c",
-    accentGradient: "from-[#d97706] via-[#f59e0b] to-[#b45309]",
+    themeColor: "#1e3a8a", // Blue leather spine matching reference image
+    spineColor: "#0f172a",
+    accentGradient: "from-[#1e3a8a] via-[#3b82f6] to-[#1e40af]",
     description:
       "The untamed beginnings. From football goalposts in Ranchi and ticket collector shifts at Kharagpur Platform 3 to breaking into the Indian dressing room with long hair, unsparing velocity, and the world record 183* in Jaipur.",
     storyIds: BOOK_1_STORY_IDS,
@@ -330,22 +330,22 @@ export const COLLECTOR_BOOKS: CollectorBook[] = [
   },
 
   // =========================================================================
-  // BOOK II: Sep 2007 to 2013
+  // BOOK II: Sep 2007 to 2013 (Maahi — The Rise)
   // =========================================================================
   {
     id: "book-2-the-icc-trifecta",
     volumeNumber: 2,
     romanNumeral: "II",
-    title: "THE GOLDEN ERA & THE ICC TRIFECTA",
-    shortTitle: "Vol II: The Trifecta (2007–2013)",
-    subtitle: "From the T20 World Cup 2007 up to the 2013 Champions Trophy",
+    title: "MAAHI: THE RISE",
+    shortTitle: "The Rise (2007–2013)",
+    subtitle: "From the 2007 T20 World Cup up to the 2013 Champions Trophy",
     era: "Sep 2007 – 2013",
     timelineSpan: "Johannesburg 2007 · CB Series · Test Mace #1 · Wankhede 2011 · Edgbaston 2013",
     tagline: "“Dhoni finishes off in style. A magnificent strike into the crowd!”",
     coverImage: "/images/moments/moment_05_cwc_2011_final.png",
-    themeColor: "#0284c7", // Sky blue / Sovereign ICC Navy
-    spineColor: "#0c1e3a",
-    accentGradient: "from-[#0284c7] via-[#38bdf8] to-[#0369a1]",
+    themeColor: "#831843", // Maroon / Burgundy leather spine matching reference image
+    spineColor: "#500724",
+    accentGradient: "from-[#831843] via-[#be185d] to-[#9d174d]",
     description:
       "The golden zenith of Indian cricket. The young guard in South Africa, conquering Australia in the CB Series, lifting the Test Mace to become World No. 1, the iconic winning six on April 2, 2011, and completing the historic ICC white-ball trifecta at Edgbaston in 2013.",
     storyIds: BOOK_2_STORY_IDS,
@@ -353,22 +353,22 @@ export const COLLECTOR_BOOKS: CollectorBook[] = [
   },
 
   // =========================================================================
-  // BOOK III: 2014 to 2019
+  // BOOK III: 2014 to 2019 (THALA — The Legend)
   // =========================================================================
   {
     id: "book-3-the-final-salute",
     volumeNumber: 3,
     romanNumeral: "III",
-    title: "THE SENIOR STATESMAN & THE FINAL SALUTE",
-    shortTitle: "Vol III: The Final Salute (2014–2019)",
+    title: "THALA: THE LEGEND",
+    shortTitle: "The Legend (2014–2019)",
     subtitle: "The Test Exit, Paratrooper Wings, 0.08s Reflexes & 19:29 Farewell",
     era: "2014 – 2019",
     timelineSpan: "MCG 2014 · Balidan Maroon Wings · 0.08s Stumping · Bengaluru 1-Run · 19:29",
     tagline: "“From 1929 hrs consider me as Retired.”",
     coverImage: "/images/keeper/dhoni_lightning_stumping_008s.png",
-    themeColor: "#15803d", // Army Green / Tricolor Royal
-    spineColor: "#0f2615",
-    accentGradient: "from-[#15803d] via-[#22c55e] to-[#166534]",
+    themeColor: "#1e3a8a", // Navy blue leather spine matching reference image
+    spineColor: "#0c1527",
+    accentGradient: "from-[#1e3a8a] via-[#2563eb] to-[#1d4ed8]",
     description:
       "The selfless twilight. Walking away silently from Test cricket at the MCG, earning his Paratrooper wings in Agra, sprinting with one glove at Bengaluru, mentoring the next generation, and the poignant Instagram farewell at 19:29 hours on Independence Day.",
     storyIds: BOOK_3_STORY_IDS,
@@ -376,22 +376,22 @@ export const COLLECTOR_BOOKS: CollectorBook[] = [
   },
 
   // =========================================================================
-  // BOOK IV: 2008 to 2026
+  // BOOK IV: 2008 to 2026 (More Than A Captain — A Lasting Impact)
   // =========================================================================
   {
     id: "book-4-the-yellow-fortress",
     volumeNumber: 4,
     romanNumeral: "IV",
-    title: "THE YELLOW FORTRESS & THE CSK DYNASTY",
-    shortTitle: "Vol IV: The Yellow Fortress (2008–2026)",
-    subtitle: "IPL and CLT20 from the 2008 Inaugural Auction to 2026",
+    title: "MORE THAN A CAPTAIN",
+    shortTitle: "A Lasting Impact (2008–2026)",
+    subtitle: "IPL & CLT20 Dynasty: 5 IPL Crowns, 2 CLT20s & The Eternal #7",
     era: "2008 – 2026",
     timelineSpan: "Whistle Podu · 5 IPL Championships · 2 CLT20 Titles · 3 AM Ahmedabad",
     tagline: "“Definitely Not. The Lion Never Retires.”",
     coverImage: "/images/trophies/2023_ipl.jpg",
-    themeColor: "#eab308", // CSK Yellow & Gold
-    spineColor: "#2b2207",
-    accentGradient: "from-[#eab308] via-[#fde047] to-[#ca8a04]",
+    themeColor: "#d97706", // Cream / parchment gold leather spine matching reference image
+    spineColor: "#451a03",
+    accentGradient: "from-[#d97706] via-[#fbbf24] to-[#b45309]",
     description:
       "The immortal romance with Chennai Super Kings. 5 IPL championships, 2 Champions League T20 crowns, the emotional 2018 'Dad's Army' return, lifting Jadeja at 3:00 AM in Ahmedabad, and the enduring 130-decibel roars that echo through Indian cricket.",
     storyIds: [...BOOK_4_STORY_IDS, ...BOOK_4_EXTRA_STORIES.map((s) => s.id)],
@@ -401,3 +401,4 @@ export const COLLECTOR_BOOKS: CollectorBook[] = [
     ],
   },
 ];
+

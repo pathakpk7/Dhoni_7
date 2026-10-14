@@ -2,9 +2,9 @@ export interface JerseyVaultItem {
   id: string;
   year: string;
   title: string;
-  team: "India" | "Chennai Super Kings" | "Rising Pune Supergiant";
+  team: "India" | "Chennai Super Kings" | "Rising Pune Supergiant" | "Indian Army" | "Bihar / Jharkhand";
   tournament: string;
-  tournamentType: "IPL" | "CLT20" | "ICC_WORLD_CUP" | "BILATERAL_ODI" | "ASIA_CUP";
+  tournamentType: "IPL" | "CLT20" | "ICC_WORLD_CUP" | "BILATERAL_ODI" | "ASIA_CUP" | "DOMESTIC" | "MILITARY";
   era: string;
   primaryColor: string;
   secondaryColor: string;
@@ -15,8 +15,10 @@ export interface JerseyVaultItem {
   famousMoment: string;
   description: string;
   statsInJersey: string;
+  imageSrc?: string;
   designDetails: string[];
 }
+
 
 export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
@@ -24,6 +26,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2004_debut",
+    imageSrc: "/images/jerseys/jersey_india_2004_debut.jpg",
     year: "2004",
     title: "The Debut 'Sahara' Sky Blue",
     team: "India",
@@ -52,6 +55,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2005_swashbuckler",
+    imageSrc: "/images/jerseys/jersey_india_2004_debut.jpg",
     year: "2005",
     title: "The Vizag 148 & Jaipur 183* Edition",
     team: "India",
@@ -80,6 +84,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2007_t20_wc",
+    imageSrc: "/images/jerseys/jersey_india_2007_t20_wc.jpg",
     year: "2007",
     title: "The Inaugural T20 World Cup Crown",
     team: "India",
@@ -108,6 +113,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2008_ipl_inaugural",
+    imageSrc: "/images/jerseys/jersey_csk_2010.jpg",
     year: "2008",
     title: "IPL 2008: The Maiden CSK Canary Yellow",
     team: "Chennai Super Kings",
@@ -136,6 +142,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2008_cb_series",
+    imageSrc: "/images/jerseys/jersey_india_2007_t20_wc.jpg",
     year: "2008",
     title: "The Australia Conqueror (CB Series)",
     team: "India",
@@ -164,6 +171,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2010_ipl_champions",
+    imageSrc: "/images/jerseys/jersey_csk_2010.jpg",
     year: "2010",
     title: "IPL 2010: The Maiden Championship Yellow",
     team: "Chennai Super Kings",
@@ -192,6 +200,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2010_clt20_champions",
+    imageSrc: "/images/jerseys/jersey_clt20_2010.jpg",
     year: "2010",
     title: "CLT20 2010: The South Africa Double Crown",
     team: "Chennai Super Kings",
@@ -220,6 +229,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2011_world_cup",
+    imageSrc: "/images/jerseys/jersey_india_2011_wc.jpg",
     year: "2011",
     title: "The World Cup 2011 Winning Blue",
     team: "India",
@@ -248,6 +258,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2011_ipl_defense",
+    imageSrc: "/images/jerseys/jersey_csk_2011.jpg",
     year: "2011",
     title: "IPL 2011: Back-to-Back Title Defense",
     team: "Chennai Super Kings",
@@ -276,6 +287,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2013_champions_trophy",
+    imageSrc: "/images/jerseys/jersey_india_2013_ct.jpg",
     year: "2013",
     title: "The ICC Trifecta (Edgbaston 2013)",
     team: "India",
@@ -304,6 +316,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2014_clt20_champions",
+    imageSrc: "/images/jerseys/jersey_clt20_2014.jpg",
     year: "2014",
     title: "CLT20 2014: The Second Global Crown",
     team: "Chennai Super Kings",
@@ -332,6 +345,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2016_rps_edition",
+    imageSrc: "/images/jerseys/jersey_clt20_alt.jpg",
     year: "2016–2017",
     title: "The Purple & Rose Gold RPS #7",
     team: "Rising Pune Supergiant",
@@ -360,6 +374,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2016_asia_cup",
+    imageSrc: "/images/jerseys/jersey_india_2015_odi.jpg",
     year: "2016",
     title: "The Asia Cup T20 & 0.08s Stumping",
     team: "India",
@@ -388,6 +403,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2018_csk_comeback",
+    imageSrc: "/images/jerseys/jersey_csk_2018.jpg",
     year: "2018",
     title: "IPL 2018: The 'Dad's Army' Fairytale Return",
     team: "Chennai Super Kings",
@@ -416,6 +432,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2019_world_cup",
+    imageSrc: "/images/jerseys/jersey_india_2019_cwc.jpg",
     year: "2019",
     title: "The Final International Salute",
     team: "India",
@@ -444,6 +461,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2021_csk_camo",
+    imageSrc: "/images/jerseys/jersey_csk_2021.jpg",
     year: "2021",
     title: "IPL 2021: The Armed Forces Camouflage Yellow",
     team: "Chennai Super Kings",
@@ -472,6 +490,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2023_csk_5th_crown",
+    imageSrc: "/images/jerseys/jersey_csk_2023.jpg",
     year: "2023",
     title: "IPL 2023: The 3:00 AM Rain Thriller (5th Title)",
     team: "Chennai Super Kings",
@@ -498,8 +517,66 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   // 18. 2024–2026: IPL 5-STAR ETERNAL LEGACY (CSK)
   // =========================================================================
+  // =========================================================================
+  // 19. INDIAN ARMY CAMOUFLAGE UNIFORM (TERRITORIAL ARMY)
+  // =========================================================================
+  {
+    id: "jersey_indian_army_camo",
+    year: "2015–Present",
+    title: "Indian Army Territorial Army Camouflage Uniform",
+    team: "Indian Army",
+    tournament: "106 Para TA Battalion (Kashmir and Agra)",
+    tournamentType: "MILITARY",
+    era: "Honorary Lieutenant Colonel (2011–Present)",
+    primaryColor: "#3f4f34",
+    secondaryColor: "#273320",
+    accentColor: "#a16207",
+    number: 7,
+    playerName: "DHONI",
+    sponsor: "INDIAN ARMY (Balidan Badge)",
+    famousMoment: "August 2019: Deployed with the Victor Force in South Kashmir on active guard duty and completed 5 parachute jumps in Agra to earn his Balidan maroon wings.",
+    description: "Official combat camouflage uniform with parachute jump wings and Balidan dagger emblem. Dhoni marched in this uniform at Rashtrapati Bhavan to receive the Padma Bhushan in 2018.",
+    statsInJersey: "Honorary Lt. Colonel · 5 Parachute Jumps in Agra · Guard Duty in Kashmir",
+    imageSrc: "/images/jerseys/jersey_indian_army_camo.jpg",
+    designDetails: [
+      "Authentic Indian Armed Forces disruptive pattern camouflage",
+      "Paratrooper Balidan wings embroidered on chest",
+      "Territorial Army regimental collar tabs",
+      "Maroon paratrooper beret paired with uniform"
+    ]
+  },
+
+  // =========================================================================
+  // 20. BIHAR & JHARKHAND DOMESTIC CRICKET (RANJI TROPHY)
+  // =========================================================================
+  {
+    id: "jersey_domestic_bihar",
+    year: "1999–2004",
+    title: "Bihar & Jharkhand Ranji Trophy Domestic Blue",
+    team: "Bihar / Jharkhand",
+    tournament: "Ranji Trophy and Deodhar Trophy",
+    tournamentType: "DOMESTIC",
+    era: "The Domestic Grind (1999–2004)",
+    primaryColor: "#1e3a8a",
+    secondaryColor: "#ca8a04",
+    accentColor: "#ffffff",
+    number: 7,
+    playerName: "DHONI",
+    sponsor: "BIHAR CRICKET",
+    famousMoment: "1999–2000 debut at Keenan Stadium, Jamshedpur: Scoring a fighting 68* on Ranji debut against Assam, beginning his rise through East Zone cricket.",
+    description: "The grassroots blue Ranji Trophy uniform with yellow sleeve piping, representing Bihar and Jharkhand before Dhoni's international call-up.",
+    statsInJersey: "First-class debut at age 18 · Deodhar Trophy Champion 2003–04 with East Zone",
+    imageSrc: "/images/jerseys/jersey_domestic_bihar.jpg",
+    designDetails: [
+      "Classic royal blue with yellow piping",
+      "Bihar Cricket Association official crest",
+      "Worn on dusty domestic wickets from Keenan to Eden Gardens",
+      "The bedrock foundation of Dhoni's explosive domestic game"
+    ]
+  },
   {
     id: "jersey_2024_2026_legacy",
+    imageSrc: "/images/jerseys/jersey_csk_2023.jpg",
     year: "2024–2026",
     title: "IPL 2024–2026: The Five-Star Eternal Yellow",
     team: "Chennai Super Kings",

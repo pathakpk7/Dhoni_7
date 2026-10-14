@@ -35,6 +35,7 @@ export const LandscapeBookReader: React.FC<LandscapeBookReaderProps> = ({
   const [currentStoryIndex, setCurrentStoryIndex] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isTocOpen, setIsTocOpen] = useState<boolean>(false);
+  const [turnDirection, setTurnDirection] = useState<"next" | "prev" | null>(null);
 
   useEffect(() => {
     setCurrentBookId(initialBookId);
@@ -55,7 +56,7 @@ export const LandscapeBookReader: React.FC<LandscapeBookReaderProps> = ({
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "auto";
     };
-  }, [isOpen, currentStoryIndex, currentBookId, onClose]);
+  }, [isOpen, currentStoryIndex, currentBookId, onClose, turnDirection]);
 
   if (!isOpen) return null;
 
@@ -66,16 +67,26 @@ export const LandscapeBookReader: React.FC<LandscapeBookReaderProps> = ({
   const totalStories = stories.length;
 
   const handleNextPage = () => {
+    if (turnDirection !== null) return;
     if (currentStoryIndex < totalStories - 1) {
       storyAudio.playPageTurnSound();
-      setCurrentStoryIndex((prev) => prev + 1);
+      setTurnDirection("next");
+      setTimeout(() => {
+        setCurrentStoryIndex((prev) => prev + 1);
+        setTurnDirection(null);
+      }, 320);
     }
   };
 
   const handlePrevPage = () => {
+    if (turnDirection !== null) return;
     if (currentStoryIndex > 0) {
       storyAudio.playPageTurnSound();
-      setCurrentStoryIndex((prev) => prev - 1);
+      setTurnDirection("prev");
+      setTimeout(() => {
+        setCurrentStoryIndex((prev) => prev - 1);
+        setTurnDirection(null);
+      }, 320);
     }
   };
 
@@ -172,15 +183,37 @@ export const LandscapeBookReader: React.FC<LandscapeBookReaderProps> = ({
         </header>
 
         {/* Center: Landscape 2-Page Spread (Left Page: Media & Quote · Right Page: Narrative & Analysis) */}
-        <main className="relative flex-1 overflow-y-auto lg:overflow-hidden p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 bg-[#16110c]">
+        <main className="relative flex-1 overflow-y-auto lg:overflow-hidden p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 bg-[#16110c]" style={{ perspective: "2000px" }}>
           
+          {/* Central Silk Bookmark Ribbon */}
+          <div className="hidden lg:block absolute left-1/2 -top-1 w-5 h-28 -translate-x-1/2 bg-gradient-to-b from-[#b82222] via-[#851616] to-[#b82222] shadow-[0_4px_12px_rgba(0,0,0,0.8)] z-30 pointer-events-none rounded-b-sm border-x border-[#ff5555]/30">
+            <div className="absolute bottom-0 left-0 right-0 h-3 bg-[#631010] clip-path-chevron" />
+            <div className="absolute top-0 inset-x-1 h-full border-x border-[#ffd700]/30" />
+          </div>
+
           {/* Central Book Spine Crease Shadow (Desktop) */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-8 -translate-x-1/2 bg-gradient-to-r from-black/40 via-black/80 to-black/40 pointer-events-none z-20 shadow-[inset_0_0_15px_rgba(0,0,0,0.9)]" />
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-10 -translate-x-1/2 bg-gradient-to-r from-black/50 via-black/85 to-black/50 pointer-events-none z-20 shadow-[inset_0_0_20px_rgba(0,0,0,0.95)]" />
+
+          {/* Dynamic 3D Paper Curl Overlay during page turn */}
+          {turnDirection && (
+            <div
+              className={`hidden lg:block absolute inset-y-6 w-1/2 z-30 pointer-events-none transition-transform duration-300 ease-in-out ${
+                turnDirection === "next"
+                  ? "right-6 origin-left animate-page-curl-next bg-gradient-to-r from-[#1c160f] via-[#241c13] to-[#120d09] shadow-[-15px_0_35px_rgba(0,0,0,0.85)] border-r border-[#b89758]/50"
+                  : "left-6 origin-right animate-page-curl-prev bg-gradient-to-l from-[#1c160f] via-[#241c13] to-[#120d09] shadow-[15px_0_35px_rgba(0,0,0,0.85)] border-l border-[#b89758]/50"
+              }`}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.08)_0%,transparent_70%)]" />
+              <div className="absolute inset-0 flex items-center justify-center text-xs font-mono text-[#d4af37]/60 tracking-widest uppercase">
+                ✦ TURNING ARCHIVAL FOLIO ✦
+              </div>
+            </div>
+          )}
 
           {/* =========================================================================
               LEFT PAGE (Verso): Archival Media, Quote, Location & Verification
              ========================================================================= */}
-          <div className="relative rounded-2xl bg-[#0f0c08] border border-[#b89758]/30 p-4 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-inner">
+          <div className={`relative rounded-2xl bg-[#0f0c08] border border-[#b89758]/30 p-4 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-inner transition-opacity duration-200 ${turnDirection === "prev" ? "opacity-60" : "opacity-100"}`}>
             {/* Top Page Number & Meta */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10 text-[10px] sm:text-xs font-mono text-stone-400">
               <span className="text-[#d4af37] font-bold">PAGE {currentStoryIndex * 2 + 1}</span>
@@ -245,7 +278,7 @@ export const LandscapeBookReader: React.FC<LandscapeBookReaderProps> = ({
           {/* =========================================================================
               RIGHT PAGE (Recto): Chapter Title, Narrative Prose & Strategic Meaning
              ========================================================================= */}
-          <div className="relative rounded-2xl bg-[#0f0c08] border border-[#b89758]/30 p-4 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-inner text-left">
+          <div className={`relative rounded-2xl bg-[#0f0c08] border border-[#b89758]/30 p-4 sm:p-6 flex flex-col justify-between overflow-y-auto shadow-inner text-left transition-opacity duration-200 ${turnDirection === "next" ? "opacity-60" : "opacity-100"}`}>
             {/* Top Page Number & Chapter Marker */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10 text-[10px] sm:text-xs font-mono text-stone-400">
               <span className="uppercase text-[#d4af37]">

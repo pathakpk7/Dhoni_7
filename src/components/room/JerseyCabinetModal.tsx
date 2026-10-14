@@ -162,23 +162,36 @@ export const JerseyCabinetModal: React.FC<JerseyCabinetModalProps> = ({
                 {/* Hanger Hook Icon */}
                 <div className="w-5 h-2 border-t-2 border-stone-400 rounded-t-full mb-1" />
 
-                {/* Jersey Miniature Avatar */}
+                {/* Jersey Miniature Avatar: REAL PHOTO */}
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center font-mono font-black text-xs shadow-md border"
+                  className="w-12 h-14 rounded-lg flex items-center justify-center overflow-hidden shadow-md border relative bg-black/40"
                   style={{
-                    backgroundColor: jersey.primaryColor,
-                    borderColor: jersey.accentColor,
-                    color: jersey.team === "Chennai Super Kings" ? "#1e3a8a" : "#ffffff",
+                    borderColor: isSelected ? "#ffd700" : jersey.accentColor,
                   }}
                 >
-                  7
+                  {jersey.imageSrc ? (
+                    <img
+                      src={jersey.imageSrc}
+                      alt={jersey.title}
+                      className="w-full h-full object-contain p-0.5 group-hover:scale-110 transition-transform duration-300"
+                    />
+                  ) : (
+                    <span
+                      className="font-mono font-black text-xs"
+                      style={{
+                        color: jersey.team === "Chennai Super Kings" ? "#ffd700" : "#38bdf8",
+                      }}
+                    >
+                      7
+                    </span>
+                  )}
                 </div>
 
                 <span className="text-[10px] font-mono font-bold mt-1 text-white">
                   {jersey.year}
                 </span>
                 <span className="text-[9px] font-mono text-stone-400 truncate max-w-[70px]">
-                  {jersey.team === "India" ? "India" : "CSK"}
+                  {jersey.team === "India" ? "India" : jersey.team === "Chennai Super Kings" ? "CSK" : jersey.team.split(" ")[0]}
                 </span>
               </button>
             );
@@ -188,68 +201,65 @@ export const JerseyCabinetModal: React.FC<JerseyCabinetModalProps> = ({
         {/* Main Display: 3D High-Fidelity Jersey Showcase & Historical Documentation */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-gradient-to-b from-[#0f1117] via-[#141724] to-[#0a0c10]">
           
-          {/* Left Column (5 of 12 cols): Interactive Jersey Rendering with Front/Back Toggle */}
+          {/* Left Column (5 of 12 cols): Interactive Jersey Rendering with Real Photo / Front / Back Toggle */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            {/* 3D Jersey Cutout Canvas */}
+            {/* Real Verified Jersey Showcase Frame */}
             <div
-              className="relative w-full max-w-[320px] aspect-[4/5] rounded-3xl p-6 flex flex-col items-center justify-between border-2 shadow-2xl transition-all duration-500 overflow-hidden"
+              className="relative w-full max-w-[340px] aspect-[4/5] rounded-3xl p-4 flex flex-col items-center justify-between border-2 shadow-2xl transition-all duration-500 overflow-hidden bg-gradient-to-b from-stone-900/90 via-black to-[#0a0d14]"
               style={{
-                backgroundColor: currentJersey.primaryColor,
-                borderColor: currentJersey.accentColor,
-                boxShadow: `0 20px 50px ${currentJersey.secondaryColor}66, 0 0 30px ${currentJersey.primaryColor}44`,
+                borderColor: currentJersey.accentColor || "#d4af37",
+                boxShadow: `0 20px 60px ${currentJersey.secondaryColor}44, 0 0 35px ${currentJersey.primaryColor}33`,
               }}
             >
-              {/* Fabric Shimmer & Mesh Pattern */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.25)_0%,transparent_60%)] pointer-events-none" />
-              <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+              {/* Illumination & Glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,215,0,0.15)_0%,transparent_70%)] pointer-events-none" />
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#ffd700] to-transparent opacity-60" />
 
-              {/* Collar / Neck Cutout */}
-              <div
-                className="w-20 h-7 rounded-b-2xl border-b-4 shadow-inner"
-                style={{
-                  backgroundColor: currentJersey.secondaryColor,
-                  borderColor: currentJersey.accentColor,
-                }}
-              />
+              {/* Top Authenticity Badge */}
+              <div className="w-full flex items-center justify-between z-10 px-2 pt-1">
+                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/70 text-[#ffd700] border border-[#d4af37]/50 flex items-center gap-1 shadow">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  VERIFIED SPECIMEN
+                </span>
+                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-black/70 text-white/90 border border-white/20">
+                  {currentJersey.year} EDITION
+                </span>
+              </div>
 
-              {/* FRONT VIEW vs BACK VIEW */}
+              {/* MAIN CONTENT: PHOTO vs REPLICA GRAPHIC */}
               {!isBackView ? (
-                /* FRONT VIEW */
-                <div className="w-full flex flex-col items-center justify-center my-auto text-center space-y-4">
-                  {/* Top Crest / Stars */}
-                  <div className="flex items-center justify-between w-full px-4">
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-black/40 text-white border border-white/20">
-                      {currentJersey.team === "India" ? "BCCI" : "CSK LION"}
-                    </span>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-black/40 text-[#ffd700] border border-white/20">
-                      YEAR {currentJersey.year}
-                    </span>
-                  </div>
-
-                  {/* Main Chest Sponsor */}
-                  <div className="py-2 px-6 rounded-lg bg-black/35 backdrop-blur-sm border border-white/20 shadow-lg">
-                    <span
-                      className="font-mono font-black tracking-widest text-lg sm:text-xl drop-shadow"
-                      style={{
-                        color: currentJersey.team === "Chennai Super Kings" ? "#ffffff" : "#ffffff",
-                      }}
-                    >
-                      {currentJersey.sponsor}
-                    </span>
-                  </div>
-
-                  {/* Number 7 on Front Right */}
-                  <div className="text-4xl sm:text-5xl font-black font-mono tracking-tighter text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-                    7
-                  </div>
-
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-white/80 font-bold">
-                    OFFICIAL MATCH KIT
-                  </span>
+                /* REAL VERIFIED PHOTO VIEW */
+                <div className="relative w-full flex-1 flex flex-col items-center justify-center my-auto p-2 z-10 group">
+                  {currentJersey.imageSrc ? (
+                    <div className="relative w-full h-full max-h-[290px] flex items-center justify-center">
+                      <img
+                        src={currentJersey.imageSrc}
+                        alt={`${currentJersey.title} (${currentJersey.year})`}
+                        className="max-h-full max-w-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)] transform group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute bottom-1 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[10px] font-mono text-[#ffd700] tracking-wider uppercase shadow-lg">
+                        {currentJersey.team} · #{currentJersey.number}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Shirt className="w-16 h-16 text-stone-500 mx-auto mb-2" />
+                      <span className="text-xs font-mono text-stone-400">Match Kit Archival Record</span>
+                    </div>
+                  )}
                 </div>
               ) : (
-                /* BACK VIEW (DHONI 7) */
-                <div className="w-full flex flex-col items-center justify-center my-auto text-center space-y-2 animate-in fade-in duration-300">
+                /* BACK VIEW (#7 DHONI GRAPHIC EMBLEM) */
+                <div
+                  className="w-full flex-1 rounded-2xl flex flex-col items-center justify-center my-auto text-center space-y-2 p-6 animate-in fade-in duration-300 z-10"
+                  style={{
+                    backgroundColor: currentJersey.primaryColor,
+                    borderColor: currentJersey.accentColor,
+                  }}
+                >
+                  {/* Subtle jersey stripe texture */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_60%)] pointer-events-none" />
+                  
                   {/* Player Name */}
                   <span className="font-mono font-black tracking-[0.25em] text-2xl sm:text-3xl text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)]">
                     {currentJersey.playerName}
@@ -260,16 +270,20 @@ export const JerseyCabinetModal: React.FC<JerseyCabinetModalProps> = ({
                     {currentJersey.number}
                   </span>
 
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/70 font-semibold pt-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/80 font-semibold pt-2">
                     {currentJersey.era}
+                  </span>
+
+                  <span className="text-[9px] font-mono bg-black/50 px-3 py-1 rounded text-[#ffd700] border border-white/20 mt-2">
+                    SPONSOR: {currentJersey.sponsor}
                   </span>
                 </div>
               )}
 
-              {/* Bottom Hem Details */}
-              <div className="w-full flex items-center justify-between text-[9px] font-mono text-white/70 px-2 pt-2 border-t border-white/20">
-                <span>ATHLETIC FIT #07</span>
-                <span>AUTHENTIC RETRO</span>
+              {/* Bottom Spec Footer */}
+              <div className="w-full flex items-center justify-between text-[9px] font-mono text-stone-300 px-2 pt-2 border-t border-white/15 z-10">
+                <span className="text-stone-400">AUTHENTIC MATCH ARCHIVE</span>
+                <span className="text-[#ffd700]">THALA #7 ARCHIVE</span>
               </div>
             </div>
 
@@ -277,7 +291,7 @@ export const JerseyCabinetModal: React.FC<JerseyCabinetModalProps> = ({
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={handlePrev}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-colors cursor-pointer"
+                className="p-2.5 rounded-full bg-white/10 hover:bg-[#b89758]/30 hover:border-[#ffd700] border border-white/15 text-white transition-all cursor-pointer shadow-md"
                 title="Previous Jersey"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -288,15 +302,15 @@ export const JerseyCabinetModal: React.FC<JerseyCabinetModalProps> = ({
                   storyAudio.playTrophyChime();
                   setIsBackView((prev) => !prev);
                 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono font-bold text-white transition-all cursor-pointer shadow-md"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-[#b89758]/50 text-xs font-mono font-bold text-white transition-all cursor-pointer shadow-lg hover:border-[#ffd700]"
               >
                 <RotateCw className="w-3.5 h-3.5 text-[#ffd700]" />
-                <span>{isBackView ? "SHOW FRONT VIEW" : "SHOW BACK (#7 DHONI)"}</span>
+                <span>{isBackView ? "📷 SHOW REAL PHOTO SPECIMEN" : "🔄 SHOW BACK (#7 DHONI)"}</span>
               </button>
 
               <button
                 onClick={handleNext}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-colors cursor-pointer"
+                className="p-2.5 rounded-full bg-white/10 hover:bg-[#b89758]/30 hover:border-[#ffd700] border border-white/15 text-white transition-all cursor-pointer shadow-md"
                 title="Next Jersey"
               >
                 <ChevronRight className="w-4 h-4" />
