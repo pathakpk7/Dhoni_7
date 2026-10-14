@@ -104,6 +104,63 @@ class StoryAudioManager {
     return this.isMuted;
   }
 
+  // Crystal / Golden Trophy chime synthesized via harmonic bells
+  public playTrophyChime() {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+
+      [1046.5, 1318.5, 1567.98].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.05);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.05);
+        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + idx * 0.05 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.05 + 0.6);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(ctx.currentTime + idx * 0.05);
+        osc.stop(ctx.currentTime + idx * 0.05 + 0.62);
+      });
+    } catch {
+      // Audio autoplay policy catch
+    }
+  }
+
+  // Authentic English willow ball strike synthesized via pitch-dropped wood pulse + noise crack
+  public playBatImpactSound() {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+
+      // Deep wood tone
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(320, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.12);
+
+      gain.gain.setValueAtTime(0.35, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
+    } catch {
+      // Audio autoplay policy catch
+    }
+  }
+
   public getIsMuted(): boolean {
     return this.isMuted;
   }

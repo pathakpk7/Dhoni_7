@@ -19,6 +19,7 @@ import { CareerMatrixSection } from "@/components/sections/CareerMatrixSection";
 import { DhoniVsEraSection } from "@/components/sections/DhoniVsEraSection";
 import { PersonalTributeSection } from "@/components/sections/PersonalTributeSection";
 import { TheLegacySection } from "@/components/sections/TheLegacySection";
+import { DhoniRoomWall } from "@/components/room/DhoniRoomWall";
 
 import { TriviaCheckpoint, TriviaQuestion } from "@/components/interactive/TriviaCheckpoint";
 import { Number7Modal } from "@/components/easter-eggs/Number7Modal";
@@ -247,6 +248,9 @@ function MainAppContent() {
           isAnsweredCorrect={answeredLevels.includes(6)}
         />
       )}
+
+      {/* Chapter 6: The Room of Motifs (4 Books, Autographed Bat, Trophy Cabinet & Jersey Wardrobe) */}
+      <DhoniRoomWall />
 
       {/* Chapter 6: The Trophy Cabinet & Silverware Vault */}
       <TrophyCabinetSection />

@@ -1,278 +1,213 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import trophiesData from "@/data/trophies.json";
-import { Trophy, Award, Crown, CheckCircle2, Sparkles, ChevronDown } from "lucide-react";
+import { Trophy, Award, Crown, CheckCircle2, Sparkles, ChevronDown, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-// Dictionary mapping competition+year to trophy celebration images
-const TROPHY_IMAGES: Record<string, { src: string; alt: string }> = {
-  "2007_ICC Men's T20 World Cup": {
-    src: "/images/trophies/2007_t20_wc.jpg",
-    alt: "MS Dhoni with 2007 ICC World Twenty20 Trophy"
-  },
-  "2008_Commonwealth Bank Series (CB Series)": {
-    src: "/images/trophies/2008_cb_series.jpg",
-    alt: "Team India with 2008 CB Series Trophy in Australia"
-  },
-  "2009_ICC Test Championship Mace (Rank #1)": {
-    src: "/images/trophies/2009_test_mace.png",
-    alt: "MS Dhoni with ICC Test Championship Mace 2009"
-  },
-  "2010_Asia Cup": {
-    src: "/images/trophies/2010_asia_cup.jpg",
-    alt: "MS Dhoni with Asia Cup 2010 Trophy"
-  },
-  "2010_Indian Premier League (IPL 2010)": {
-    src: "/images/trophies/2010_ipl.jpg",
-    alt: "MS Dhoni with Maiden IPL 2010 Trophy"
-  },
-  "2010_Champions League Twenty20 (CLT20 2010)": {
-    src: "/images/trophies/2010_clt20.png",
-    alt: "MS Dhoni receiving 2010 Champions League Twenty20 Trophy"
-  },
-  "2011_ICC Men's Cricket World Cup": {
-    src: "/images/trophies/2011_icc_cwc.jpg",
-    alt: "MS Dhoni with ICC Cricket World Cup 2011 Trophy at Gateway of India"
-  },
-  "2011_Indian Premier League (IPL 2011)": {
-    src: "/images/trophies/2011_ipl.jpg",
-    alt: "MS Dhoni holding 2011 IPL Trophy under confetti with CSK"
-  },
-  "2013_ICC Champions Trophy": {
-    src: "/images/trophies/2013_champions_trophy.jpg",
-    alt: "MS Dhoni with ICC Champions Trophy 2013 in white blazer at Edgbaston"
-  },
-  "2014_Champions League Twenty20 (CLT20 2014)": {
-    src: "/images/trophies/2014_clt20.jpg",
-    alt: "MS Dhoni lifting the 2014 Champions League Twenty20 Trophy with CSK"
-  },
-  "2016_Asia Cup (T20 Format)": {
-    src: "/images/trophies/2016_asia_cup.png",
-    alt: "MS Dhoni receiving 2016 Asia Cup T20 Trophy"
-  },
-  "2018_Indian Premier League (IPL 2018)": {
-    src: "/images/trophies/2018_ipl.png",
-    alt: "MS Dhoni receiving the 2018 IPL Trophy with CSK"
-  },
-  "2021_Indian Premier League (IPL 2021)": {
-    src: "/images/trophies/2021_ipl.png",
-    alt: "MS Dhoni holding the 2021 IPL Trophy in Dubai with CSK"
-  },
-  "2023_Indian Premier League (IPL 2023)": {
-    src: "/images/trophies/2023_ipl.jpg",
-    alt: "MS Dhoni and Ravindra Jadeja holding the 2023 IPL Trophy"
-  }
-};
+import { TROPHIES_VAULT, type TrophyVaultItem } from "@/data/trophiesVault";
+import { TrophyCabinetModal } from "@/components/room/TrophyCabinetModal";
+import { storyAudio } from "@/components/storybook/StoryAudio";
 
 export const TrophyCabinetSection: React.FC = () => {
   const [filterTeam, setFilterTeam] = useState<"ALL" | "India" | "CSK">("ALL");
-  const [expandedCardKey, setExpandedCardKey] = useState<string | null>(null);
+  const [isCabinetModalOpen, setIsCabinetModalOpen] = useState<boolean>(false);
+  const [selectedTrophyId, setSelectedTrophyId] = useState<string | null>(null);
 
-  const toggleExpand = (key: string) => {
-    setExpandedCardKey((prev) => (prev === key ? null : key));
-  };
-
-  const filteredTrophies = trophiesData.filter((t) => {
+  const filteredTrophies = TROPHIES_VAULT.filter((t) => {
     if (filterTeam === "India") return t.team === "India";
     if (filterTeam === "CSK") return t.team === "Chennai Super Kings";
     return true;
   });
 
+  const handleOpenTrophyDetail = (trophyId: string) => {
+    storyAudio.playTrophyChime();
+    setSelectedTrophyId(trophyId);
+    setIsCabinetModalOpen(true);
+  };
+
+  const handleOpenFullCabinet = () => {
+    storyAudio.playBookThudSound();
+    setSelectedTrophyId(null);
+    setIsCabinetModalOpen(true);
+  };
+
   return (
-    <section id="trophies" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+    <section id="trophies" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative text-left">
       <SectionHeader
         badge="CHAPTER VI · THE VAULT"
         title="THE SILVERWARE CABINET"
-        subtitle="“Silverware earned, not borrowed. Trophies gleam, reels loop forever, and Chennai yellow meets India blue.”"
+        subtitle="“Silverware earned, not borrowed. 29 Trophies, Shields, Maces and National Honours in chronological glory.”"
         accentColor="gold"
         bgImage="/images/trophies/dhoni_icc_trifecta_vault.jpg"
         bgOpacity="opacity-40 sm:opacity-35"
       />
 
+      {/* Flagship Call-to-Action: Dual-Plank Trophy Cabinet Opening */}
+      <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#1c140d] via-[#120d08] to-[#1c140d] border-2 border-[#b89758]/50 shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.2)] flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div className="flex items-center gap-4">
+          <div className="p-3.5 rounded-2xl bg-[#b89758]/20 border border-[#b89758]/40 text-[#ffd700] shrink-0">
+            <Trophy className="w-8 h-8" />
+          </div>
+          <div>
+            <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.2em] text-[#d4af37] uppercase">
+              INTERACTIVE 3D ARTIFACT
+            </span>
+            <h3 className="text-xl sm:text-2xl font-serif font-black text-white mt-0.5">
+              DUAL-PLANK OPENING TROPHY CABINET
+            </h3>
+            <p className="text-xs sm:text-sm font-serif text-stone-300 mt-1 max-w-xl">
+              Click to swing open both planks of the cabinet in 3D. Explore all 29 trophies arranged in the exact order of when won with match-winning breakdowns.
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={handleOpenFullCabinet}
+          className="flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#b89758] via-[#ffd700] to-[#b89758] text-black font-serif font-black text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(212,175,55,0.45)] hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0"
+        >
+          <Sparkles className="w-4 h-4 fill-current" />
+          <span>SWING OPEN CABINET PLANKS</span>
+        </button>
+      </div>
+
       {/* Filter Tabs */}
-      <div className="flex items-center justify-center gap-2 mb-10">
+      <div className="flex items-center justify-center gap-2 mb-10 flex-wrap">
         <button
           onClick={() => setFilterTeam("ALL")}
           className={cn(
-            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all",
-            filterTeam === "ALL" ? "bg-white/20 text-white border border-white/30" : "bg-white/5 text-slate-400 hover:text-white"
+            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all cursor-pointer",
+            filterTeam === "ALL"
+              ? "bg-[#b89758] text-black shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+              : "bg-white/5 text-slate-400 hover:text-white"
           )}
         >
-          ALL TITLES ({trophiesData.length})
+          ALL CHRONOLOGICAL TITLES ({TROPHIES_VAULT.length})
         </button>
         <button
           onClick={() => setFilterTeam("India")}
           className={cn(
-            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5",
-            filterTeam === "India" ? "bg-sky-500/20 text-sky-400 border border-sky-500/40" : "bg-white/5 text-slate-400 hover:text-sky-400"
+            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer",
+            filterTeam === "India"
+              ? "bg-sky-500 text-black font-bold shadow-[0_0_15px_rgba(14,165,233,0.4)]"
+              : "bg-white/5 text-slate-400 hover:text-sky-400"
           )}
         >
-          <span>🇮🇳 INDIA TITLES</span>
+          <span>🇮🇳 INDIA TITLES ({TROPHIES_VAULT.filter((t) => t.team === "India").length})</span>
         </button>
         <button
           onClick={() => setFilterTeam("CSK")}
           className={cn(
-            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5",
-            filterTeam === "CSK" ? "bg-csk-gold/20 text-csk-yellow border border-csk-gold/40" : "bg-white/5 text-slate-400 hover:text-csk-yellow"
+            "px-5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer",
+            filterTeam === "CSK"
+              ? "bg-amber-400 text-black font-bold shadow-[0_0_15px_rgba(251,191,36,0.4)]"
+              : "bg-white/5 text-slate-400 hover:text-amber-400"
           )}
         >
-          <span>🟡 CSK TITLES</span>
+          <span>🟡 CSK TITLES ({TROPHIES_VAULT.filter((t) => t.team === "Chennai Super Kings").length})</span>
         </button>
       </div>
 
-      {/* Trophy Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+      {/* Trophy Cards Grid - Displaying Each Trophy with Cutout PNG and How/When Won details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
         {filteredTrophies.map((trophy, idx) => {
-          const isIndia = trophy.team === "India" || trophy.team.toLowerCase().includes("india");
-          const cardKey = `${trophy.year}_${trophy.competition}`;
-          const isExpanded = expandedCardKey === cardKey;
-          const trophyImg = TROPHY_IMAGES[cardKey];
+          const isIndia = trophy.team === "India";
+          const isCSK = trophy.team === "Chennai Super Kings";
 
           return (
             <div
-              key={idx}
+              key={trophy.id}
+              onClick={() => handleOpenTrophyDetail(trophy.id)}
               className={cn(
-                "group relative rounded-3xl bg-surface/95 border p-6 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xl",
-                isIndia ? "border-sky-500/30 hover:border-sky-400 shadow-glow-blue" : "border-csk-gold/30 hover:border-csk-gold shadow-glow-gold",
-                isExpanded 
-                  ? (isIndia ? "ring-2 ring-sky-500/50 shadow-glow-blue" : "ring-2 ring-csk-gold/50 shadow-glow-gold") 
-                  : "hover:-translate-y-1"
+                "group relative rounded-3xl bg-surface/95 border p-6 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xl cursor-pointer hover:-translate-y-2 select-none",
+                isIndia
+                  ? "border-sky-500/30 hover:border-sky-400 shadow-glow-blue"
+                  : isCSK
+                  ? "border-amber-500/30 hover:border-amber-400 shadow-glow-gold"
+                  : "border-[#b89758]/30 hover:border-[#ffd700]"
               )}
             >
               {/* Top ambient glow */}
-              <div className={cn(
-                "absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl pointer-events-none opacity-30 group-hover:opacity-70 transition-opacity",
-                isIndia ? "bg-sky-500" : "bg-csk-gold"
-              )} />
+              <div
+                className={cn(
+                  "absolute top-0 right-0 w-36 h-36 rounded-full blur-3xl pointer-events-none opacity-20 group-hover:opacity-60 transition-opacity",
+                  isIndia ? "bg-sky-500" : isCSK ? "bg-amber-400" : "bg-[#ffd700]"
+                )}
+              />
 
               <div className="space-y-4 relative z-10">
-                {/* Header: Year + Team Badge */}
+                {/* Year Badge & Category */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className={cn(
-                      "p-2.5 rounded-2xl border flex items-center justify-center",
-                      isIndia ? "bg-sky-500/10 border-sky-500/30 text-sky-400" : "bg-csk-gold/10 border-csk-gold/30 text-csk-yellow"
-                    )}>
-                      <Trophy className="w-5 h-5" />
-                    </div>
-                    <span className="font-mono text-2xl font-black text-white">
-                      {trophy.year}
-                    </span>
-                  </div>
-
-                  <span className={cn(
-                    "text-[11px] font-mono uppercase tracking-widest px-3 py-1 rounded-full border font-bold",
-                    isIndia ? "bg-sky-950/60 border-sky-500/40 text-sky-400" : "bg-amber-950/60 border-csk-gold/40 text-csk-yellow"
-                  )}>
-                    {trophy.team}
+                  <span
+                    className={cn(
+                      "px-3 py-1 rounded-full text-xs font-mono font-bold uppercase",
+                      isIndia
+                        ? "bg-sky-500/20 text-sky-400 border border-sky-500/40"
+                        : isCSK
+                        ? "bg-amber-400/20 text-amber-300 border border-amber-400/40"
+                        : "bg-[#b89758]/20 text-[#ffd700] border border-[#b89758]/40"
+                    )}
+                  >
+                    #{idx + 1} · {trophy.year}
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400 truncate max-w-[150px]">
+                    {trophy.category.replace("_", " ")}
                   </span>
                 </div>
 
-                {/* Dedicated Separate Trophy Image Showcase (Uncropped, Full Image) */}
-                {trophyImg ? (
-                  <div className={cn(
-                    "relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-b from-black/80 via-black/50 to-black/90 border border-white/10 shadow-inner flex items-center justify-center transition-colors",
-                    isIndia ? "group-hover:border-sky-400/40" : "group-hover:border-csk-gold/40"
-                  )}>
-                    {/* Subtle blurred backdrop for aesthetic bleed */}
-                    <img
-                      src={trophyImg.src}
-                      alt={trophyImg.alt}
-                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 scale-110 pointer-events-none"
+                {/* Trophy Cutout Image */}
+                <div className="relative w-full h-44 rounded-2xl bg-black/60 border border-white/10 p-3 flex items-center justify-center overflow-hidden shadow-inner group-hover:border-[#ffd700]/50 transition-colors">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)] pointer-events-none" />
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={trophy.cutoutUrl}
+                      alt={trophy.name}
+                      fill
+                      sizes="(max-width: 768px) 200px, 300px"
+                      className="object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.9)] group-hover:scale-110 transition-transform duration-500"
                     />
-                    {/* Main Uncropped Sharp Foreground Image */}
-                    <img
-                      src={trophyImg.src}
-                      alt={trophyImg.alt}
-                      className="relative z-10 w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none z-20" />
-                    <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-mono z-30">
-                      <span className={cn(
-                        "font-bold truncate drop-shadow",
-                        isIndia ? "text-sky-300" : "text-csk-yellow"
-                      )}>
-                        {trophy.competition}
-                      </span>
-                      <span className="text-[10px] text-slate-300 bg-black/70 px-2 py-0.5 rounded-md border border-white/10 backdrop-blur-sm">CHAMPIONS</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="rounded-2xl border border-dashed border-white/10 aspect-[16/9] flex items-center justify-center bg-white/[0.02]">
-                    <span className="text-xs font-mono text-slate-500">🏆 Championship Trophy</span>
-                  </div>
-                )}
-
-                {/* Competition Details */}
-                <div>
-                  <h3 className={cn(
-                    "text-lg font-extrabold uppercase tracking-tight text-white transition-colors",
-                    isIndia ? "group-hover:text-sky-400" : "group-hover:text-csk-yellow"
-                  )}>
-                    {trophy.competition}
-                  </h3>
-                  <div className="text-xs text-slate-400 font-mono mt-1">
-                    vs {trophy.opponent} • {trophy.venue}
                   </div>
                 </div>
 
-                {/* Expandable Content (Accordion) */}
-                {isExpanded && (
-                  <div className="space-y-4 pt-3 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300">
-                    {/* Match Result Badge */}
-                    <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 font-mono text-xs text-emerald-400 font-bold flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 shrink-0" />
-                      <span>{trophy.result}</span>
-                    </div>
+                {/* Title and Opponent */}
+                <div>
+                  <h4 className="text-lg sm:text-xl font-serif font-black text-white group-hover:text-[#ffd700] transition-colors leading-snug">
+                    {trophy.name}
+                  </h4>
+                  <p className="text-xs font-mono text-slate-400 mt-1">
+                    {trophy.exactDate} · {trophy.venue}
+                  </p>
+                </div>
 
-                    {/* Significance Text */}
-                    <p className="text-xs text-slate-300 leading-relaxed font-sans">
-                      {trophy.significance}
-                    </p>
-
-                    {/* Footer / Captain & Source */}
-                    <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                      <span>Captain: <strong className="text-slate-200">{trophy.captain}</strong></span>
-                      <span className="text-slate-500">{trophy.source}</span>
-                    </div>
-                  </div>
-                )}
+                {/* How it was won preview */}
+                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 text-xs font-serif text-slate-300 leading-relaxed line-clamp-3">
+                  <span className="text-[#d4af37] font-bold font-mono text-[10px] block mb-0.5">
+                    HOW IT WAS WON:
+                  </span>
+                  {trophy.howWon}
+                </div>
               </div>
 
-              {/* Bottom Control Bar with Right-Aligned Down Arrow */}
-              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400 relative z-10">
-                <button
-                  type="button"
-                  onClick={() => toggleExpand(cardKey)}
-                  className={cn(
-                    "flex items-center gap-1.5 text-slate-400 transition-colors cursor-pointer",
-                    isIndia ? "hover:text-sky-400" : "hover:text-csk-yellow"
-                  )}
-                >
-                  <span>{isExpanded ? "Less Details" : "View Details"}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => toggleExpand(cardKey)}
-                  className={cn(
-                    "p-2 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer shadow-md",
-                    isExpanded
-                      ? (isIndia ? "bg-sky-500/20 border-sky-500 text-sky-400 rotate-180 shadow-glow-blue" : "bg-csk-gold/20 border-csk-gold text-csk-yellow rotate-180 shadow-glow-gold")
-                      : "bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10 hover:border-white/20"
-                  )}
-                  aria-label={isExpanded ? "Collapse trophy details" : "Expand trophy details"}
-                  title={isExpanded ? "Click to collapse" : "Click to view full details"}
-                >
-                  <ChevronDown className="w-4 h-4" />
-                </button>
+              {/* Card Footer with Click Action */}
+              <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                <span className="text-slate-400 truncate max-w-[160px]">
+                  {trophy.result}
+                </span>
+                <span className="text-[#ffd700] font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                  DETAILS <ChevronDown className="w-3.5 h-3.5 -rotate-90" />
+                </span>
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Dual-Plank Modal */}
+      <TrophyCabinetModal
+        isOpen={isCabinetModalOpen}
+        onClose={() => setIsCabinetModalOpen(false)}
+        initialSelectedTrophyId={selectedTrophyId}
+      />
     </section>
   );
 };

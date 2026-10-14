@@ -1,0 +1,638 @@
+export interface TrophyVaultItem {
+  id: string;
+  name: string;
+  shortTitle: string;
+  category:
+    | "ICC_GLOBAL"
+    | "ICC_RANKING"
+    | "CONTINENTAL"
+    | "TRI_SERIES"
+    | "BILATERAL"
+    | "IPL_CLT20"
+    | "DOMESTIC"
+    | "CIVIC_HONOUR";
+  year: string;
+  exactDate: string;
+  team: "India" | "Chennai Super Kings" | "East Zone" | "Individual";
+  captainOrPlayer: "Captain" | "Player" | "Honour";
+  opponentOrScope: string;
+  venue: string;
+  result: string;
+  howWon: string;
+  significance: string;
+  cutoutUrl: string;
+  archiveImage?: string;
+  statsHighlight?: string;
+  quote?: {
+    text: string;
+    by: string;
+  };
+}
+
+export const TROPHIES_VAULT: TrophyVaultItem[] = [
+  {
+    id: "deodhar_trophy_2003_04",
+    name: "Deodhar Trophy (2003–04)",
+    shortTitle: "Deodhar Trophy",
+    category: "DOMESTIC",
+    year: "2003–04",
+    exactDate: "March 2004",
+    team: "East Zone",
+    captainOrPlayer: "Player",
+    opponentOrScope: "Central Zone / North Zone / West Zone / South Zone",
+    venue: "Indian First-Class Circuits",
+    result: "East Zone Champions",
+    howWon:
+      "Playing as the wicketkeeper-batsman for East Zone, Dhoni played blistering middle-order cameos, combining safe glovework with savage hitting down the order.",
+    significance:
+      "This tournament directly catapulted Dhoni into the India A squad for Kenya and Zimbabwe, laying the bedrock for his international debut months later.",
+    cutoutUrl: "/images/trophies/cutouts/deodhar_trophy_2003_04.png",
+    statsHighlight: "East Zone Champions · Dhoni's domestic launchpad",
+  },
+  {
+    id: "icc_t20_wc_2007",
+    name: "2007 ICC World Twenty20",
+    shortTitle: "T20 World Cup 2007",
+    category: "ICC_GLOBAL",
+    year: "2007",
+    exactDate: "September 24, 2007",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Pakistan (Final)",
+    venue: "Wanderers Stadium, Johannesburg, South Africa",
+    result: "Won by 5 runs (India 157/5, Pakistan 152)",
+    howWon:
+      "Dhoni trusted Haryana medium-pacer Joginder Sharma with the nerve-wracking final over. Misbah scooped to Sreesanth at fine leg, sealing the historic triumph.",
+    significance:
+      "Inaugural T20 World Cup title; Dhoni's first ICC tournament as captain. It ignited the global T20 revolution, paved the way for the IPL, and birthed Captain Cool.",
+    cutoutUrl: "/images/trophies/cutouts/icc_t20_wc_2007.png",
+    archiveImage: "/images/trophies/2007_t20_wc.jpg",
+    statsHighlight: "Final Over Gamble: Joginder Sharma · Sreesanth catch",
+    quote: {
+      text: "I told Joginder: 'Whatever happens, the responsibility is mine. You just bowl what you want to bowl.'",
+      by: "MS Dhoni",
+    },
+  },
+  {
+    id: "khel_ratna_award_2007_08",
+    name: "Major Dhyan Chand Khel Ratna (2007–08)",
+    shortTitle: "Khel Ratna Award",
+    category: "CIVIC_HONOUR",
+    year: "2007–08",
+    exactDate: "August 29, 2008",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Republic of India",
+    venue: "Rashtrapati Bhavan, New Delhi",
+    result: "Conferred by the President of India",
+    howWon:
+      "Awarded India's highest sporting honour following the sensational 2007 World T20 triumph and bilateral achievements.",
+    significance:
+      "Second cricketer in history after Sachin Tendulkar to receive India's highest national sporting decoration.",
+    cutoutUrl: "/images/trophies/cutouts/khel_ratna_award_2007_08.png",
+    statsHighlight: "Highest Sporting Honour of India",
+  },
+  {
+    id: "cb_series_2007_08",
+    name: "2007–08 Commonwealth Bank (CB) Series",
+    shortTitle: "CB Series Australia",
+    category: "TRI_SERIES",
+    year: "2008",
+    exactDate: "March 4, 2008",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Australia (Best-of-3 Finals)",
+    venue: "SCG (Sydney) & MCG (Melbourne), Australia",
+    result: "Won Finals 2–0 (First CB Series triumph in Australia)",
+    howWon:
+      "A young Indian squad led by Dhoni defeated Australia in consecutive finals at the SCG and MCG. Dhoni strictly ordered his team not to celebrate wild on the balcony to show Australia this was routine business.",
+    significance:
+      "Landmark best-of-three finals win against prime Australia on their home soil; cemented Dhoni's ruthless tactical mind and fearless youth transition.",
+    cutoutUrl: "/images/trophies/cutouts/cb_series_2007_08.png",
+    archiveImage: "/images/trophies/2008_cb_series.jpg",
+    statsHighlight: "2-0 Sweep in Australia · The Silent Balcony Protocol",
+    quote: {
+      text: "Before I start, I should say I read an article by you in Cricinfo saying Australia was the favourite. Today I think me and the boys proved you wrong.",
+      by: "MS Dhoni to Ian Chappell",
+    },
+  },
+  {
+    id: "border_gavaskar_2008",
+    name: "Border-Gavaskar Trophy (2008)",
+    shortTitle: "Border-Gavaskar 2008",
+    category: "BILATERAL",
+    year: "2008",
+    exactDate: "November 10, 2008",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Australia",
+    venue: "Mohali & Nagpur, India",
+    result: "Won series 2–0 (4-match series)",
+    howWon:
+      "Took over full-time Test captaincy after Anil Kumble retired midway through the series; led India to dominant Test victories at Mohali and Nagpur.",
+    significance:
+      "Dhoni's first Test series win as permanent captain, dethroning Ricky Ponting's Australia.",
+    cutoutUrl: "/images/trophies/cutouts/border_gavaskar_trophy.png",
+    statsHighlight: "2-0 Test Victory · Taking the Reigns from Kumble",
+  },
+  {
+    id: "icc_odi_poty_2008",
+    name: "ICC ODI Player of the Year (2008)",
+    shortTitle: "ICC ODI POTY 2008",
+    category: "CIVIC_HONOUR",
+    year: "2008",
+    exactDate: "September 10, 2008",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Global Cricket",
+    venue: "ICC Awards, Dubai",
+    result: "World Best ODI Player",
+    howWon:
+      "Voted by the ICC voting academy for averaging over 55 in ODI cricket while executing lightning wicketkeeping dismissals and captaining triumphs.",
+    significance: "First Indian cricketer to win the ICC ODI Player of the Year award.",
+    cutoutUrl: "/images/trophies/cutouts/icc_odi_poty_2008.png",
+    statsHighlight: "First Indian to win ICC ODI Player of the Year",
+  },
+  {
+    id: "padma_shri_2009",
+    name: "Padma Shri (2009)",
+    shortTitle: "Padma Shri",
+    category: "CIVIC_HONOUR",
+    year: "2009",
+    exactDate: "January 26, 2009",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Republic of India",
+    venue: "Rashtrapati Bhavan, New Delhi",
+    result: "Conferred by President Pratibha Patil",
+    howWon:
+      "Conferred India's fourth-highest civilian honour in recognition of his transformative impact on Indian sport and national pride.",
+    significance: "Recognized as an icon of new-age aspirational India from small-town roots.",
+    cutoutUrl: "/images/trophies/cutouts/padma_shri_2009.png",
+    statsHighlight: "India's Fourth-Highest Civilian Award",
+  },
+  {
+    id: "dhoni_lewis_trophy_2009",
+    name: "Dhoni-Lewis Trophy (2009)",
+    shortTitle: "Dhoni-Lewis Trophy",
+    category: "BILATERAL",
+    year: "2009",
+    exactDate: "March 14, 2009",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "New Zealand",
+    venue: "Seddon Park, Hamilton & McLean Park, Napier",
+    result: "Won series 3–1 (5-match series)",
+    howWon:
+      "Masterminded India's aggressive batting in challenging swinging Kiwi conditions; scored consecutive composed fifties.",
+    significance:
+      "India's first ODI bilateral series win on New Zealand soil in 41 years.",
+    cutoutUrl: "/images/trophies/cutouts/dhoni_lewis_trophy_2009.png",
+    statsHighlight: "Historic series win in NZ after 41 years",
+  },
+  {
+    id: "compaq_cup_2009",
+    name: "Compaq Cup (2009)",
+    shortTitle: "Compaq Cup",
+    category: "BILATERAL",
+    year: "2009",
+    exactDate: "September 14, 2009",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Sri Lanka (Final)",
+    venue: "R. Premadasa Stadium, Colombo",
+    result: "Won Final by 46 runs (India 319/5)",
+    howWon:
+      "Dhoni anchored the innings with a fluid 56 off 62 balls following Sachin Tendulkar's 138, before marshaling the bowlers to strangle Sri Lanka in Colombo.",
+    significance:
+      "Bilateral triangular trophy win against Sri Lanka in their fortress Colombo.",
+    cutoutUrl: "/images/trophies/cutouts/compaq_cup_2009.png",
+    statsHighlight: "Final victory in Colombo fortress",
+  },
+  {
+    id: "icc_odi_poty_2009",
+    name: "ICC ODI Player of the Year (2009)",
+    shortTitle: "ICC ODI POTY 2009",
+    category: "CIVIC_HONOUR",
+    year: "2009",
+    exactDate: "October 1, 2009",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Global Cricket",
+    venue: "ICC Awards, Johannesburg",
+    result: "Retained World Best ODI Player",
+    howWon:
+      "Scored 967 runs at an average of 60.43 with 9 fifties and 2 centuries during the voting period, alongside 26 catches and 8 stumpings.",
+    significance:
+      "First player in history to win back-to-back ICC ODI Player of the Year awards (2008 & 2009).",
+    cutoutUrl: "/images/trophies/cutouts/icc_odi_poty_2009.png",
+    statsHighlight: "First player to win Back-to-Back ICC ODI POTY awards",
+  },
+  {
+    id: "test_mace_2009_10",
+    name: "ICC Test Championship Mace (2009–10)",
+    shortTitle: "Test Mace #1 (2009–10)",
+    category: "ICC_RANKING",
+    year: "2009–10",
+    exactDate: "December 6, 2009",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Global Test Cricket (Rank #1)",
+    venue: "Brabourne Stadium, Mumbai",
+    result: "India crowned World No. 1 Test Team",
+    howWon:
+      "Defeated Sri Lanka by an innings and 24 runs at Brabourne Stadium, Mumbai. Dhoni struck an unbeaten 100* off 154 balls.",
+    significance:
+      "For the first time since the ICC Test ranking system began, India claimed the prestigious Test Mace and the official World No. 1 ranking.",
+    cutoutUrl: "/images/trophies/cutouts/test_mace_2009_10.png",
+    archiveImage: "/images/trophies/2009_test_mace.png",
+    statsHighlight: "World No. 1 in Test Cricket for first time in history",
+  },
+  {
+    id: "ipl_2010",
+    name: "Indian Premier League (IPL 2010)",
+    shortTitle: "IPL 2010 Champions",
+    category: "IPL_CLT20",
+    year: "2010",
+    exactDate: "April 25, 2010",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Mumbai Indians (Final)",
+    venue: "DY Patil Stadium, Navi Mumbai",
+    result: "Won by 22 runs (CSK 168/5, MI 146/9)",
+    howWon:
+      "Dhoni set a tactical straight mid-off trap directly for Kieron Pollard; Pollard hit it straight to Matthew Hayden, dismantling Mumbai's chase.",
+    significance:
+      "CSK's maiden IPL title, cementing Dhoni's tactical supremacy and establishing the Yellow dynasty.",
+    cutoutUrl: "/images/trophies/cutouts/ipl_2010.png",
+    archiveImage: "/images/trophies/2010_ipl.jpg",
+    statsHighlight: "Maiden IPL Title · The Straight Mid-Off Pollard Trap",
+  },
+  {
+    id: "asia_cup_2010",
+    name: "2010 Asia Cup (ODI)",
+    shortTitle: "Asia Cup 2010",
+    category: "CONTINENTAL",
+    year: "2010",
+    exactDate: "June 24, 2010",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Sri Lanka (Final)",
+    venue: "Rangiri Dambulla Stadium, Dambulla, Sri Lanka",
+    result: "Won by 81 runs (India 268/6, SL 187)",
+    howWon:
+      "Dinesh Karthik (66) and Dhoni (38) built a fighting total; Ashish Nehra took 4 wickets to blow away Sri Lanka's top order.",
+    significance:
+      "Ended a 15-year drought to lift the continental crown on Sri Lankan soil.",
+    cutoutUrl: "/images/trophies/cutouts/asia_cup_2010.png",
+    archiveImage: "/images/trophies/2010_asia_cup.jpg",
+    statsHighlight: "Continental Champions after 15-year wait",
+  },
+  {
+    id: "clt20_2010",
+    name: "Champions League T20 (CLT20 2010)",
+    shortTitle: "CLT20 2010 Champions",
+    category: "IPL_CLT20",
+    year: "2010",
+    exactDate: "September 26, 2010",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Warriors (Final)",
+    venue: "Wanderers Stadium, Johannesburg, South Africa",
+    result: "Won by 8 wickets (Warriors 128/7, CSK 132/2)",
+    howWon:
+      "Muttiah Muralitharan and R Ashwin strangled the Warriors on high-altitude South African pitches before Mike Hussey chased the target with ease.",
+    significance:
+      "CSK became the first team in cricket history to win the IPL and Champions League T20 double in the same calendar year.",
+    cutoutUrl: "/images/trophies/cutouts/clt20_2010.png",
+    archiveImage: "/images/trophies/2010_clt20.png",
+    statsHighlight: "IPL + CLT20 Double in same calendar year",
+  },
+  {
+    id: "border_gavaskar_2010",
+    name: "Border-Gavaskar Trophy (2010)",
+    shortTitle: "Border-Gavaskar 2010",
+    category: "BILATERAL",
+    year: "2010",
+    exactDate: "October 13, 2010",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Australia",
+    venue: "Mohali & Bengaluru, India",
+    result: "Won series 2–0",
+    howWon:
+      "Thriller at Mohali won by 1 wicket with Laxman and Ojha, followed by a clinical 7-wicket win at Chinnaswamy Stadium, Bengaluru.",
+    significance: "Clean 2–0 whitewash against Ricky Ponting's Australia.",
+    cutoutUrl: "/images/trophies/cutouts/border_gavaskar_trophy.png",
+    statsHighlight: "2-0 Test Series Whitewash vs Australia",
+  },
+  {
+    id: "test_mace_2010_11",
+    name: "ICC Test Championship Mace (2010–11)",
+    shortTitle: "Test Mace #1 (2010–11)",
+    category: "ICC_RANKING",
+    year: "2010–11",
+    exactDate: "April 1, 2011",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Global Test Cricket (Rank #1)",
+    venue: "Annual Championship Cycle",
+    result: "Retained World No. 1 Test Team",
+    howWon:
+      "Drew historic 1-1 Test series in South Africa against prime Dale Steyn and Jacques Kallis, preserving the No. 1 ranking throughout the entire season.",
+    significance:
+      "First Indian team to retain the ICC Test Mace for consecutive annual cycles.",
+    cutoutUrl: "/images/trophies/cutouts/test_mace_2010_11.png",
+    statsHighlight: "Retained Global #1 Test ranking through full cycle",
+  },
+  {
+    id: "icc_cwc_2011",
+    name: "2011 ICC Cricket World Cup",
+    shortTitle: "World Cup 2011",
+    category: "ICC_GLOBAL",
+    year: "2011",
+    exactDate: "April 2, 2011",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Sri Lanka (Final)",
+    venue: "Wankhede Stadium, Mumbai, India",
+    result: "Won by 6 wickets (Sri Lanka 274/6, India 277/4)",
+    howWon:
+      "Promoted himself ahead of in-form Yuvraj Singh to tackle Muralitharan; scored 91* off 79 balls and launched Nuwan Kulasekara into the Wankhede crowd with an immortal six.",
+    significance:
+      "Ended India's 28-year wait for the 50-over World Cup; first host nation in history to win the World Cup on home soil.",
+    cutoutUrl: "/images/trophies/cutouts/icc_cwc_2011.png",
+    archiveImage: "/images/trophies/2011_icc_cwc.jpg",
+    statsHighlight: "91* off 79 balls · Man of the Match in Final · The Winning Six",
+    quote: {
+      text: "Dhoni finishes off in style. A magnificent strike into the crowd. India lift the World Cup after 28 years!",
+      by: "Ravi Shastri (Broadcast Commentary)",
+    },
+  },
+  {
+    id: "ipl_2011",
+    name: "Indian Premier League (IPL 2011)",
+    shortTitle: "IPL 2011 Champions",
+    category: "IPL_CLT20",
+    year: "2011",
+    exactDate: "May 28, 2011",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Royal Challengers Bangalore (Final)",
+    venue: "MA Chidambaram Stadium, Chepauk, Chennai",
+    result: "Won by 58 runs (CSK 205/5, RCB 147/8)",
+    howWon:
+      "Murali Vijay (95) and Mike Hussey (63) set 205; Ashwin took Chris Gayle for a duck in the 1st over to seal the final.",
+    significance:
+      "CSK became the first team in IPL history to successfully defend their title back-to-back.",
+    cutoutUrl: "/images/trophies/cutouts/ipl_2011.png",
+    archiveImage: "/images/trophies/2011_ipl.jpg",
+    statsHighlight: "First team in IPL history to defend the title",
+  },
+  {
+    id: "border_gavaskar_2013",
+    name: "Border-Gavaskar Trophy (2013)",
+    shortTitle: "Border-Gavaskar 2013 (4-0)",
+    category: "BILATERAL",
+    year: "2013",
+    exactDate: "March 24, 2013",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Australia",
+    venue: "Chennai, Hyderabad, Mohali, Delhi",
+    result: "Won series 4–0 (Historic Clean Sweep)",
+    howWon:
+      "Dhoni obliterated Australia in the 1st Test at Chepauk with a monumental 224 off 265 balls (highest score by an Indian wicketkeeper).",
+    significance:
+      "First time in 43 years that Australia suffered a 4–0 Test series whitewash.",
+    cutoutUrl: "/images/trophies/cutouts/border_gavaskar_trophy.png",
+    statsHighlight: "Dhoni 224 at Chepauk · Historic 4-0 Whitewash",
+  },
+  {
+    id: "icc_champions_trophy_2013",
+    name: "2013 ICC Champions Trophy",
+    shortTitle: "Champions Trophy 2013",
+    category: "ICC_GLOBAL",
+    year: "2013",
+    exactDate: "June 23, 2013",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "England (Final)",
+    venue: "Edgbaston, Birmingham, England",
+    result: "Won by 5 runs (Rain-reduced 20-over final: India 129/7, England 124/8)",
+    howWon:
+      "Defending just 129 in 20 overs, Dhoni backed Ishant Sharma in the 18th over to remove Morgan and Bopara on back-to-back balls, before Ashwin sealed the win with 6 required off the last ball.",
+    significance:
+      "Dhoni became the first and only captain in international cricket history to win all three ICC white-ball trophies (T20 WC, ODI WC, Champions Trophy).",
+    cutoutUrl: "/images/trophies/cutouts/icc_champions_trophy_2013.png",
+    archiveImage: "/images/trophies/2013_champions_trophy.jpg",
+    statsHighlight: "Only captain in history to complete ICC Trophy Trifecta",
+    quote: {
+      text: "When it rained, I told the boys: 'Look at the overcast sky. God is not coming down to save us. We have to fight for each other.'",
+      by: "MS Dhoni",
+    },
+  },
+  {
+    id: "celkon_mobile_cup_2013",
+    name: "2013 Celkon Mobile Cup",
+    shortTitle: "Celkon Cup Tri-Nation",
+    category: "TRI_SERIES",
+    year: "2013",
+    exactDate: "July 11, 2013",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Sri Lanka (Final)",
+    venue: "Queen's Park Oval, Port of Spain, Trinidad",
+    result: "Won by 1 wicket (SL 201, India 203/9 with 2 balls remaining)",
+    howWon:
+      "India were 182/9 needing 15 runs in the final over with only Ishant at the other end. Dhoni smashed Shaminda Eranga for 6, 4, 6 to steal victory.",
+    significance:
+      "The definitive masterclass in pacing a run chase from impossible odds.",
+    cutoutUrl: "/images/trophies/cutouts/celkon_mobile_cup_2013.png",
+    statsHighlight: "15 runs off final over: 6, 4, 6 vs Eranga",
+    quote: {
+      text: "I think I am blessed with a bit of good cricketing sense. I waited till the 50th over because the bowler was more nervous than me.",
+      by: "MS Dhoni",
+    },
+  },
+  {
+    id: "odi_shield_2013",
+    name: "ICC ODI Championship Shield (2013)",
+    shortTitle: "ICC ODI Shield #1",
+    category: "ICC_RANKING",
+    year: "2013",
+    exactDate: "December 2013",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Global ODI Cricket (Rank #1)",
+    venue: "Annual Championship Cycle",
+    result: "World No. 1 Ranked ODI Team",
+    howWon:
+      "Unbeaten run through the Champions Trophy, tri-series in West Indies, and 3-2 comeback against Australia at home.",
+    significance:
+      "India officially finished the annual cycle as the absolute No. 1 ranked ODI team in the world.",
+    cutoutUrl: "/images/trophies/cutouts/odi_shield_2013.png",
+    statsHighlight: "Awarded for finishing 2013 as World No. 1 ODI Team",
+  },
+  {
+    id: "clt20_2014",
+    name: "Champions League T20 (CLT20 2014)",
+    shortTitle: "CLT20 2014 Champions",
+    category: "IPL_CLT20",
+    year: "2014",
+    exactDate: "October 4, 2014",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Kolkata Knight Riders (Final)",
+    venue: "M. Chinnaswamy Stadium, Bengaluru, India",
+    result: "Won by 8 wickets (KKR 180/6, CSK 185/2)",
+    howWon:
+      "Suresh Raina hammered an unbeaten 109 off 62 balls before Dhoni walked in and finished the chase with a booming maximum.",
+    significance:
+      "Second Champions League T20 global championship for Dhoni's CSK.",
+    cutoutUrl: "/images/trophies/cutouts/clt20_2014.png",
+    archiveImage: "/images/trophies/2014_clt20.jpg",
+    statsHighlight: "Second CLT20 Title · Raina 109* & Dhoni finish",
+  },
+  {
+    id: "asia_cup_2016",
+    name: "2016 Asia Cup (T20I)",
+    shortTitle: "Asia Cup 2016 (T20)",
+    category: "CONTINENTAL",
+    year: "2016",
+    exactDate: "March 6, 2016",
+    team: "India",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Bangladesh (Final)",
+    venue: "Sher-e-Bangla National Cricket Stadium, Mirpur, Dhaka",
+    result: "Won by 8 wickets (Rain-hit 15 overs: Ban 120/5, India 122/2)",
+    howWon:
+      "Dhoni walked out with 19 needed off 12 balls and blasted Al-Amin Hossain for 6, 4, 6 (20* off 6 balls, strike rate 333) to finish the match with a over to spare.",
+    significance:
+      "First-ever Asia Cup played in the T20 format; Dhoni's second continental title as captain.",
+    cutoutUrl: "/images/trophies/cutouts/asia_cup_2016.png",
+    archiveImage: "/images/trophies/2016_asia_cup.png",
+    statsHighlight: "20* off 6 balls in Final (SR 333) · 2nd Asia Cup",
+  },
+  {
+    id: "padma_bhushan_2018",
+    name: "Padma Bhushan (2018)",
+    shortTitle: "Padma Bhushan",
+    category: "CIVIC_HONOUR",
+    year: "2018",
+    exactDate: "April 2, 2018",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Republic of India",
+    venue: "Rashtrapati Bhavan, New Delhi",
+    result: "Conferred by President Ram Nath Kovind",
+    howWon:
+      "Conferred exactly 7 years after the 2011 World Cup victory. Dhoni wore his official Indian Army Territorial Army uniform (Lieutenant Colonel) and marched with full military discipline across the Durbar Hall.",
+    significance:
+      "India's third-highest civilian award; one of only a handful of cricketers in history to receive it.",
+    cutoutUrl: "/images/trophies/cutouts/padma_bhushan_2018.png",
+    statsHighlight: "Marched in Indian Army Uniform · Conferred April 2",
+  },
+  {
+    id: "ipl_2018",
+    name: "Indian Premier League (IPL 2018)",
+    shortTitle: "IPL 2018 Comeback",
+    category: "IPL_CLT20",
+    year: "2018",
+    exactDate: "May 27, 2018",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Sunrisers Hyderabad (Final)",
+    venue: "Wankhede Stadium, Mumbai",
+    result: "Won by 8 wickets (SRH 178/6, CSK 181/2)",
+    howWon:
+      "Shane Watson scored a breathtaking 117* after Dhoni revitalized the veteran core nicknamed 'Dad's Army'. Dhoni had teared up in Chennai before the season.",
+    significance:
+      "The 'Comeback Era' fairytale title after CSK returned from a 2-year suspension, arguably Dhoni's most emotional franchise title.",
+    cutoutUrl: "/images/trophies/cutouts/ipl_2018.png",
+    archiveImage: "/images/trophies/2018_ipl.png",
+    statsHighlight: "The Fairytale Comeback · Dad's Army Champions",
+  },
+  {
+    id: "icc_spirit_of_cricket_decade",
+    name: "ICC Spirit of Cricket Award of the Decade (2011–2020)",
+    shortTitle: "Spirit of Cricket (Decade)",
+    category: "CIVIC_HONOUR",
+    year: "2011–2020",
+    exactDate: "December 2020",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Global Cricket",
+    venue: "ICC Awards of the Decade",
+    result: "Chosen by Fans & Expert Jury Worldwide",
+    howWon:
+      "Honoured for his gesture of recalling Ian Bell after he was controversially run out on the stroke of tea during the 2011 Nottingham Test against England.",
+    significance:
+      "Global affirmation of Dhoni's uncompromising sportsmanship and ethical compass on the world stage.",
+    cutoutUrl: "/images/trophies/cutouts/icc_spirit_of_cricket_decade.png",
+    statsHighlight: "Chosen for recalling Ian Bell in 2011 Trent Bridge Test",
+  },
+  {
+    id: "ipl_2021",
+    name: "Indian Premier League (IPL 2021)",
+    shortTitle: "IPL 2021 Champions",
+    category: "IPL_CLT20",
+    year: "2021",
+    exactDate: "October 15, 2021",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Kolkata Knight Riders (Final)",
+    venue: "Dubai International Stadium, UAE",
+    result: "Won by 27 runs (CSK 192/3, KKR 165/9)",
+    howWon:
+      "Faf du Plessis (86) set a commanding total; Dhoni marshaled his bowling attack with precision under dew in Dubai.",
+    significance:
+      "CSK's fourth IPL crown, completing a sensational turnaround after missing the playoffs in 2020.",
+    cutoutUrl: "/images/trophies/cutouts/ipl_2021.png",
+    archiveImage: "/images/trophies/2021_ipl.png",
+    statsHighlight: "Fourth IPL Crown in Dubai",
+  },
+  {
+    id: "ipl_2023",
+    name: "Indian Premier League (IPL 2023)",
+    shortTitle: "IPL 2023 Champions (5th)",
+    category: "IPL_CLT20",
+    year: "2023",
+    exactDate: "May 29, 2023",
+    team: "Chennai Super Kings",
+    captainOrPlayer: "Captain",
+    opponentOrScope: "Gujarat Titans (Final)",
+    venue: "Narendra Modi Stadium, Ahmedabad, India",
+    result: "Won by 5 wickets DLS (GT 214/4, CSK 171/5 in 15 overs)",
+    howWon:
+      "Rain stretched the final over three days until 3:00 AM. Needing 10 runs off the last 2 balls, Ravindra Jadeja hit a 6 and a 4. Dhoni lifted Jadeja in an iconic embrace with tears welling in his eyes.",
+    significance:
+      "CSK's record-equalling fifth IPL championship; Dhoni played the entire season through severe knee cartilage tears for the fans.",
+    cutoutUrl: "/images/trophies/cutouts/ipl_2023.png",
+    archiveImage: "/images/trophies/2023_ipl.jpg",
+    statsHighlight: "Record 5th Title · 3:00 AM Ahmedabad Finish · Lifting Jadeja",
+    quote: {
+      text: "If you see by circumstance, this is the best time for me to announce retirement. But the amount of love and affection I have been shown... I will try to play one more season.",
+      by: "MS Dhoni, Post-Final Presentation",
+    },
+  },
+  {
+    id: "icc_hall_of_fame",
+    name: "ICC Cricket Hall of Fame",
+    shortTitle: "ICC Hall of Fame",
+    category: "CIVIC_HONOUR",
+    year: "Career",
+    exactDate: "Induction",
+    team: "Individual",
+    captainOrPlayer: "Honour",
+    opponentOrScope: "Pantheon of Cricket Legends",
+    venue: "International Cricket Council",
+    result: "Formal Induction into the Hall of Fame",
+    howWon:
+      "Inducted into the ICC Hall of Fame recognizing his transformative wicketkeeping innovation, cold-blooded finishing, 3 distinct ICC white-ball trophies, and world record stumpings.",
+    significance:
+      "Permanent enshrinement among the greatest captains, wicketkeepers, and icons to ever play the game.",
+    cutoutUrl: "/images/trophies/cutouts/icc_hall_of_fame.png",
+    statsHighlight: "Eternal induction into cricket's greatest pantheon",
+  },
+];
