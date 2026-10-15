@@ -4,7 +4,7 @@ export interface JerseyVaultItem {
   title: string;
   team: "India" | "Chennai Super Kings" | "Rising Pune Supergiant" | "Indian Army" | "Bihar / Jharkhand";
   tournament: string;
-  tournamentType: "IPL" | "CLT20" | "ICC_WORLD_CUP" | "BILATERAL_ODI" | "ASIA_CUP" | "DOMESTIC" | "MILITARY";
+  tournamentType: "IPL" | "CLT20" | "ICC_WORLD_CUP" | "BILATERAL_ODI" | "ASIA_CUP" | "DOMESTIC" | "MILITARY" | "TEST_CRICKET";
   era: string;
   primaryColor: string;
   secondaryColor: string;
@@ -399,7 +399,36 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 12. 2016: RISING PUNE SUPERGIANT (RPS)
+  // 12. 2014: THE TEST WHITES & CAP #251 FAREWELL (MELBOURNE)
+  // =========================================================================
+  {
+    id: "jersey_2014_test_whites",
+    imageSrc: "/images/jerseys/jersey_india_2014_test_whites.jpg",
+    year: "2014",
+    title: "The Test Whites & Cap #251 Farewell",
+    team: "India",
+    tournament: "Border-Gavaskar Trophy (Boxing Day Test, MCG)",
+    tournamentType: "TEST_CRICKET",
+    era: "The Test Captaincy Farewell (2014)",
+    primaryColor: "#f8fafc", // Pristine White
+    secondaryColor: "#1e3a8a", // Navy Blue
+    accentColor: "#d97706", // Gold
+    number: 7,
+    playerName: "DHONI",
+    sponsor: "SAHARA",
+    famousMoment: "December 30, 2014 at Melbourne Cricket Ground (MCG): Walking off the ground after batting out a resilient 24* to draw the Boxing Day Test, quietly shaking hands, and retiring from Test cricket with 90 Tests and 27 wins as India's most successful Test captain up to that era.",
+    description: "The pristine long-sleeve Test whites featuring Dhoni's personal India Test Cap number '251' embroidered beneath the BCCI crest. Deep navy collar trim, black Nike swoosh, and authentic player-issue ventilation.",
+    statsInJersey: "90 Test Matches · 4,876 Test Runs · 27 Test Wins as Captain · 294 Dismissals (256 ct, 38 st)",
+    designDetails: [
+      "Official Test Cap number '251' embroidered beneath BCCI star crest",
+      "Traditional long sleeves with navy-cuffed wrists",
+      "Pristine moisture-wicking cream-white stretch fabric",
+      "Inner collar lining with Indian tricolor ribbon"
+    ]
+  },
+
+  // =========================================================================
+  // 13. 2016: RISING PUNE SUPERGIANT (RPS)
   // =========================================================================
   {
     id: "jersey_2016_rps_edition",
