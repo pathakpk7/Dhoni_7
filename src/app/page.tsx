@@ -249,7 +249,7 @@ function MainAppContent() {
         />
       )}
 
-      {/* Chapter 6: The Room of Motifs (4 Books, Autographed Bat, Trophy Cabinet & Jersey Wardrobe) */}
+      {/* Chapter 6: The 4 Biographical Volumes & 3D Physical Book */}
       <DhoniRoomWall />
 
       {/* Chapter 6: The Trophy Cabinet & Silverware Vault */}

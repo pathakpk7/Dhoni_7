@@ -101,6 +101,33 @@ class StoryAudioManager {
     }
   }
 
+  // Soft UI click sound for buttons and navigation
+  public playClick() {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.04);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.05);
+    } catch {
+      // Audio autoplay policy catch
+    }
+  }
+
+  // Page turn alias
+  public playTurn() {
+    this.playPageTurnSound();
+  }
+
   // Thunderous cricket bat hitting leather ball for six (sweet-spot explosive crack + stadium roar)
   public playSixBatStrikeSound() {
     if (this.isMuted) return;

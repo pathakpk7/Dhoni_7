@@ -1,0 +1,403 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import {
+  Trophy,
+  BookOpen,
+  Tv,
+  Flame,
+  Shield,
+  Sparkles,
+  Maximize2,
+  Minimize2,
+  Volume2,
+  VolumeX,
+  Compass,
+  Crown,
+  ChevronRight,
+  Info,
+} from "lucide-react";
+import { TrophyCabinetDetailModal } from "./TrophyCabinetDetailModal";
+import { BookshelfDetailModal } from "./BookshelfDetailModal";
+import { ReebokBatDetailModal } from "./ReebokBatDetailModal";
+import { IndiaJerseyCabinetDetailModal } from "./IndiaJerseyCabinetDetailModal";
+import { CskJerseyDetailModal } from "./CskJerseyDetailModal";
+import { ArmyJerseyDetailModal } from "./ArmyJerseyDetailModal";
+import { TelevisionMatchModal } from "./TelevisionMatchModal";
+import { storyAudio } from "@/components/storybook/StoryAudio";
+
+export const MemorabiliaRoom: React.FC = () => {
+  // Modal states
+  const [activeModal, setActiveModal] = useState<
+    "trophies" | "books" | "bat" | "india_jerseys" | "csk_jerseys" | "army_jersey" | "tv_match" | null
+  >(null);
+  const [cskJerseyType, setCskJerseyType] = useState<"IPL" | "CLT20">("IPL");
+  const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [ambientAudioOn, setAmbientAudioOn] = useState<boolean>(false);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleFullscreen = () => {
+    storyAudio.playClick();
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen().catch(() => {});
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch(() => {});
+      setIsFullscreen(false);
+    }
+  };
+
+  const toggleAmbientAudio = () => {
+    storyAudio.playClick();
+    setAmbientAudioOn((prev) => !prev);
+  };
+
+  const openHotspot = (
+    type: "trophies" | "books" | "bat" | "india_jerseys" | "csk_jerseys" | "army_jersey" | "tv_match",
+    cskType: "IPL" | "CLT20" = "IPL"
+  ) => {
+    storyAudio.playClick();
+    setCskJerseyType(cskType);
+    setActiveModal(type);
+  };
+
+  // Hotspots configured accurately against 1024x576 composition
+  const HOTSPOTS = [
+    {
+      id: "trophies",
+      label: "Explore the trophies",
+      subLabel: "29 Major Titles & Medals",
+      icon: Trophy,
+      style: {
+        left: "0%",
+        top: "6%",
+        width: "19.5%",
+        height: "74%",
+      },
+      badgePos: { top: "25%", left: "10%" },
+      action: () => openHotspot("trophies"),
+    },
+    {
+      id: "books",
+      label: "Open the captain's bookshelf",
+      subLabel: "Four Hardcover Biographical Chronicles",
+      icon: BookOpen,
+      style: {
+        left: "19.5%",
+        top: "16%",
+        width: "18%",
+        height: "36%",
+      },
+      badgePos: { top: "30%", left: "28%" },
+      action: () => openHotspot("books"),
+    },
+    {
+      id: "tv_match",
+      label: "Relive the 2011 World Cup final",
+      subLabel: "91* off 79b & The Iconic Six",
+      icon: Tv,
+      style: {
+        left: "37.5%",
+        top: "22%",
+        width: "26.5%",
+        height: "34%",
+      },
+      badgePos: { top: "36%", left: "50%" },
+      action: () => openHotspot("tv_match"),
+    },
+    {
+      id: "bat",
+      label: "Discover the legendary bat",
+      subLabel: "Reebok Willow · £100K Guinness Record",
+      icon: Sparkles,
+      style: {
+        left: "62%",
+        top: "47%",
+        width: "4.5%",
+        height: "28%",
+      },
+      badgePos: { top: "58%", left: "64%" },
+      action: () => openHotspot("bat"),
+    },
+    {
+      id: "india_jerseys",
+      label: "Browse the jersey archive",
+      subLabel: "Chronological India Wardrobe (2004–2019)",
+      icon: Shield,
+      style: {
+        left: "66.5%",
+        top: "6%",
+        width: "24%",
+        height: "72%",
+      },
+      badgePos: { top: "35%", left: "78%" },
+      action: () => openHotspot("india_jerseys"),
+    },
+    {
+      id: "csk_ipl",
+      label: "CSK IPL Champions Jersey",
+      subLabel: "Canary Yellow 5-Star Crown",
+      icon: Crown,
+      style: {
+        left: "91.5%",
+        top: "8%",
+        width: "8.5%",
+        height: "24%",
+      },
+      badgePos: { top: "18%", left: "95%" },
+      action: () => openHotspot("csk_jerseys", "IPL"),
+    },
+    {
+      id: "csk_clt20",
+      label: "CSK CLT20 Double Crown Jersey",
+      subLabel: "World Champions 2010 & 2014",
+      icon: Flame,
+      style: {
+        left: "91.5%",
+        top: "33%",
+        width: "8.5%",
+        height: "21%",
+      },
+      badgePos: { top: "42%", left: "95%" },
+      action: () => openHotspot("csk_jerseys", "CLT20"),
+    },
+    {
+      id: "army_jersey",
+      label: "Indian Army Tribute Uniform",
+      subLabel: "Honorary Lt. Colonel & Para Wings",
+      icon: Shield,
+      style: {
+        left: "91.5%",
+        top: "55%",
+        width: "8.5%",
+        height: "22%",
+      },
+      badgePos: { top: "65%", left: "95%" },
+      action: () => openHotspot("army_jersey"),
+    },
+  ];
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full min-h-[calc(100vh-5rem)] flex flex-col bg-neutral-950 text-white selection:bg-amber-500 selection:text-neutral-950 select-none overflow-hidden"
+    >
+      {/* Top Experience Subheader Bar */}
+      <div className="w-full bg-neutral-950/80 backdrop-blur-md border-b border-amber-900/30 px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-3 z-30">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-[11px] font-mono tracking-widest text-amber-400 uppercase font-semibold">
+              MS Dhoni Private Museum
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-serif font-black tracking-wide text-amber-100">
+            A LEGACY BEYOND NUMBERS
+          </h1>
+          <p className="text-xs text-neutral-400 hidden sm:block">
+            Step inside the moments, milestones, and memories that defined an era. Click any artifact in the room.
+          </p>
+        </div>
+
+        {/* Room HUD Tools */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono"
+            title="Toggle Fullscreen"
+          >
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            <span className="hidden md:inline">{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Interactive Room Viewport */}
+      <div className="relative flex-1 w-full flex items-center justify-center p-2 sm:p-4 lg:p-6 overflow-hidden">
+        {/* Aspect Ratio 16:9 Canvas Container */}
+        <div className="relative w-full max-w-[1340px] aspect-[16/9] rounded-2xl overflow-hidden border border-amber-500/20 shadow-[0_0_80px_rgba(0,0,0,0.9)] bg-neutral-900 group">
+          {/* Main Background Image */}
+          <Image
+            src="/images/room/dhoni_memorabilia_room.jpg"
+            alt="MS Dhoni Memorabilia Room"
+            fill
+            priority
+            sizes="(max-width: 1200px) 100vw, 1340px"
+            className="object-cover object-center transform transition-transform duration-700 ease-out"
+          />
+
+          {/* Vignette & Ambient Glow */}
+          <div className="absolute inset-0 bg-radial-vignette pointer-events-none opacity-40" />
+
+          {/* Interactive Hotspots Layer */}
+          {HOTSPOTS.map((hotspot) => {
+            const isHovered = hoveredHotspot === hotspot.id;
+            const Icon = hotspot.icon;
+
+            return (
+              <div
+                key={hotspot.id}
+                style={hotspot.style}
+                onClick={hotspot.action}
+                onMouseEnter={() => setHoveredHotspot(hotspot.id)}
+                onMouseLeave={() => setHoveredHotspot(null)}
+                className="absolute cursor-pointer transition-all duration-300 z-20 group/spot"
+                role="button"
+                tabIndex={0}
+                aria-label={hotspot.label}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    hotspot.action();
+                  }
+                }}
+              >
+                {/* Hotspot Hover Outline & Glass highlight */}
+                <div
+                  className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+                    isHovered
+                      ? "bg-amber-400/15 border-2 border-amber-400/80 shadow-[0_0_25px_rgba(251,191,36,0.5)] backdrop-brightness-110"
+                      : "border border-white/0 hover:border-amber-400/40"
+                  }`}
+                />
+
+                {/* Pulsing Beacon Indicator */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+                  <div
+                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-transform duration-300 ${
+                      isHovered
+                        ? "scale-125 bg-amber-400 text-neutral-950 shadow-lg shadow-amber-400/60"
+                        : "bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 shadow-md group-hover/spot:scale-110"
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    {/* Concentric pulse ring */}
+                    {!isHovered && (
+                      <span className="absolute -inset-1 rounded-full border border-amber-400/40 animate-ping opacity-60" />
+                    )}
+                  </div>
+                </div>
+
+                {/* Hover Tooltip Card */}
+                {isHovered && (
+                  <div className="absolute -top-14 left-1/2 -translate-x-1/2 pointer-events-none z-30 whitespace-nowrap animate-in fade-in zoom-in-95 duration-200">
+                    <div className="px-3.5 py-1.5 rounded-xl bg-neutral-950/95 border border-amber-400/80 text-amber-200 shadow-2xl backdrop-blur-md flex flex-col items-center">
+                      <div className="flex items-center gap-1.5 text-xs font-serif font-bold text-white">
+                        <span>{hotspot.label}</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-amber-400" />
+                      </div>
+                      <span className="text-[10px] font-mono text-amber-400/80">
+                        {hotspot.subLabel}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Bottom Artifact Quick-Navigation Strip */}
+      <div className="w-full bg-neutral-950 border-t border-neutral-900 px-4 sm:px-8 py-3 z-30">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>INTERACTIVE ARTIFACTS:</span>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
+            <button
+              onClick={() => openHotspot("trophies")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
+            >
+              <Trophy className="w-3.5 h-3.5 text-amber-400" />
+              <span>Trophy Cabinet (29)</span>
+            </button>
+            <button
+              onClick={() => openHotspot("books")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>4 Hardcover Books (3D Flip)</span>
+            </button>
+            <button
+              onClick={() => openHotspot("tv_match")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-blue-500/40 text-xs font-mono text-neutral-300 hover:text-blue-200 transition-colors"
+            >
+              <Tv className="w-3.5 h-3.5 text-blue-400" />
+              <span>2011 WC Final TV</span>
+            </button>
+            <button
+              onClick={() => openHotspot("bat")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Reebok Willow (£100K)</span>
+            </button>
+            <button
+              onClick={() => openHotspot("india_jerseys")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-blue-500/40 text-xs font-mono text-neutral-300 hover:text-blue-200 transition-colors"
+            >
+              <Shield className="w-3.5 h-3.5 text-blue-400" />
+              <span>India Jersey Wardrobe</span>
+            </button>
+            <button
+              onClick={() => openHotspot("csk_jerseys", "IPL")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
+            >
+              <Crown className="w-3.5 h-3.5 text-amber-400" />
+              <span>CSK Jerseys</span>
+            </button>
+            <button
+              onClick={() => openHotspot("army_jersey")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-emerald-500/40 text-xs font-mono text-neutral-300 hover:text-emerald-200 transition-colors"
+            >
+              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Army Uniform</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modals */}
+      <TrophyCabinetDetailModal
+        isOpen={activeModal === "trophies"}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <BookshelfDetailModal
+        isOpen={activeModal === "books"}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <TelevisionMatchModal
+        isOpen={activeModal === "tv_match"}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <ReebokBatDetailModal
+        isOpen={activeModal === "bat"}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <IndiaJerseyCabinetDetailModal
+        isOpen={activeModal === "india_jerseys"}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <CskJerseyDetailModal
+        isOpen={activeModal === "csk_jerseys"}
+        initialType={cskJerseyType}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <ArmyJerseyDetailModal
+        isOpen={activeModal === "army_jersey"}
+        onClose={() => setActiveModal(null)}
+      />
+    </div>
+  );
+};

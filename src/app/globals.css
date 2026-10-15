@@ -237,12 +237,21 @@
 
 /* Authentic Pusho Parchment Book Paper Texture */
 .pusho-parchment {
-  background-color: #f3ece0;
+  background-color: #f5eee0;
   background-image: 
     radial-gradient(#c2b39b 0.75px, transparent 0.75px),
-    radial-gradient(#a3937b 0.5px, #f3ece0 0.5px);
+    radial-gradient(#a3937b 0.5px, #f5eee0 0.5px);
   background-size: 16px 16px, 8px 8px;
   background-position: 0 0, 4px 4px;
-  box-shadow: inset 0 0 45px rgba(115, 85, 45, 0.18), inset 0 0 10px rgba(115, 85, 45, 0.12);
+}
+
+.pusho-parchment-left {
+  box-shadow: inset -32px 0 38px -15px rgba(50, 30, 10, 0.28), inset 0 0 45px rgba(115, 85, 45, 0.12);
+  border-right: 1px solid rgba(140, 110, 70, 0.35);
+}
+
+.pusho-parchment-right {
+  box-shadow: inset 32px 0 38px -15px rgba(50, 30, 10, 0.28), inset 0 0 45px rgba(115, 85, 45, 0.12);
+  border-left: 1px solid rgba(140, 110, 70, 0.35);
 }
 

@@ -67,9 +67,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
 
             <a
-              href="/visualize-mahi/story"
+              href="/visualize-mahi"
               className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#b89758]/50 bg-[#b89758]/15 hover:bg-[#b89758]/25 hover:border-[#d4af37] text-[#f6f2e8] hover:text-white font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_15px_rgba(184,151,88,0.25)]"
-              title="Visualize Mahi: The Story of MS Dhoni (Interactive Digital Storybook)"
+              title="Visualize Mahi: Interactive MS Dhoni Memorabilia Room"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-pulse shrink-0" />
               <span>VISUALIZE MAHI</span>
