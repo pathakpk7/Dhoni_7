@@ -86,6 +86,20 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
           leftPage.className =
             "st-page pusho-parchment pusho-parchment-left select-none text-[#2b241b] flex flex-col justify-between p-3 sm:p-5 relative overflow-hidden";
           leftPage.setAttribute("data-density", "soft");
+
+          const isPortrait = story.media.aspectRatio === "portrait";
+
+          // Variable framing container based on orientation:
+          // - Portrait: height-dominant (vertically fit with object-contain, no top/bottom cropping)
+          // - Landscape: width-dominant (horizontally fit with object-contain, no left/right cropping)
+          const imgContainerClasses = isPortrait
+            ? "relative h-[195px] sm:h-[225px] md:h-[245px] w-auto max-w-[200px] sm:max-w-[225px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_8px_20px_rgba(50,30,10,0.35)] group cursor-pointer shrink-0 bg-[#140e08] flex items-center justify-center mx-auto"
+            : "relative w-full max-w-[270px] sm:max-w-[310px] md:max-w-[330px] h-[155px] sm:h-[180px] md:h-[195px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_8px_20px_rgba(50,30,10,0.35)] group cursor-pointer shrink-0 bg-[#140e08] flex items-center justify-center mx-auto";
+
+          const imgElementClasses = isPortrait
+            ? "h-full w-auto max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105 select-none"
+            : "w-full h-full max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105 select-none";
+
           leftPage.innerHTML = `
             <!-- Top Header -->
             <div class="flex items-center justify-between pb-1.5 border-b border-[#b89758]/35 text-[10px] sm:text-[11px] font-serif tracking-widest text-[#63481b] uppercase">
@@ -97,18 +111,18 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
 
             <!-- Center Archival Visual Frame & Quote -->
             <div class="flex-1 min-h-0 flex flex-col items-center justify-center overflow-y-auto pr-1 py-1.5 scrollbar-thin">
-              <div class="relative w-full max-w-[250px] sm:max-w-[280px] h-[150px] sm:h-[180px] md:h-[200px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_8px_20px_rgba(50,30,10,0.35)] group cursor-pointer shrink-0" id="img-trigger-${idx}">
+              <div class="${imgContainerClasses}" id="img-trigger-${idx}">
                 <!-- Ornate Gold Corner Trim Accents -->
                 <div class="absolute top-1 left-1 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffd700] z-20 pointer-events-none"></div>
                 <div class="absolute top-1 right-1 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffd700] z-20 pointer-events-none"></div>
                 <div class="absolute bottom-1 left-1 w-3.5 h-3.5 border-b-2 border-l-2 border-[#ffd700] z-20 pointer-events-none"></div>
                 <div class="absolute bottom-1 right-1 w-3.5 h-3.5 border-b-2 border-r-2 border-[#ffd700] z-20 pointer-events-none"></div>
 
-                <img src="${story.media.posterUrl}" alt="${story.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                <img src="${story.media.posterUrl}" alt="${story.title}" class="${imgElementClasses}" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
 
                 <!-- Expansion Prompt Pill -->
-                <div class="absolute bottom-2 left-2 right-2 text-center pointer-events-none">
+                <div class="absolute bottom-1.5 left-2 right-2 text-center pointer-events-none">
                   <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-black/85 text-[9px] font-mono text-[#f3ece0] border border-[#b89758]/60 shadow">
                     🔍 Click to Inspect Image
                   </span>
@@ -116,7 +130,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
               </div>
 
               <!-- Archival Date & Location Badges -->
-              <div class="w-full max-w-[280px] flex items-center justify-between gap-2 px-1 text-[10px] sm:text-[11px] font-mono text-[#574834] mt-2">
+              <div class="w-full max-w-[320px] flex items-center justify-between gap-2 px-1 text-[10px] sm:text-[11px] font-mono text-[#574834] mt-2">
                 <div class="flex items-center gap-1 font-semibold truncate">
                   <span>📅</span>
                   <span class="truncate">${story.eventDate}</span>
@@ -128,7 +142,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
               </div>
 
               <!-- Historical Quotation Card -->
-              <div class="w-full max-w-[280px] mt-2 p-2 sm:p-2.5 rounded-lg bg-[#efe5cf] border-l-4 border-[#8B1E1E] border border-[#b89758]/35 shadow-sm text-left">
+              <div class="w-full max-w-[320px] mt-2 p-2 sm:p-2.5 rounded-lg bg-[#efe5cf] border-l-4 border-[#8B1E1E] border border-[#b89758]/35 shadow-sm text-left">
                 <p class="font-serif italic text-[11px] sm:text-xs text-[#1c1917] font-semibold leading-relaxed line-clamp-3">
                   &ldquo;${quoteText}&rdquo;
                 </p>
@@ -230,13 +244,13 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
 
         // Attach StPageFlip 3D physics canvas engine with balanced dimensions
         pageFlip = new PageFlip(container, {
-          width: 480,
-          height: 640,
+          width: 500,
+          height: 660,
           size: "stretch",
           minWidth: 280,
-          maxWidth: 540,
+          maxWidth: 580,
           minHeight: 380,
-          maxHeight: 740,
+          maxHeight: 780,
           maxShadowOpacity: 0.65,
           showCover: false, // Immediately open directly to 2-page spread
           mobileScrollSupport: false,
@@ -399,10 +413,10 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
       </div>
 
       {/* Main 2-Page Physical Book Canvas Area */}
-      <div className="relative w-full max-w-5xl flex-1 min-h-0 flex items-center justify-center my-auto">
+      <div className="relative w-full max-w-6xl flex-1 min-h-0 flex items-center justify-center my-auto">
         {/* Loading skeleton while PageFlip scripts and DOM initialize */}
         {!isLoaded && (
-          <div className="w-[480px] h-[640px] max-w-full rounded-xl bg-[#ede3ce] animate-pulse flex flex-col items-center justify-center text-[#543d26] font-serif text-sm border-2 border-[#b89758]/50 shadow-2xl">
+          <div className="w-[500px] h-[660px] max-w-full rounded-xl bg-[#ede3ce] animate-pulse flex flex-col items-center justify-center text-[#543d26] font-serif text-sm border-2 border-[#b89758]/50 shadow-2xl">
             <Sparkles className="w-6 h-6 text-[#b89758] animate-spin mb-3" />
             <span>Opening Volume {currentBook.romanNumeral}: {currentBook.title}...</span>
           </div>

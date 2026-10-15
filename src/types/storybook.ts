@@ -23,7 +23,7 @@ export interface StoryMedia {
   posterUrl: string;
   sourceUrl: string | null;
   attribution: string | null;
-  aspectRatio?: "16:9" | "4:3" | "1:1";
+  aspectRatio?: "16:9" | "4:3" | "1:1" | "portrait" | "landscape" | "3:4" | "9:16";
   startTime?: number; // seconds
 }
 
