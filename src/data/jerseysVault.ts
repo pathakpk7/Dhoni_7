@@ -26,7 +26,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2004_debut",
-    imageSrc: "/images/jerseys/jersey_india_2004_debut.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2004_debut.png",
     year: "2004",
     title: "The Debut 'Sahara' Sky Blue",
     team: "India",
@@ -55,7 +55,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2005_swashbuckler",
-    imageSrc: "/images/jerseys/jersey_india_2004_debut.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2005_swashbuckler.jpg",
     year: "2005",
     title: "The Vizag 148 & Jaipur 183* Edition",
     team: "India",
@@ -80,7 +80,36 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 3. 2007: INAUGURAL T20 WORLD CUP (INDIA)
+  // 3. 2007: ICC CRICKET WORLD CUP (ODI - WEST INDIES)
+  // =========================================================================
+  {
+    id: "jersey_2007_odi_wc",
+    imageSrc: "/images/jerseys/jersey_india_2007_odi_wc.png",
+    year: "2007",
+    title: "2007 ICC Cricket World Cup (ODI)",
+    team: "India",
+    tournament: "2007 ICC Cricket World Cup (West Indies)",
+    tournamentType: "ICC_WORLD_CUP",
+    era: "The Watershed Caribbean Era (2007)",
+    primaryColor: "#38bdf8",
+    secondaryColor: "#0284c7",
+    accentColor: "#f97316",
+    number: 7,
+    playerName: "DHONI",
+    sponsor: "SAHARA",
+    famousMoment: "March 2007 in the Caribbean: The heartbreak group stage exit that catalyzed the seismic generational transformation in Indian cricket, paving the way for Dhoni's young leadership.",
+    description: "The iconic Caribbean World Cup edition light blue jersey with the dynamic tricolor curved wave down the right chest, white Nike swoosh, and embroidered BCCI crest.",
+    statsInJersey: "Group Stage matches vs Bangladesh, Bermuda, and Sri Lanka · 2 catches behind stumps",
+    designDetails: [
+      "Signature dynamic tricolor wave curving down the chest",
+      "Moisture-management side ventilation mesh",
+      "White Nike swoosh and embroidered BCCI star crest",
+      "Official ICC CWC Caribbean tournament patch specification"
+    ]
+  },
+
+  // =========================================================================
+  // 4. 2007: INAUGURAL T20 WORLD CUP (INDIA)
   // =========================================================================
   {
     id: "jersey_2007_t20_wc",
@@ -142,7 +171,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2008_cb_series",
-    imageSrc: "/images/jerseys/jersey_india_2007_t20_wc.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2008_cb_series.jpg",
     year: "2008",
     title: "The Australia Conqueror (CB Series)",
     team: "India",

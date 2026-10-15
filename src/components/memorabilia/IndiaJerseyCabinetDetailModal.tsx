@@ -163,46 +163,67 @@ export const IndiaJerseyCabinetDetailModal: React.FC<IndiaJerseyCabinetDetailMod
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-400/5 to-transparent pointer-events-none" />
             
             {/* Jersey Visualization */}
-            <div className="relative w-full max-w-[340px] aspect-[4/5] flex items-center justify-center">
+            <div className="relative w-full max-w-[360px] aspect-[4/5] flex items-center justify-center">
               {viewSide === "front" ? (
-                <div
-                  className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-between p-6 transition-all duration-500"
-                  style={{
-                    backgroundColor: currentJersey.primaryColor,
-                    borderColor: currentJersey.secondaryColor,
-                    borderWidth: 2,
-                    boxShadow: `0 20px 50px -10px ${currentJersey.primaryColor}40`,
-                  }}
-                >
-                  {/* Collar and Neck */}
-                  <div className="flex justify-between items-start">
-                    <div className="w-12 h-6 border-b-2 border-white/40 rounded-b-xl" />
-                    <div className="text-[11px] font-mono tracking-widest text-white/70">
-                      OFFICIAL ON-FIELD
+                currentJersey.imageSrc ? (
+                  <div className="relative w-full h-full flex flex-col items-center justify-center p-3 rounded-2xl bg-neutral-950/70 border border-blue-500/30 shadow-2xl backdrop-blur-md overflow-hidden group/img">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-blue-950/90 border border-blue-400/40 text-[10px] font-mono text-blue-200 z-10 shadow-md">
+                      {currentJersey.year} · {currentJersey.sponsor}
                     </div>
-                    <div className="w-12 h-6 border-b-2 border-white/40 rounded-b-xl" />
+                    <div className="relative w-full h-full min-h-[300px] max-h-[400px] transition-transform duration-500 group-hover/img:scale-105">
+                      <Image
+                        src={currentJersey.imageSrc}
+                        alt={currentJersey.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 360px"
+                        className="object-contain p-2 drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)]"
+                        priority
+                      />
+                    </div>
+                    <div className="absolute bottom-3 right-3 px-2.5 py-0.5 rounded bg-black/70 border border-white/10 text-[9px] font-mono text-neutral-300 z-10">
+                      AUTHENTIC MATCH SPEC
+                    </div>
                   </div>
+                ) : (
+                  <div
+                    className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-between p-6 transition-all duration-500"
+                    style={{
+                      backgroundColor: currentJersey.primaryColor,
+                      borderColor: currentJersey.secondaryColor,
+                      borderWidth: 2,
+                      boxShadow: `0 20px 50px -10px ${currentJersey.primaryColor}40`,
+                    }}
+                  >
+                    {/* Collar and Neck */}
+                    <div className="flex justify-between items-start">
+                      <div className="w-12 h-6 border-b-2 border-white/40 rounded-b-xl" />
+                      <div className="text-[11px] font-mono tracking-widest text-white/70">
+                        OFFICIAL ON-FIELD
+                      </div>
+                      <div className="w-12 h-6 border-b-2 border-white/40 rounded-b-xl" />
+                    </div>
 
-                  {/* Chest Sponsor & Crest */}
-                  <div className="flex flex-col items-center justify-center text-center my-auto">
-                    <div className="w-14 h-14 rounded-full bg-blue-900/80 border border-amber-400 flex items-center justify-center mb-3 shadow-md">
-                      <span className="text-[10px] text-amber-300 font-bold tracking-tighter">BCCI</span>
+                    {/* Chest Sponsor & Crest */}
+                    <div className="flex flex-col items-center justify-center text-center my-auto">
+                      <div className="w-14 h-14 rounded-full bg-blue-900/80 border border-amber-400 flex items-center justify-center mb-3 shadow-md">
+                        <span className="text-[10px] text-amber-300 font-bold tracking-tighter">BCCI</span>
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-black tracking-widest text-white drop-shadow-md">
+                        {currentJersey.sponsor}
+                      </h3>
+                      <div className="mt-2 text-xs font-mono uppercase tracking-widest text-amber-300/90 bg-black/40 px-3 py-1 rounded-full border border-amber-400/20">
+                        {currentJersey.tournament}
+                      </div>
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-black tracking-widest text-white drop-shadow-md">
-                      {currentJersey.sponsor}
-                    </h3>
-                    <div className="mt-2 text-xs font-mono uppercase tracking-widest text-amber-300/90 bg-black/40 px-3 py-1 rounded-full border border-amber-400/20">
-                      {currentJersey.tournament}
-                    </div>
-                  </div>
 
-                  {/* Jersey Hem & Tech Badge */}
-                  <div className="flex justify-between items-center text-[10px] font-mono text-white/60 border-t border-white/20 pt-2">
-                    <span>SIZE: 42 (L)</span>
-                    <span className="text-amber-300 font-semibold">AUTHENTIC PLAYER SPEC</span>
-                    <span>{currentJersey.year}</span>
+                    {/* Jersey Hem & Tech Badge */}
+                    <div className="flex justify-between items-center text-[10px] font-mono text-white/60 border-t border-white/20 pt-2">
+                      <span>SIZE: 42 (L)</span>
+                      <span className="text-amber-300 font-semibold">AUTHENTIC PLAYER SPEC</span>
+                      <span>{currentJersey.year}</span>
+                    </div>
                   </div>
-                </div>
+                )
               ) : (
                 /* Back View with #7 DHONI */
                 <div
