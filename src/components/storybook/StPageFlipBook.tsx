@@ -84,20 +84,20 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
           // ==========================================
           const leftPage = document.createElement("div");
           leftPage.className =
-            "st-page pusho-parchment pusho-parchment-left select-none text-[#2b241b] flex flex-col justify-between p-5 sm:p-7 md:p-8 relative overflow-hidden";
+            "st-page pusho-parchment pusho-parchment-left select-none text-[#2b241b] flex flex-col justify-between p-3 sm:p-5 relative overflow-hidden";
           leftPage.setAttribute("data-density", "soft");
           leftPage.innerHTML = `
             <!-- Top Header -->
-            <div class="flex items-center justify-between pb-2.5 border-b border-[#b89758]/35 text-[11px] font-serif tracking-widest text-[#63481b] uppercase">
+            <div class="flex items-center justify-between pb-1.5 border-b border-[#b89758]/35 text-[10px] sm:text-[11px] font-serif tracking-widest text-[#63481b] uppercase">
               <span class="font-bold">VOL ${currentBook.romanNumeral} · PLATE ${idx + 1}</span>
-              <span class="px-2 py-0.5 rounded bg-[#b89758]/15 border border-[#b89758]/30 text-[10px] font-mono font-semibold">
+              <span class="px-2 py-0.5 rounded bg-[#b89758]/15 border border-[#b89758]/30 text-[9px] sm:text-[10px] font-mono font-semibold">
                 ${story.category.replace(/_/g, " ")}
               </span>
             </div>
 
-            <!-- Center Archival Visual Frame -->
-            <div class="my-auto py-2 flex flex-col items-center">
-              <div class="relative w-[220px] sm:w-[260px] md:w-[285px] h-[210px] sm:h-[250px] md:h-[270px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_12px_30px_rgba(50,30,10,0.35)] group cursor-pointer" id="img-trigger-${idx}">
+            <!-- Center Archival Visual Frame & Quote -->
+            <div class="flex-1 min-h-0 flex flex-col items-center justify-center overflow-y-auto pr-1 py-1.5 scrollbar-thin">
+              <div class="relative w-full max-w-[250px] sm:max-w-[280px] h-[150px] sm:h-[180px] md:h-[200px] rounded-lg overflow-hidden border-2 border-[#b89758] shadow-[0_8px_20px_rgba(50,30,10,0.35)] group cursor-pointer shrink-0" id="img-trigger-${idx}">
                 <!-- Ornate Gold Corner Trim Accents -->
                 <div class="absolute top-1 left-1 w-3.5 h-3.5 border-t-2 border-l-2 border-[#ffd700] z-20 pointer-events-none"></div>
                 <div class="absolute top-1 right-1 w-3.5 h-3.5 border-t-2 border-r-2 border-[#ffd700] z-20 pointer-events-none"></div>
@@ -108,38 +108,38 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
 
                 <!-- Expansion Prompt Pill -->
-                <div class="absolute bottom-2.5 left-2 right-2 text-center pointer-events-none">
-                  <span class="inline-flex items-center gap-1 px-3 py-1 rounded bg-black/85 text-[10px] font-mono text-[#f3ece0] border border-[#b89758]/60 shadow">
-                    🔍 Click to Inspect High-Res Archive
+                <div class="absolute bottom-2 left-2 right-2 text-center pointer-events-none">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-black/85 text-[9px] font-mono text-[#f3ece0] border border-[#b89758]/60 shadow">
+                    🔍 Click to Inspect Image
                   </span>
                 </div>
               </div>
 
               <!-- Archival Date & Location Badges -->
-              <div class="w-full max-w-[285px] flex items-center justify-between gap-2 px-1 text-[11px] font-mono text-[#574834] mt-3">
-                <div class="flex items-center gap-1 font-semibold">
+              <div class="w-full max-w-[280px] flex items-center justify-between gap-2 px-1 text-[10px] sm:text-[11px] font-mono text-[#574834] mt-2">
+                <div class="flex items-center gap-1 font-semibold truncate">
                   <span>📅</span>
-                  <span>${story.eventDate}</span>
+                  <span class="truncate">${story.eventDate}</span>
                 </div>
                 <div class="flex items-center gap-1 text-right truncate">
                   <span>📍</span>
-                  <span class="truncate max-w-[155px] font-medium">${story.location}</span>
+                  <span class="truncate max-w-[140px] font-medium">${story.location}</span>
                 </div>
               </div>
 
               <!-- Historical Quotation Card -->
-              <div class="w-full max-w-[285px] mt-2.5 p-3 rounded-lg bg-[#efe5cf] border-l-4 border-[#8B1E1E] border border-[#b89758]/35 shadow-sm text-left">
-                <p class="font-serif italic text-xs sm:text-[13px] text-[#1c1917] font-semibold leading-relaxed">
+              <div class="w-full max-w-[280px] mt-2 p-2 sm:p-2.5 rounded-lg bg-[#efe5cf] border-l-4 border-[#8B1E1E] border border-[#b89758]/35 shadow-sm text-left">
+                <p class="font-serif italic text-[11px] sm:text-xs text-[#1c1917] font-semibold leading-relaxed line-clamp-3">
                   &ldquo;${quoteText}&rdquo;
                 </p>
-                <div class="mt-1 text-right text-[10px] font-serif font-bold text-[#8B1E1E]">
+                <div class="mt-0.5 text-right text-[10px] font-serif font-bold text-[#8B1E1E]">
                   — ${quoteSpeaker}
                 </div>
               </div>
             </div>
 
             <!-- Left Page Footer -->
-            <div class="pt-2.5 border-t border-[#b89758]/35 flex items-center justify-between text-[11px] font-serif text-[#63481b]">
+            <div class="pt-1.5 border-t border-[#b89758]/35 flex items-center justify-between text-[10px] sm:text-[11px] font-serif text-[#63481b]">
               <span>MS DHONI · BIOGRAPHICAL ARCHIVES</span>
               <span class="font-bold">PAGE ${leftPageNum}</span>
             </div>
@@ -150,14 +150,14 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
           // ==========================================
           const rightPage = document.createElement("div");
           rightPage.className =
-            "st-page pusho-parchment pusho-parchment-right select-none text-[#2b241b] flex flex-col justify-between p-5 sm:p-7 md:p-8 relative overflow-hidden";
+            "st-page pusho-parchment pusho-parchment-right select-none text-[#2b241b] flex flex-col justify-between p-3 sm:p-5 relative overflow-hidden";
           rightPage.setAttribute("data-density", "soft");
           rightPage.innerHTML = `
             <!-- Top Header -->
-            <div class="flex items-center justify-between pb-2.5 border-b border-[#b89758]/35 text-[11px] font-serif tracking-widest text-[#63481b] uppercase">
-              <span class="font-bold">${story.chapterTitle}</span>
-              <button type="button" class="w-6 h-6 rounded border border-[#b89758]/40 bg-[#e8ded0] hover:bg-[#ded1c0] text-[#543d26] flex items-center justify-center transition-colors cursor-pointer shadow-sm" title="Share Moment" id="share-btn-${idx}">
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div class="flex items-center justify-between pb-1.5 border-b border-[#b89758]/35 text-[10px] sm:text-[11px] font-serif tracking-widest text-[#63481b] uppercase">
+              <span class="font-bold truncate max-w-[220px]">${story.chapterTitle}</span>
+              <button type="button" class="w-5 h-5 rounded border border-[#b89758]/40 bg-[#e8ded0] hover:bg-[#ded1c0] text-[#543d26] flex items-center justify-center transition-colors cursor-pointer shadow-sm" title="Share Moment" id="share-btn-${idx}">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="18" cy="5" r="3"></circle>
                   <circle cx="6" cy="12" r="3"></circle>
                   <circle cx="18" cy="19" r="3"></circle>
@@ -168,19 +168,19 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
             </div>
 
             <!-- Central Biographical Narrative -->
-            <div class="my-auto py-1 overflow-y-auto max-h-[calc(100%-60px)] pr-1 scrollbar-thin text-left">
+            <div class="flex-1 min-h-0 py-1.5 overflow-y-auto max-h-[calc(100%-46px)] pr-1.5 scrollbar-thin text-left">
               <!-- Headline Title -->
-              <h2 class="text-base sm:text-lg md:text-xl font-serif font-black tracking-tight text-[#1c1917] leading-tight">
+              <h2 class="text-sm sm:text-base md:text-lg font-serif font-black tracking-tight text-[#1c1917] leading-snug">
                 ${story.title}
               </h2>
 
               <!-- Subtitle -->
-              <p class="mt-1 text-xs sm:text-[13px] font-serif italic text-[#78350f] font-medium leading-relaxed">
+              <p class="mt-0.5 text-[11px] sm:text-xs font-serif italic text-[#78350f] font-medium leading-relaxed">
                 ${story.subtitle}
               </p>
 
               <!-- Historical Context Card -->
-              <div class="my-2.5 p-2.5 rounded bg-[#efe5cf] border-l-2 border-[#b89758] text-[11px] sm:text-xs font-serif leading-relaxed text-[#574838]">
+              <div class="my-1.5 p-2 rounded bg-[#efe5cf] border-l-2 border-[#b89758] text-[10px] sm:text-[11px] font-serif leading-relaxed text-[#574838]">
                 <strong class="font-mono text-[9px] uppercase tracking-wider text-[#92400e] block mb-0.5">
                   Historical Context
                 </strong>
@@ -188,20 +188,20 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
               </div>
 
               <!-- Main Narrative with Classic Drop Cap -->
-              <div class="text-xs sm:text-[13px] font-serif leading-relaxed text-[#292524] text-justify space-y-2 mt-1.5">
+              <div class="text-[11px] sm:text-xs md:text-[12.5px] font-serif leading-relaxed text-[#292524] text-justify space-y-1 mt-1">
                 <p>
-                  <span class="float-left text-3xl sm:text-4xl font-serif font-black text-[#92400e] pr-2 pt-0.5 leading-none select-none">
+                  <span class="float-left text-2xl sm:text-3xl font-serif font-black text-[#92400e] pr-1.5 pt-0.5 leading-none select-none">
                     ${firstChar}
                   </span>
                   ${restNarrative}
                 </p>
-                <p class="italic text-[#6b4e28] pt-1.5 border-t border-[#b89758]/25">
+                <p class="italic text-[#6b4e28] pt-1 border-t border-[#b89758]/25 text-[10px] sm:text-[11px]">
                   <strong class="text-[#92400e] not-italic">The Tactical Meaning:</strong> ${story.meaning}
                 </p>
               </div>
 
               <!-- Verified Source Citation Link -->
-              <div class="mt-2.5 pt-2 border-t border-[#b89758]/25 flex items-center justify-between text-[10px] font-mono text-[#63481b]">
+              <div class="mt-2 pt-1 border-t border-[#b89758]/25 flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-[#63481b]">
                 <span class="flex items-center gap-1 font-semibold text-[#8B1E1E]">
                   🛡️ VERIFIED RECORD
                 </span>
@@ -216,7 +216,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
             </div>
 
             <!-- Right Page Footer -->
-            <div class="pt-2.5 border-t border-[#b89758]/35 flex items-center justify-between text-[11px] font-serif text-[#63481b]">
+            <div class="pt-1.5 border-t border-[#b89758]/35 flex items-center justify-between text-[10px] sm:text-[11px] font-serif text-[#63481b]">
               <span>MOMENT ${idx + 1} OF ${stories.length}</span>
               <span class="font-bold">PAGE ${rightPageNum}</span>
             </div>
@@ -228,15 +228,15 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
 
         container.appendChild(pagesWrapper);
 
-        // Attach StPageFlip 3D physics canvas engine
+        // Attach StPageFlip 3D physics canvas engine with balanced dimensions
         pageFlip = new PageFlip(container, {
-          width: 500,
-          height: 680,
+          width: 480,
+          height: 640,
           size: "stretch",
-          minWidth: 320,
-          maxWidth: 580,
-          minHeight: 440,
-          maxHeight: 820,
+          minWidth: 280,
+          maxWidth: 540,
+          minHeight: 380,
+          maxHeight: 740,
           maxShadowOpacity: 0.65,
           showCover: false, // Immediately open directly to 2-page spread
           mobileScrollSupport: false,
@@ -245,7 +245,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
           usePortrait: true,
           startPage: 0,
           drawShadow: true,
-          flippingTime: 750,
+          flippingTime: 700,
         });
 
         const allDOMElements = container.querySelectorAll(".st-page");
@@ -344,24 +344,24 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
   return (
     <div
       className={cn(
-        "relative w-full flex flex-col justify-between items-center py-4 px-2 sm:px-4 md:px-6 select-none",
+        "relative w-full h-full flex flex-col justify-between items-center py-1 px-1 sm:px-3 select-none",
         className
       )}
     >
       {/* Toast Notification when Story link is shared */}
       {copiedStoryId && (
-        <div className="fixed top-20 z-50 px-4 py-2 rounded-full bg-[#1c140d] border border-[#ffd700] text-[#ffd700] text-xs font-serif flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-top-2">
+        <div className="fixed top-16 z-50 px-4 py-2 rounded-full bg-[#1c140d] border border-[#ffd700] text-[#ffd700] text-xs font-serif flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-top-2">
           <Check className="w-4 h-4 text-emerald-400" />
           <span>Biographical moment link copied to clipboard</span>
         </div>
       )}
 
-      {/* 4 BIOGRAPHICAL VOLUMES SWITCHER BAR */}
-      <div className="w-full max-w-4xl mx-auto mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 p-2 rounded-2xl bg-[#140e09] border border-[#b89758]/50 shadow-xl backdrop-blur-md">
+      {/* 4 BIOGRAPHICAL VOLUMES SWITCHER BAR (COMPACT) */}
+      <div className="w-full max-w-3xl mx-auto mb-2 flex items-center justify-between gap-2 p-1.5 rounded-xl bg-[#140e09]/90 border border-[#b89758]/40 shadow-lg backdrop-blur-md">
         <div className="flex items-center gap-2 px-2 text-left">
-          <BookOpen className="w-4 h-4 text-[#ffd700] shrink-0" />
-          <div>
-            <span className="text-[10px] font-mono tracking-widest uppercase text-[#d6c7a1] block">
+          <BookOpen className="w-3.5 h-3.5 text-[#ffd700] shrink-0" />
+          <div className="hidden sm:block">
+            <span className="text-[9px] font-mono tracking-widest uppercase text-[#d6c7a1] block">
               DHONI BIOGRAPHY · 4 VOLUMES
             </span>
             <span className="text-xs font-serif font-bold text-white">
@@ -371,7 +371,7 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
         </div>
 
         {/* 4 Volume Selector Buttons */}
-        <div className="grid grid-cols-4 gap-1 sm:gap-2 w-full sm:w-auto">
+        <div className="grid grid-cols-4 gap-1 w-full sm:w-auto">
           {COLLECTOR_BOOKS.map((book) => {
             const isSelected = book.volumeNumber === activeVolume;
             return (
@@ -379,9 +379,9 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
                 key={book.id}
                 onClick={() => handleSelectVolume(book.volumeNumber)}
                 className={cn(
-                  "px-2.5 sm:px-3 py-1.5 rounded-xl text-center transition-all cursor-pointer border flex flex-col items-center",
+                  "px-2 sm:px-3 py-1 rounded-lg text-center transition-all cursor-pointer border flex flex-col items-center",
                   isSelected
-                    ? "bg-gradient-to-r from-[#b89758] to-[#ffd700] text-black font-bold border-[#ffd700] shadow-[0_0_15px_rgba(212,175,55,0.4)] scale-105"
+                    ? "bg-gradient-to-r from-[#b89758] to-[#ffd700] text-black font-bold border-[#ffd700] shadow-[0_0_12px_rgba(212,175,55,0.4)] scale-102"
                     : "bg-white/[0.04] text-stone-400 border-white/10 hover:border-[#b89758]/50 hover:text-white"
                 )}
                 title={book.title}
@@ -389,8 +389,8 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
                 <span className="text-[10px] font-mono font-bold">
                   VOL {book.romanNumeral}
                 </span>
-                <span className="text-[9px] font-serif truncate max-w-[70px] sm:max-w-[85px] hidden sm:inline">
-                  {book.shortTitle}
+                <span className="text-[8px] font-serif truncate max-w-[65px] hidden md:inline">
+                  {book.shortTitle.split(" ")[0]}
                 </span>
               </button>
             );
@@ -399,10 +399,10 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
       </div>
 
       {/* Main 2-Page Physical Book Canvas Area */}
-      <div className="relative w-full max-w-5xl flex items-center justify-center my-auto min-h-[520px] sm:min-h-[640px] md:min-h-[720px]">
+      <div className="relative w-full max-w-5xl flex-1 min-h-0 flex items-center justify-center my-auto">
         {/* Loading skeleton while PageFlip scripts and DOM initialize */}
         {!isLoaded && (
-          <div className="w-[500px] h-[680px] rounded-xl bg-[#ede3ce] animate-pulse flex flex-col items-center justify-center text-[#543d26] font-serif text-sm border-2 border-[#b89758]/50 shadow-2xl">
+          <div className="w-[480px] h-[640px] max-w-full rounded-xl bg-[#ede3ce] animate-pulse flex flex-col items-center justify-center text-[#543d26] font-serif text-sm border-2 border-[#b89758]/50 shadow-2xl">
             <Sparkles className="w-6 h-6 text-[#b89758] animate-spin mb-3" />
             <span>Opening Volume {currentBook.romanNumeral}: {currentBook.title}...</span>
           </div>
@@ -411,32 +411,32 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
         {/* Real 3D StPageFlip Physical Engine Canvas Container */}
         <div
           ref={bookContainerRef}
-          className="relative w-full flex items-center justify-center overflow-visible drop-shadow-[0_30px_70px_rgba(0,0,0,0.98)]"
+          className="relative w-full flex items-center justify-center overflow-visible drop-shadow-[0_20px_50px_rgba(0,0,0,0.95)]"
         />
       </div>
 
       {/* Bottom Physical Page Controls */}
-      <div className="relative z-30 w-full max-w-4xl mx-auto flex items-center justify-between gap-4 pt-6 pb-2">
+      <div className="relative z-30 w-full max-w-3xl mx-auto flex items-center justify-between gap-3 pt-2 pb-1">
         {/* Left Circular Navigation Button (<) */}
         <button
           type="button"
           onClick={handlePrev}
           disabled={currentPageIndex === 0}
           className={cn(
-            "w-12 h-12 rounded-full border border-[#b89758]/60 bg-black/85 flex items-center justify-center text-[#e5c378] hover:text-[#ffd700] hover:border-[#ffd700] hover:scale-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,55,0.25)] cursor-pointer",
+            "w-10 h-10 rounded-full border border-[#b89758]/60 bg-black/85 flex items-center justify-center text-[#e5c378] hover:text-[#ffd700] hover:border-[#ffd700] hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] cursor-pointer",
             currentPageIndex === 0 && "opacity-30 cursor-not-allowed hover:scale-100"
           )}
           aria-label="Previous Page"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
 
         {/* Center Text Indicators */}
         <div className="flex flex-col items-center text-center">
-          <span className="text-sm sm:text-base font-serif font-bold text-[#e5c378] tracking-wider">
+          <span className="text-xs sm:text-sm font-serif font-bold text-[#e5c378] tracking-wider">
             Volume {currentBook.romanNumeral} · Moment {currentStoryIndex + 1} of {stories.length} · Page {displayedPages} / {totalPages}
           </span>
-          <span className="text-[11px] sm:text-xs font-serif text-stone-400 tracking-wide mt-0.5">
+          <span className="text-[10px] sm:text-[11px] font-serif text-stone-400 tracking-wide">
             Drag page corners to flip or use arrow buttons
           </span>
         </div>
@@ -447,12 +447,12 @@ export const StPageFlipBook: React.FC<StPageFlipBookProps> = ({
           onClick={handleNext}
           disabled={currentPageIndex >= totalPages - 2}
           className={cn(
-            "w-12 h-12 rounded-full border border-[#b89758]/60 bg-black/85 flex items-center justify-center text-[#e5c378] hover:text-[#ffd700] hover:border-[#ffd700] hover:scale-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,55,0.25)] cursor-pointer",
+            "w-10 h-10 rounded-full border border-[#b89758]/60 bg-black/85 flex items-center justify-center text-[#e5c378] hover:text-[#ffd700] hover:border-[#ffd700] hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] cursor-pointer",
             currentPageIndex >= totalPages - 2 && "opacity-30 cursor-not-allowed hover:scale-100"
           )}
           aria-label="Next Page"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 
