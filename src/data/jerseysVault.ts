@@ -196,7 +196,36 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 6. 2010: IPL CHAMPIONS (CSK)
+  // 6. 2009: THE DEEP SAPPHIRE & NO. 1 TEST ERA (INDIA)
+  // =========================================================================
+  {
+    id: "jersey_2009_dark_blue",
+    imageSrc: "/images/jerseys/jersey_india_2009_dark_blue.png",
+    year: "2009",
+    title: "The Deep Sapphire & No. 1 Test Era",
+    team: "India",
+    tournament: "Compaq Cup & Bilateral Series",
+    tournamentType: "BILATERAL_ODI",
+    era: "The Ascent to World No. 1 (2009)",
+    primaryColor: "#1d4ed8",
+    secondaryColor: "#1e3a8a",
+    accentColor: "#f97316",
+    number: 7,
+    playerName: "DHONI",
+    sponsor: "SAHARA",
+    famousMoment: "December 2009: Leading India to the ICC Test Championship No. 1 ranking for the first time in history, and winning the Compaq Cup in Colombo with a masterclass 65* in the final.",
+    description: "The transition to a deeper royal sapphire blue shade with vibrant saffron shoulder inserts and the dynamic tricolor flank ribbon. Worn as India captured the ICC No. 1 Test Mace.",
+    statsInJersey: "ICC ODI Player of the Year 2009 · World No. 1 Test Team Mace · Compaq Cup Champion",
+    designDetails: [
+      "Deep royal sapphire blue performance weave",
+      "Vibrant saffron collar ribbing and shoulder accents",
+      "Dynamic tricolor curve wrapping around the right hip",
+      "Bold white SAHARA and orange INDIA lettering with drop outline"
+    ]
+  },
+
+  // =========================================================================
+  // 7. 2010: IPL CHAMPIONS (CSK)
   // =========================================================================
   {
     id: "jersey_2010_ipl_champions",
@@ -225,7 +254,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 7. 2010: CLT20 CHAMPIONS (CSK) - SOUTH AFRICA
+  // 8. 2010: CLT20 CHAMPIONS (CSK) - SOUTH AFRICA
   // =========================================================================
   {
     id: "jersey_2010_clt20_champions",
@@ -254,11 +283,11 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 8. 2011: WORLD CUP CHAMPIONS (INDIA)
+  // 9. 2011: WORLD CUP CHAMPIONS (INDIA)
   // =========================================================================
   {
     id: "jersey_2011_world_cup",
-    imageSrc: "/images/jerseys/jersey_india_2011_wc.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2011_world_cup.jpg",
     year: "2011",
     title: "The World Cup 2011 Winning Blue",
     team: "India",
@@ -316,7 +345,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2013_champions_trophy",
-    imageSrc: "/images/jerseys/jersey_india_2013_ct.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2013_champions_trophy.png",
     year: "2013",
     title: "The ICC Trifecta (Edgbaston 2013)",
     team: "India",
@@ -328,14 +357,14 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
     accentColor: "#fb923c",
     number: 7,
     playerName: "DHONI",
-    sponsor: "INDIA",
+    sponsor: "SAHARA / INDIA",
     famousMoment: "June 23, 2013 at Edgbaston: Dancing with the white blazer as India defended 129 in a 20-over thriller, completing Dhoni's ICC white-ball trifecta.",
-    description: "Electric navy blue with laser-perforated cooling zones and a distinct mandarin collar. Worn during an unbeaten campaign across England.",
+    description: "Electric royal blue body with vibrant saffron and green lateral contours and traditional polo collar. Worn during an unbeaten campaign across England.",
     statsInJersey: "Undefeated Champions Trophy tournament · Completed the historic ICC Trifecta",
     designDetails: [
-      "Modern Mandarin collar with snap button closure",
+      "Traditional polo collar with inner saffron trims",
+      "Dynamic saffron and lime-green flank accents",
       "Laser cut perforations on back for temperature regulation",
-      "Geometric micro-pattern on shoulders",
       "Paired with the official white champions blazer at Edgbaston"
     ]
   },
@@ -399,13 +428,13 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
 
   // =========================================================================
-  // 13. 2016: ASIA CUP T20 (INDIA)
+  // 13. 2016: ASIA CUP T20 & WORLD T20 (STAR INDIA)
   // =========================================================================
   {
     id: "jersey_2016_asia_cup",
-    imageSrc: "/images/jerseys/jersey_india_2015_odi.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2016_star_india.jpg",
     year: "2016",
-    title: "The Asia Cup T20 & 0.08s Stumping",
+    title: "The Star India Kit & 2016 Asia Cup",
     team: "India",
     tournament: "2016 Asia Cup & ICC World T20",
     tournamentType: "ASIA_CUP",
@@ -417,13 +446,13 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
     playerName: "DHONI",
     sponsor: "STAR INDIA",
     famousMoment: "March 2016: Blasting 20* off 6 balls in the Asia Cup final, and the 1-glove sprint against Bangladesh at Bengaluru to effect the 1-run win.",
-    description: "Deep midnight blue jersey with a chevron textured front chest panel and modernised rubberized BCCI badge.",
+    description: "The striking Star India kit with diagonal orange sunbeam chest stripes, green hem accents, and modern mandarin collar. Worn during the triumphant 2016 Asia Cup campaign and the 1-run heartstopper in Bengaluru.",
     statsInJersey: "Asia Cup Champions · World record 0.08s stumping reflex time",
     designDetails: [
-      "Subtle chevron chest pattern symbolizing forward momentum",
-      "Mandarin collar with saffron piping",
-      "Printed with Dhoni's signature glove grip rubber trims",
-      "STAR India chest sponsorship"
+      "Diagonal orange chest sunbeam stripes radiating from shoulder",
+      "Diagonal green hem accents on lower flank",
+      "Bold STAR INDIA chest lettering with iconic star symbol",
+      "Mandarin collar with inner orange neck band"
     ]
   },
 
