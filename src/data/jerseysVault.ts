@@ -229,7 +229,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2010_ipl_champions",
-    imageSrc: "/images/jerseys/jersey_csk_2010.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2010.png",
     year: "2010",
     title: "IPL 2010: The Maiden Championship Yellow",
     team: "Chennai Super Kings",
@@ -663,7 +663,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
   {
     id: "jersey_2024_2026_legacy",
-    imageSrc: "/images/jerseys/jersey_ipl_csk_etihad.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2024.png",
     year: "2024–2026",
     title: "IPL 2024–2026: The Five-Star Eternal Yellow",
     team: "Chennai Super Kings",
@@ -675,15 +675,15 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
     accentColor: "#1e3a8a",
     number: 7,
     playerName: "DHONI",
-    sponsor: "TVS EUROGRIP",
-    famousMoment: "Passing the captaincy torch to Ruturaj Gaikwad while still walking out to 130-decibel stadium roars, smoking 20-run final-over cameos at age 42+.",
-    description: "The majestic five-star edition of the CSK yellow jersey. Every ground in India turns into a sea of yellow whenever number 7 steps onto the turf.",
-    statsInJersey: "5 Golden Stars above the roaring lion · Handover of captaincy · 250+ IPL matches",
+    sponsor: "ETIHAD AIRWAYS",
+    famousMoment: "Passing the captaincy torch to Ruturaj Gaikwad while still walking out to 130-decibel stadium roars, smoking 20 runs off 4 balls against Mumbai Indians at Wankhede at age 42+.",
+    description: "The official five-star edition of the CSK yellow jersey with Etihad Airways and Ashok Leyland branding. Features camouflage shoulder piping honoring the Indian Armed Forces and the roaring lion crest watermark.",
+    statsInJersey: "5 Golden Stars above the roaring lion · Handover of captaincy · 250+ IPL matches · 220+ Strike Rate in death overs",
     designDetails: [
-      "Five golden embroidered stars representing 2010, 2011, 2018, 2021, 2023",
-      "Lightweight hyper-breathable honeycomb fabric",
-      "Number 7 officially retired in spirit across Indian cricket",
-      "Still commanding maximum decibels across every Indian stadium"
+      "Official Etihad Airways primary chest sponsor with Ashok Leyland back logo",
+      "Military camouflage stripes on shoulder arches honoring the Armed Forces",
+      "Five golden embroidered stars representing 2010, 2011, 2018, 2021, and 2023 titles",
+      "Dynamic roaring lion watermark across the lower torso"
     ]
   }
 ];
