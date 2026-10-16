@@ -142,7 +142,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2008_ipl_inaugural",
-    imageSrc: "/images/jerseys/jersey_csk_2010.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2008.png",
     year: "2008",
     title: "IPL 2008: The Maiden CSK Canary Yellow",
     team: "Chennai Super Kings",
@@ -432,7 +432,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2016_rps_edition",
-    imageSrc: "/images/jerseys/jersey_clt20_alt.jpg",
+    imageSrc: "/images/jerseys/jersey_rps_2017.png",
     year: "2016–2017",
     title: "The Purple & Rose Gold RPS #7",
     team: "Rising Pune Supergiant",
@@ -490,7 +490,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2018_csk_comeback",
-    imageSrc: "/images/jerseys/jersey_csk_2018.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2018.png",
     year: "2018",
     title: "IPL 2018: The 'Dad's Army' Fairytale Return",
     team: "Chennai Super Kings",
@@ -548,7 +548,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2021_csk_camo",
-    imageSrc: "/images/jerseys/jersey_csk_2021.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2021.png",
     year: "2021",
     title: "IPL 2021: The Armed Forces Camouflage Yellow",
     team: "Chennai Super Kings",
@@ -577,7 +577,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2023_csk_5th_crown",
-    imageSrc: "/images/jerseys/jersey_csk_2023.jpg",
+    imageSrc: "/images/jerseys/jersey_csk_2023.png",
     year: "2023",
     title: "IPL 2023: The 3:00 AM Rain Thriller (5th Title)",
     team: "Chennai Super Kings",
