@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Sparkles, Menu, Trophy, Database } from "lucide-react";
+import { Sparkles, Menu, Trophy, Database, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { StoryChapter } from "@/config/storySpine";
 
@@ -36,22 +36,22 @@ export const Navbar: React.FC<NavbarProps> = ({
           : "bg-gradient-to-b from-black/95 via-black/70 to-transparent py-2 sm:py-2.5"
       )}
     >
-      <div className="max-w-7xl mx-auto px-2.5 sm:px-5 flex flex-col gap-1.5">
+      <div className="max-w-7xl mx-auto px-2 sm:px-5 flex flex-col gap-1.5">
         {/* Primary Row */}
         <div className="flex items-center justify-between gap-1.5 sm:gap-3">
-          {/* Left: Menu + Brand + Visualize Mahi */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 shrink-0">
+          {/* Left: Menu + Brand + Visualize Mahi + Stats (Career Analytics) */}
+          <div className="flex items-center gap-1 sm:gap-2 min-w-0 shrink-0">
             <button
               type="button"
               onClick={onToggleSidebar}
               className="p-1.5 sm:p-2 rounded-lg border border-white/10 text-slate-300 hover:text-csk-yellow hover:border-csk-gold/40 shrink-0 cursor-pointer"
               aria-label="Open chapters sidebar"
             >
-              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Menu className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
             </button>
 
-            <a href="#hero" className="flex items-center gap-2 shrink-0 min-w-0 group cursor-pointer">
-              <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-csk-gold/60 group-hover:border-csk-gold transition-all shadow-glow-gold bg-black shrink-0">
+            <a href="#hero" className="flex items-center gap-1.5 shrink-0 min-w-0 group cursor-pointer">
+              <div className="relative w-6 h-6 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-csk-gold/60 group-hover:border-csk-gold transition-all shadow-glow-gold bg-black shrink-0">
                 <Image
                   src="/images/brand/dhoni_icon.jpg"
                   alt="MS Dhoni Captain Cool 07 Icon"
@@ -66,20 +66,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </a>
 
+            {/* Visualize Mahi: Memorabilia Room Link */}
             <a
               href="/visualize-mahi"
-              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#b89758]/50 bg-[#b89758]/15 hover:bg-[#b89758]/25 hover:border-[#d4af37] text-[#f6f2e8] hover:text-white font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_15px_rgba(184,151,88,0.25)]"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-[#b89758]/50 bg-[#b89758]/15 hover:bg-[#b89758]/25 hover:border-[#d4af37] text-[#f6f2e8] hover:text-white font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_15px_rgba(184,151,88,0.25)]"
               title="Visualize Mahi: Interactive MS Dhoni Memorabilia Room"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-pulse shrink-0" />
-              <span>VISUALIZE MAHI</span>
+              <span className="hidden xs:inline">VISUALIZE MAHI</span>
+              <span className="xs:hidden">ROOM</span>
             </a>
 
+            {/* Stats: Career Analytics Link - Prominently Displayed on Mobile & Desktop */}
             <a
               href="/visualize"
-              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 sm:py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 hover:text-sky-300 font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer"
-              title="Cricket Analytics & Telemetry"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full border border-sky-500/40 bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 hover:text-white font-mono text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-all shrink-0 cursor-pointer shadow-[0_0_12px_rgba(14,165,233,0.2)]"
+              title="Career Analytics & Match Telemetry"
             >
+              <BarChart2 className="w-3 h-3 text-sky-400 shrink-0" />
               <span>STATS</span>
             </a>
           </div>
@@ -138,7 +142,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : `View 7 Stage Badges (${unlockedAchievementsCount}/7 Unlocked)`
               }
               className={cn(
-                "flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-[10px] font-mono font-bold cursor-pointer",
+                "hidden sm:flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-[10px] font-mono font-bold cursor-pointer",
                 unlockedAchievementsCount === 7
                   ? "bg-csk-gold/20 border-csk-yellow text-csk-yellow shadow-glow-gold"
                   : "bg-black/40 border-white/10 text-slate-300 hover:border-csk-gold/40 hover:text-white"
@@ -151,8 +155,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Secondary Mobile Row: Active Chapter Pill + Ask Mahi (< md screens) */}
-        <div className="flex md:hidden items-center justify-between gap-2 pt-0.5">
+        {/* Secondary Mobile Row: Active Chapter Pill + Badges + Ask Mahi (< md screens) */}
+        <div className="flex md:hidden items-center justify-between gap-1.5 pt-0.5">
           <a
             href={`#${activeChapter.id}`}
             className="flex-1 min-w-0 cursor-pointer"
@@ -167,6 +171,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </span>
           </a>
+
+          <button
+            onClick={onTriggerBadge}
+            title={`View 7 Stage Badges (${unlockedAchievementsCount}/7 Unlocked)`}
+            className={cn(
+              "flex sm:hidden items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-mono font-bold shrink-0 cursor-pointer transition-colors",
+              unlockedAchievementsCount === 7
+                ? "bg-csk-gold/20 border-csk-yellow text-csk-yellow shadow-glow-gold"
+                : "bg-black/40 border-white/10 text-slate-300"
+            )}
+          >
+            <Trophy className="w-3 h-3 text-csk-gold shrink-0" />
+            <span>{unlockedAchievementsCount}/7</span>
+          </button>
 
           {onOpenAskMahi && (
             <button

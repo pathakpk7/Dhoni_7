@@ -72,10 +72,12 @@ export default function VisualizeMahiPage() {
 
           <Link
             href="/visualize"
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-400 transition-colors"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-400 transition-colors"
+            title="Career Analytics & Telemetry"
           >
             <BarChart2 className="w-3.5 h-3.5 text-sky-400" />
-            <span>Career Analytics</span>
+            <span className="hidden xs:inline">Career Analytics</span>
+            <span className="xs:hidden">Stats</span>
           </Link>
 
           <Link

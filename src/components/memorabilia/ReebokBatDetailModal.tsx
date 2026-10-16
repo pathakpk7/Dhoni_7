@@ -135,13 +135,93 @@ const ICONIC_FINISHES: FinishingInnings[] = [
   },
 ];
 
+interface BatComponentDetail {
+  id: "all" | "blade" | "handle" | "grip" | "toe" | "branding";
+  label: string;
+  shortLabel: string;
+  imageSrc: string;
+  title: string;
+  spec: string;
+  description: string;
+  badge: string;
+}
+
+const BAT_COMPONENTS: Record<string, BatComponentDetail> = {
+  all: {
+    id: "all",
+    label: "FULL WILLOW",
+    shortLabel: "FULL",
+    imageSrc: "/images/bat/reebok_bat_full.png",
+    title: "The 2011 World Cup Winning Reebok Willow",
+    spec: "Grade 1 English Willow · 2 lb 12 oz (1247g)",
+    description:
+      "The complete profile of the most iconic bat in cricket history. Features a mid-to-low sweet spot, 40mm contoured power edges, and a Sarawak cane handle calibrated for bottom-hand helicopter whips.",
+    badge: "GUINNESS RECORD: £100,000",
+  },
+  blade: {
+    id: "blade",
+    label: "BLADE & AUTOGRAPH",
+    shortLabel: "BLADE",
+    imageSrc: "/images/bat/blade.png",
+    title: "Autographed Grade 1 English Willow Blade",
+    spec: "8–10 Straight Grains · Inscribed by MS Dhoni",
+    description:
+      "Authentic match-used face hand-inscribed by MS Dhoni with 'Lots of Love & Best wishes Mahi'. Features straight, unblemished grains with a pronounced sweet spot engineered for explosive bottom-hand velocity.",
+    badge: "HAND-AUTOGRAPHED BY MAHI",
+  },
+  handle: {
+    id: "handle",
+    label: "CANE HANDLE",
+    shortLabel: "HANDLE",
+    imageSrc: "/images/bat/handle.png",
+    title: "Round 9-Piece Sarawak Cane Handle",
+    spec: "Short Handle · Triple Rubber Dampening Inserts",
+    description:
+      "Multi-piece Sarawak cane reinforced with high-tensile twine and 3 rubber dampening inserts, offering extreme torsional stability when executing rapid wrist rolls and power scoops.",
+    badge: "9-PIECE SARAWAK CANE",
+  },
+  grip: {
+    id: "grip",
+    label: "RUBBER GRIP",
+    shortLabel: "GRIP",
+    imageSrc: "/images/bat/grip.png",
+    title: "Red Diamond Pyramid Matrix Rubber Grip",
+    spec: "Dual-Density Micro-Texture · High-Traction",
+    description:
+      "Signature red diamond pyramid matrix rubber grip providing non-slip mechanical traction for Dhoni's unique high-bottom-hand grip technique during helicopter power whips.",
+    badge: "DIAMOND PYRAMID MATRIX",
+  },
+  toe: {
+    id: "toe",
+    label: "TOE & SPINE",
+    shortLabel: "TOE",
+    imageSrc: "/images/bat/toe.png",
+    title: "Sculpted Curved Toe & Extended Spine",
+    spec: "32mm Reinforced Toe Guard · 42mm Power Edges",
+    description:
+      "Generous 32mm curved toe depth with protective toe-guard and contoured back spine. Engineered to dig out searing 145+ km/h toe-crushing yorkers without splitting or feathering.",
+    badge: "32MM THICK REINFORCED TOE",
+  },
+  branding: {
+    id: "branding",
+    label: "REEBOK DECAL",
+    shortLabel: "REEBOK",
+    imageSrc: "/images/bat/reebok.png",
+    title: "Reebok 2011 Match Edition Decal & Livery",
+    spec: "Official 2011 ICC CWC Graphic Identity",
+    description:
+      "The unmistakable navy and silver Reebok swoop decal that became the visual centerpiece of the April 2, 2011 final. Auctioned in London by RK Global for a historic £100,000.",
+    badge: "OFFICIAL 2011 MATCH DECAL",
+  },
+};
+
 export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
   const [activeFinishIndex, setActiveFinishIndex] = useState<number>(2); // Default to 2011 WC
   const [activeComponent, setActiveComponent] = useState<
-    "blade" | "handle" | "grip" | "toe" | "branding"
+    "all" | "blade" | "handle" | "grip" | "toe" | "branding"
   >("blade");
 
   useEffect(() => {
@@ -167,6 +247,7 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
   if (!isOpen) return null;
 
   const currentFinish = ICONIC_FINISHES[activeFinishIndex];
+  const currentComponentDetail = BAT_COMPONENTS[activeComponent] || BAT_COMPONENTS.blade;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/92 backdrop-blur-xl animate-in fade-in duration-300 p-2 sm:p-4 md:p-6 overflow-y-auto">
@@ -206,7 +287,7 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
         {/* Content Body: Split View (Left: High-Res Interactive Bat, Right: The Art of Finishing) */}
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-y-auto divide-y lg:divide-y-0 lg:divide-x divide-orange-500/20">
           {/* LEFT: Cinematic Bat Anatomy & Showcase (5 of 12 cols) */}
-          <div className="lg:col-span-5 p-6 flex flex-col justify-between items-center text-center bg-gradient-to-b from-[#18110b] to-[#0d0905] relative">
+          <div className="lg:col-span-5 p-4 sm:p-6 flex flex-col justify-between items-center text-center bg-gradient-to-b from-[#18110b] to-[#0d0905] relative">
             <div className="w-full flex items-center justify-between text-[11px] font-mono text-stone-400">
               <span className="text-orange-400 font-bold uppercase tracking-wider">
                 ANATOMY & SPECIFICATIONS
@@ -214,24 +295,39 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
               <span>2 lb 12 oz · Short Handle</span>
             </div>
 
-            {/* Realistic Bat Display with Spotlight */}
-            <div className="relative w-full h-72 sm:h-80 md:h-96 my-4 flex items-center justify-center">
-              <div className="relative w-44 sm:w-52 h-full rotate-[-6deg] hover:rotate-0 transition-transform duration-500">
+            {/* Dynamic Authentic Bat Component Display */}
+            <div className="relative w-full h-64 sm:h-80 md:h-96 my-3 sm:my-4 flex flex-col items-center justify-center rounded-2xl bg-black/60 border border-orange-500/20 p-3 overflow-hidden group">
+              {/* Active Badge */}
+              <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-orange-500/20 border border-orange-500/40 text-[10px] font-mono text-orange-300 font-bold tracking-wider z-20 uppercase">
+                {currentComponentDetail.badge}
+              </div>
+
+              {/* Bat Component Image Frame */}
+              <div className="relative w-full h-full max-w-[280px] flex items-center justify-center transition-all duration-300 group-hover:scale-105">
                 <Image
-                  src="/images/motifs/dhoni_reebok_bat.png"
-                  alt="Dhoni's Reebok Willow Bat"
+                  key={currentComponentDetail.imageSrc}
+                  src={currentComponentDetail.imageSrc}
+                  alt={currentComponentDetail.title}
                   fill
-                  sizes="260px"
-                  className="object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.95)]"
+                  sizes="(max-width: 768px) 100vw, 360px"
+                  className="object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] transition-all duration-500 animate-in fade-in zoom-in-95"
                   priority
                 />
+              </div>
+
+              {/* Quick Component Sub-caption */}
+              <div className="absolute bottom-2 inset-x-2 text-center pointer-events-none z-20">
+                <span className="text-[10px] font-mono text-stone-400 bg-black/80 px-2 py-0.5 rounded border border-white/10">
+                  {currentComponentDetail.title}
+                </span>
               </div>
             </div>
 
             {/* Interactive Anatomical Inspector Tabs */}
             <div className="w-full space-y-2">
-              <div className="grid grid-cols-5 gap-1 text-[10px] font-mono">
+              <div className="grid grid-cols-6 gap-1 text-[9px] sm:text-[10px] font-mono">
                 {[
+                  { id: "all", label: "FULL" },
                   { id: "blade", label: "BLADE" },
                   { id: "handle", label: "HANDLE" },
                   { id: "grip", label: "GRIP" },
@@ -244,10 +340,10 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
                       storyAudio.playBatImpactSound();
                       setActiveComponent(item.id as any);
                     }}
-                    className={`py-1 rounded border transition-all cursor-pointer ${
+                    className={`py-1.5 px-0.5 rounded border transition-all cursor-pointer font-bold ${
                       activeComponent === item.id
-                        ? "bg-orange-500 text-black font-bold border-orange-400 shadow-sm"
-                        : "bg-black/40 text-stone-400 border-white/10 hover:text-white"
+                        ? "bg-orange-500 text-black border-orange-400 shadow-md scale-105"
+                        : "bg-black/50 text-stone-400 border-white/10 hover:text-white hover:border-orange-500/30"
                     }`}
                   >
                     {item.label}
@@ -256,37 +352,14 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
               </div>
 
               {/* Anatomy Description Box */}
-              <div className="p-3 rounded-lg bg-black/60 border border-orange-500/30 text-left text-xs font-serif text-stone-300">
-                {activeComponent === "blade" && (
-                  <p>
-                    <strong className="text-orange-300 font-mono text-[10px] uppercase block">Grade 1 English Willow:</strong>
-                    Features 8–10 straight, unblemished grains with a pronounced mid-to-low sweet spot engineered specifically for brute bottom-hand velocity and wrist-whip helicopter shots.
-                  </p>
-                )}
-                {activeComponent === "handle" && (
-                  <p>
-                    <strong className="text-orange-300 font-mono text-[10px] uppercase block">Round Sarawak Cane Handle:</strong>
-                    Multi-piece cane with rubber dampening inserts, offering extreme torsional stability when executing rapid wrist rolls and power scoops.
-                  </p>
-                )}
-                {activeComponent === "grip" && (
-                  <p>
-                    <strong className="text-orange-300 font-mono text-[10px] uppercase block">Double Chevron Chevron Grip:</strong>
-                    Custom dual-layer rubber grip (Orange/Blue) giving maximum traction for Dhoni&apos;s distinctive high-bottom-hand grip technique.
-                  </p>
-                )}
-                {activeComponent === "toe" && (
-                  <p>
-                    <strong className="text-orange-300 font-mono text-[10px] uppercase block">Curved Thick Toe Profile:</strong>
-                    Generous 32mm toe depth designed to prevent feathering or cracking when digging out toe-crushing yorkers at 145+ km/h.
-                  </p>
-                )}
-                {activeComponent === "branding" && (
-                  <p>
-                    <strong className="text-orange-300 font-mono text-[10px] uppercase block">The 2011 World Cup Winning Artifact:</strong>
-                    At the London charity auction, Dhoni&apos;s actual 2011 World Cup-winning Reebok bat fetched a Guinness World Record £100,000 ($161,295), bought by RK Global.
-                  </p>
-                )}
+              <div className="p-3 rounded-lg bg-black/70 border border-orange-500/30 text-left text-xs font-serif text-stone-300 space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono text-orange-300 uppercase font-bold border-b border-white/10 pb-1">
+                  <span>{currentComponentDetail.title}</span>
+                  <span className="text-stone-400 font-normal">{currentComponentDetail.spec}</span>
+                </div>
+                <p className="pt-0.5 leading-relaxed">
+                  {currentComponentDetail.description}
+                </p>
               </div>
             </div>
 
@@ -294,7 +367,7 @@ export const ReebokBatDetailModal: React.FC<ReebokBatDetailModalProps> = ({
             <div className="w-full pt-3 mt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-stone-400 text-left">
               <span className="flex items-center gap-1">
                 <Info className="w-3 h-3 text-orange-400" />
-                <span>Representative historical model</span>
+                <span>Authentic Match Spec & Autograph</span>
               </span>
               <span className="text-[#ffd700] font-bold">Guinness Record: £100K</span>
             </div>

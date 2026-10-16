@@ -70,17 +70,29 @@ export const StoryChapterSidebar: React.FC<StoryChapterSidebarProps> = ({
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-3 space-y-0.5">
+        <nav className="flex-1 overflow-y-auto overscroll-contain px-2 py-3 space-y-1.5">
+          <a
+            href="/visualize-mahi"
+            onClick={() => onOpenChange(false)}
+            className="block rounded-xl px-3 py-2.5 border border-[#b89758]/40 bg-[#b89758]/10 hover:bg-[#b89758]/20 text-[#f6f2e8] transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#d4af37]">VISUALIZE MAHI</span>
+            </div>
+            <p className="text-[11px] font-mono text-[#d4af37]/80 mt-0.5 pl-4">Interactive MS Dhoni Memorabilia Room</p>
+          </a>
+
           <a
             href="/visualize"
             onClick={() => onOpenChange(false)}
-            className="block rounded-xl px-3 py-2.5 mb-2 border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 transition-colors"
+            className="block rounded-xl px-3 py-2.5 mb-2 border border-sky-500/40 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 transition-colors"
           >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-300">VISUALIZE MAHI</span>
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-300">CAREER ANALYTICS & STATS</span>
             </div>
-            <p className="text-[11px] font-mono text-sky-400/80 mt-0.5 pl-4">Interactive Cricket Analytics & Career Data</p>
+            <p className="text-[11px] font-mono text-sky-400/80 mt-0.5 pl-4">Interactive Cricket Analytics & Match Telemetry</p>
           </a>
           {STORY_CHAPTERS.map((ch) => {
             const isActive = ch.id === activeId;

@@ -254,47 +254,49 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-neutral-950/90 to-black" />
 
       {/* Main Television Frame Container */}
-      <div className="relative w-full h-full max-w-7xl max-h-[96vh] flex flex-col mx-auto px-4 py-3 sm:px-6 sm:py-4 z-10">
+      <div className="relative w-full max-w-7xl max-h-[96vh] sm:max-h-[94vh] bg-[#0c0e14] border-2 border-blue-500/30 rounded-2xl sm:rounded-3xl shadow-[0_30px_90px_rgba(0,0,0,0.98),0_0_50px_rgba(37,99,235,0.2)] overflow-hidden my-auto flex flex-col px-3 py-3 sm:px-6 sm:py-4 z-10">
         
         {/* Top Header Bar */}
-        <div className="flex items-center justify-between border-b border-blue-900/40 pb-3 mb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between border-b border-blue-900/40 pb-2.5 mb-2.5 sm:pb-3 sm:mb-3 gap-2 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={handleClose}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-blue-500/30 text-blue-300 text-xs tracking-wider uppercase font-mono transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-blue-500/30 text-blue-300 text-xs tracking-wider uppercase font-mono transition-colors shrink-0 cursor-pointer"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Room</span>
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden xs:inline">Back</span>
             </button>
-            <div className="hidden sm:block h-4 w-px bg-neutral-800" />
-            <div>
-              <span className="text-[10px] tracking-widest text-blue-400 font-mono uppercase block">
-                April 2, 2011 · Wankhede Stadium, Mumbai
+            <div className="hidden sm:block h-4 w-px bg-neutral-800 shrink-0" />
+            <div className="min-w-0">
+              <span className="text-[9px] sm:text-[10px] tracking-widest text-blue-400 font-mono uppercase block truncate">
+                April 2, 2011 · Wankhede Stadium Television Broadcast
               </span>
-              <h2 className="text-base sm:text-lg font-serif text-white flex items-center gap-2 font-bold">
-                <Tv className="w-5 h-5 text-blue-400" />
-                <span>2011 ICC World Cup Final Live Television</span>
+              <h2 className="text-xs sm:text-base font-serif text-white flex items-center gap-1.5 sm:gap-2 font-bold truncate">
+                <Tv className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 shrink-0" />
+                <span className="truncate">2011 ICC World Cup Final Live Television</span>
               </h2>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={toggleCommentary}
-              className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-colors ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-mono transition-colors cursor-pointer ${
                 audioCommentaryPlaying
-                  ? "bg-amber-500 text-neutral-950 font-bold animate-pulse"
+                  ? "bg-amber-500 text-neutral-950 font-bold animate-pulse shadow-md shadow-amber-500/40"
                   : "bg-blue-950/80 hover:bg-blue-900 border border-blue-500/30 text-blue-200"
               }`}
             >
-              {audioCommentaryPlaying ? <Volume2 className="w-4 h-4" /> : <Radio className="w-4 h-4" />}
-              <span>{audioCommentaryPlaying ? "Stop Shastri Voice" : "Ravi Shastri Commentary"}</span>
+              {audioCommentaryPlaying ? <Volume2 className="w-3.5 h-3.5" /> : <Radio className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">{audioCommentaryPlaying ? "Stop Shastri Voice" : "Ravi Shastri Commentary"}</span>
+              <span className="sm:hidden">{audioCommentaryPlaying ? "Stop" : "Commentary"}</span>
             </button>
             <button
               onClick={handleClose}
-              className="p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
+              className="p-1.5 sm:p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+              aria-label="Close television modal"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
@@ -379,38 +381,38 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
           
           {/* TAB 0: EXPERIENCE CHOICE SCREEN */}
           {activeTab === "choice" && (
-            <div className="h-full flex flex-col justify-center max-w-5xl mx-auto py-4">
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-mono tracking-widest uppercase mb-2">
+            <div className="min-h-full flex flex-col justify-center max-w-5xl mx-auto py-3 sm:py-6">
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-[10px] sm:text-xs font-mono tracking-widest uppercase mb-2">
                   <Tv className="w-3.5 h-3.5 text-blue-400" />
                   April 2, 2011 · Wankhede Stadium Television Broadcast
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-serif font-black text-white tracking-wide">
+                <h3 className="text-xl sm:text-3xl font-serif font-black text-white tracking-wide">
                   CHOOSE YOUR 2011 FINAL EXPERIENCE
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-400 max-w-lg mx-auto mt-1">
+                <p className="text-xs sm:text-sm text-neutral-400 max-w-lg mx-auto mt-1 px-2">
                   Relive India&apos;s greatest sporting evening through video replay or authentic stadium audio.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Choice 1: Helicopter Shot Video */}
                 <div
                   onClick={() => handleTabChange("helicopter")}
-                  className="group relative rounded-2xl bg-gradient-to-b from-neutral-900/90 to-neutral-950 border-2 border-neutral-800 hover:border-amber-400/80 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 cursor-pointer shadow-xl hover:shadow-[0_0_40px_rgba(245,158,11,0.25)] hover:-translate-y-1"
+                  className="group relative rounded-2xl bg-gradient-to-b from-neutral-900/90 to-neutral-950 border-2 border-neutral-800 hover:border-amber-400/80 p-5 sm:p-8 flex flex-col justify-between transition-all duration-300 cursor-pointer shadow-xl hover:shadow-[0_0_40px_rgba(245,158,11,0.25)] hover:-translate-y-1"
                 >
-                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-[10px] font-mono text-amber-300 font-bold tracking-widest uppercase">
+                  <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-[9px] sm:text-[10px] font-mono text-amber-300 font-bold tracking-widest uppercase">
                     VIDEO REPLAY
                   </div>
 
                   <div>
-                    <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-neutral-950 transition-all duration-300">
-                      <Film className="w-7 h-7" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-4 sm:mb-5 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-neutral-950 transition-all duration-300">
+                      <Film className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <span className="text-xs font-mono text-neutral-400 tracking-wider uppercase block">
+                    <span className="text-[11px] sm:text-xs font-mono text-neutral-400 tracking-wider uppercase block">
                       Kulasekara to Dhoni · 48.2 Overs
                     </span>
-                    <h4 className="text-xl sm:text-2xl font-serif font-bold text-white mt-1 mb-2 group-hover:text-amber-300 transition-colors">
+                    <h4 className="text-lg sm:text-2xl font-serif font-bold text-white mt-1 mb-2 group-hover:text-amber-300 transition-colors">
                       View the Helicopter Shot
                     </h4>
                     <p className="text-xs text-neutral-300 leading-relaxed font-sans mb-4">
@@ -418,13 +420,13 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-neutral-800/80 flex items-center justify-between">
-                    <span className="text-xs font-mono text-neutral-400">
-                      30s Replay · Shastri Commentary
+                  <div className="pt-3 sm:pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs font-mono">
+                    <span className="text-[11px] sm:text-xs text-neutral-400">
+                      30s Replay · Commentary
                     </span>
-                    <div className="flex items-center gap-1 text-xs font-mono font-bold text-amber-400 group-hover:translate-x-1 transition-transform">
+                    <div className="flex items-center gap-1 font-bold text-amber-400 group-hover:translate-x-1 transition-transform">
                       <span>WATCH VIDEO</span>
-                      <Play className="w-4 h-4 fill-current" />
+                      <Play className="w-3.5 h-3.5 fill-current" />
                     </div>
                   </div>
                 </div>
@@ -432,20 +434,20 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                 {/* Choice 2: Crowd Chanting Vande Mataram */}
                 <div
                   onClick={() => handleTabChange("vande")}
-                  className="group relative rounded-2xl bg-gradient-to-b from-neutral-900/90 to-neutral-950 border-2 border-orange-500/40 hover:border-orange-400 p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 cursor-pointer shadow-xl hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] hover:-translate-y-1"
+                  className="group relative rounded-2xl bg-gradient-to-b from-neutral-900/90 to-neutral-950 border-2 border-orange-500/40 hover:border-orange-400 p-5 sm:p-8 flex flex-col justify-between transition-all duration-300 cursor-pointer shadow-xl hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] hover:-translate-y-1"
                 >
-                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-red-600 border border-red-400 text-[10px] font-mono text-white font-bold tracking-widest uppercase animate-pulse">
+                  <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-red-600 border border-red-400 text-[9px] sm:text-[10px] font-mono text-white font-bold tracking-widest uppercase animate-pulse">
                     ★ ICONIC MOMENT ★
                   </div>
 
                   <div>
-                    <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-5 group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-orange-500 group-hover:to-emerald-500 group-hover:text-white transition-all duration-300">
-                      <Music className="w-7 h-7" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-4 sm:mb-5 group-hover:scale-110 group-hover:bg-gradient-to-tr group-hover:from-orange-500 group-hover:to-emerald-500 group-hover:text-white transition-all duration-300">
+                      <Music className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
-                    <span className="text-xs font-mono text-orange-400 tracking-wider uppercase block">
+                    <span className="text-[11px] sm:text-xs font-mono text-orange-400 tracking-wider uppercase block">
                       33,000 Wankhede Voices In Unison · 48th Over
                     </span>
-                    <h4 className="text-xl sm:text-2xl font-serif font-bold text-white mt-1 mb-2 group-hover:text-orange-300 transition-colors">
+                    <h4 className="text-lg sm:text-2xl font-serif font-bold text-white mt-1 mb-2 group-hover:text-orange-300 transition-colors">
                       Crowd Before the Epic Win chanting Vande Mataram !!
                     </h4>
                     <p className="text-xs text-neutral-300 leading-relaxed font-sans mb-4">
@@ -453,11 +455,11 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-neutral-800/80 flex items-center justify-between">
-                    <span className="text-xs font-mono text-neutral-400">
-                      Authentic Stadium Audio Recording
+                  <div className="pt-3 sm:pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs font-mono">
+                    <span className="text-[11px] sm:text-xs text-neutral-400">
+                      Authentic Stadium Audio
                     </span>
-                    <div className="flex items-center gap-1 text-xs font-mono font-bold text-orange-400 group-hover:translate-x-1 transition-transform">
+                    <div className="flex items-center gap-1 font-bold text-orange-400 group-hover:translate-x-1 transition-transform">
                       <span>LISTEN AUDIO</span>
                       <Volume2 className="w-4 h-4" />
                     </div>
@@ -469,16 +471,16 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
 
           {/* TAB 1: VIEW THE HELICOPTER SHOT VIDEO */}
           {activeTab === "helicopter" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
+            <div className="min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 pb-2">
               {/* Television Screen Simulation & HTML5 Video */}
-              <div className="lg:col-span-8 flex flex-col justify-between p-4 sm:p-6 rounded-2xl bg-neutral-950 border-4 border-neutral-800 shadow-[0_0_60px_rgba(37,99,235,0.25)] relative overflow-hidden">
+              <div className="lg:col-span-8 flex flex-col justify-between p-3.5 sm:p-6 rounded-2xl bg-neutral-950 border-2 sm:border-4 border-neutral-800 shadow-[0_0_60px_rgba(37,99,235,0.25)] relative overflow-hidden">
                 {/* TV Scanlines Effect */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-30 z-20" />
 
                 {/* Top Video Header Ticker */}
-                <div className="flex items-center justify-between text-xs font-mono z-20 border-b border-white/10 pb-3 mb-3">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono z-20 border-b border-white/10 pb-2.5 mb-2.5 sm:pb-3 sm:mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping" />
+                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-red-600 animate-ping" />
                     <span className="font-bold text-red-500 tracking-wider">LIVE WANKHEDE</span>
                     <span className="text-neutral-400">| 48.2 OVERS</span>
                   </div>
@@ -489,10 +491,10 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                           prev === "/videos/2011_six.mp4" ? "/videos/helicopter.mp4" : "/videos/2011_six.mp4"
                         )
                       }
-                      className="px-2.5 py-1 rounded bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-[11px] text-amber-300 font-mono transition-colors"
+                      className="px-2 py-1 rounded bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-[10px] sm:text-[11px] text-amber-300 font-mono transition-colors cursor-pointer"
                       title="Switch Video Angle"
                     >
-                      {videoSource === "/videos/2011_six.mp4" ? "Switch: Shot Loop (Slow-Mo)" : "Switch: Full 30s Replay"}
+                      {videoSource === "/videos/2011_six.mp4" ? "Angle: Slow-Mo Loop" : "Angle: Full 30s"}
                     </button>
                   </div>
                 </div>
@@ -517,20 +519,20 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                       onClick={toggleVideoPlay}
                       className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xs cursor-pointer z-30 group-hover/video:bg-black/20 transition-all"
                     >
-                      <div className="w-16 h-16 rounded-full bg-amber-500/90 text-neutral-950 flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
-                        <Play className="w-8 h-8 fill-current ml-1" />
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-amber-500/90 text-neutral-950 flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+                        <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" />
                       </div>
                     </div>
                   )}
 
                   {/* On-screen Watermark */}
-                  <div className="absolute bottom-3 left-3 bg-black/70 px-2.5 py-1 rounded border border-white/10 text-[10px] font-mono text-white/80 pointer-events-none">
+                  <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 bg-black/70 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded border border-white/10 text-[9px] sm:text-[10px] font-mono text-white/80 pointer-events-none">
                     48.2 ov · 91* (79b) · MS DHONI
                   </div>
                 </div>
 
                 {/* Video Controls Bar */}
-                <div className="z-20 mt-3 pt-3 border-t border-neutral-800 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+                <div className="z-20 mt-3 pt-3 border-t border-neutral-800 flex flex-wrap items-center justify-between gap-2.5 text-xs font-mono">
                   <div className="flex items-center gap-2">
                     <button
                       onClick={toggleVideoPlay}
@@ -542,7 +544,7 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
 
                     <button
                       onClick={restartVideo}
-                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors"
+                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors cursor-pointer"
                       title="Replay Video"
                     >
                       <RotateCcw className="w-4 h-4" />
@@ -550,30 +552,30 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
 
                     <button
                       onClick={toggleVideoMute}
-                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors"
+                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors cursor-pointer"
                       title={isVideoMuted ? "Unmute" : "Mute"}
                     >
                       {isVideoMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-3 text-neutral-300">
+                  <div className="flex items-center gap-2 sm:gap-3 text-neutral-300 text-[11px] sm:text-xs">
                     <span className="text-emerald-400 font-bold">INDIA WON BY 6 WICKETS</span>
                     <span className="text-neutral-500">|</span>
-                    <span className="text-amber-300 font-semibold">TARGET: 275 CHASED</span>
+                    <span className="text-amber-300 font-semibold">TARGET 275</span>
                   </div>
                 </div>
               </div>
 
               {/* Match Insights & Commentary */}
-              <div className="lg:col-span-4 flex flex-col justify-between space-y-4 p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+              <div className="lg:col-span-4 flex flex-col justify-between space-y-4 p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 text-left">
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono text-amber-400 mb-2">
                     <Trophy className="w-4 h-4" />
                     <span>PLAYER OF THE MATCH IN WORLD CUP FINAL</span>
                   </div>
 
-                  <h4 className="text-xl font-serif font-bold text-white mb-2">
+                  <h4 className="text-lg sm:text-xl font-serif font-bold text-white mb-2">
                     The Iconic Helicopter Shot
                   </h4>
 
@@ -614,9 +616,11 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
 
           {/* TAB 2: CROWD CHANTING VANDE MATARAM !! . ICONIC MOMENT */}
           {activeTab === "vande" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
-              {/* Vande Mataram Stadium Player */}
-              <div className="lg:col-span-8 flex flex-col justify-between p-6 rounded-2xl bg-gradient-to-b from-neutral-950 via-neutral-900 to-black border-4 border-orange-500/30 shadow-[0_0_80px_rgba(249,115,22,0.25)] relative overflow-hidden">
+            <div className="min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 pb-2">
+              {/* Vande Mataram Stadium Player with Retro TV Simulation */}
+              <div className="lg:col-span-8 flex flex-col justify-between p-4 sm:p-6 rounded-2xl bg-gradient-to-b from-neutral-950 via-neutral-900 to-black border-2 sm:border-4 border-orange-500/40 shadow-[0_0_80px_rgba(249,115,22,0.25)] relative overflow-hidden">
+                {/* TV Scanlines Effect */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-25 z-20" />
                 
                 {/* Stadium Crowd Celebration Background */}
                 <div className="absolute inset-0 opacity-25 mix-blend-screen pointer-events-none">
@@ -630,35 +634,35 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                 </div>
 
                 {/* Top Badge Ticker */}
-                <div className="relative z-10 flex items-center justify-between border-b border-orange-500/20 pb-3 mb-4 text-xs font-mono">
+                <div className="relative z-10 flex items-center justify-between border-b border-orange-500/20 pb-2.5 mb-3 sm:pb-3 sm:mb-4 text-xs font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping" />
+                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-orange-500 animate-ping" />
                     <span className="font-bold text-orange-400 tracking-wider">
                       CROWD ATMOSPHERE · 48TH OVER
                     </span>
                   </div>
-                  <div className="px-2.5 py-0.5 rounded-full bg-red-600 text-white font-bold text-[10px] tracking-widest uppercase">
+                  <div className="px-2 sm:px-2.5 py-0.5 rounded-full bg-red-600 text-white font-bold text-[9px] sm:text-[10px] tracking-widest uppercase">
                     ★ ICONIC MOMENT ★
                   </div>
                 </div>
 
                 {/* Main Audio Player Visualization */}
-                <div className="relative z-10 my-4 text-center space-y-4">
-                  <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-orange-500/20 via-white/10 to-emerald-500/20 border border-orange-400/30 text-orange-200 text-xs font-mono tracking-widest uppercase">
+                <div className="relative z-10 my-2 sm:my-4 text-center space-y-3 sm:space-y-4">
+                  <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-orange-500/20 via-white/10 to-emerald-500/20 border border-orange-400/30 text-orange-200 text-[10px] sm:text-xs font-mono tracking-widest uppercase">
                     33,000 Fans United Before The Epic Finish
                   </div>
 
-                  <h3 className="text-2xl sm:text-4xl font-black font-serif text-white tracking-wide drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
+                  <h3 className="text-lg sm:text-3xl md:text-4xl font-black font-serif text-white tracking-wide drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
                     Crowd Before the Epic Win chanting Vande Mataram !!
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-neutral-300 max-w-xl mx-auto leading-relaxed font-sans">
+                  <p className="text-xs sm:text-sm text-neutral-300 max-w-xl mx-auto leading-relaxed font-sans px-2">
                     With India needing under 15 runs to win, 33,000 spectators turned on their mobile flashlights, waved the tricolor, and spontaneously broke into A.R. Rahman&apos;s &ldquo;Vande Mataram&rdquo; at deafening volume.
                   </p>
 
-                  {/* Equalizer Visualizer Bars */}
-                  <div className="flex items-end justify-center gap-1.5 h-16 sm:h-20 py-2">
-                    {[40, 65, 85, 50, 95, 70, 90, 60, 100, 75, 85, 45, 90, 80, 65, 95, 75, 60, 85, 70, 90, 100, 50, 75, 85, 95, 60, 80].map(
+                  {/* Equalizer Visualizer Bars - Responsive Bar Count and Spacing */}
+                  <div className="flex items-end justify-center gap-1 sm:gap-1.5 h-14 sm:h-20 py-2 max-w-full overflow-hidden">
+                    {[40, 65, 85, 50, 95, 70, 90, 60, 100, 75, 85, 45, 90, 80, 65, 95, 75, 60, 85, 70].map(
                       (baseHeight, i) => (
                         <div
                           key={i}
@@ -679,18 +683,18 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                   </div>
 
                   {/* Big Play / Pause Button with Pulsing Glow */}
-                  <div className="pt-2 flex items-center justify-center gap-4">
+                  <div className="pt-2 flex items-center justify-center gap-3 sm:gap-4">
                     <button
                       onClick={restartVande}
-                      className="p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors"
+                      className="p-2.5 sm:p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors cursor-pointer"
                       title="Restart from beginning"
                     >
-                      <RotateCcw className="w-5 h-5" />
+                      <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
 
                     <button
                       onClick={toggleVandePlay}
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-2xl ${
+                      className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-2xl ${
                         isVandePlaying
                           ? "bg-gradient-to-tr from-orange-500 to-amber-400 text-neutral-950 scale-105 shadow-[0_0_50px_rgba(249,115,22,0.6)] ring-4 ring-orange-400/40"
                           : "bg-gradient-to-tr from-orange-500 to-amber-500 text-neutral-950 hover:scale-110 shadow-[0_0_30px_rgba(249,115,22,0.4)]"
@@ -698,30 +702,30 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                       title={isVandePlaying ? "Pause Audio" : "Play Vande Mataram Chants"}
                     >
                       {isVandePlaying ? (
-                        <Pause className="w-8 h-8 sm:w-9 sm:h-9 fill-current" />
+                        <Pause className="w-7 h-7 sm:w-9 sm:h-9 fill-current" />
                       ) : (
-                        <Play className="w-8 h-8 sm:w-9 sm:h-9 fill-current ml-1" />
+                        <Play className="w-7 h-7 sm:w-9 sm:h-9 fill-current ml-1" />
                       )}
                     </button>
 
                     <button
                       onClick={toggleVandeMute}
-                      className="p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors"
+                      className="p-2.5 sm:p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 transition-colors cursor-pointer"
                       title={isVandeMuted ? "Unmute" : "Mute"}
                     >
                       {isVandeMuted ? (
-                        <VolumeX className="w-5 h-5 text-red-400" />
+                        <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
                       ) : (
-                        <Volume2 className="w-5 h-5 text-emerald-400" />
+                        <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                       )}
                     </button>
                   </div>
                 </div>
 
                 {/* Progress Scrubber Bar */}
-                <div className="relative z-10 bg-neutral-950/80 rounded-xl p-3 border border-orange-500/20 space-y-2">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-mono text-neutral-400 w-10 text-right">
+                <div className="relative z-10 bg-neutral-950/80 rounded-xl p-2.5 sm:p-3 border border-orange-500/20 space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400 w-8 sm:w-10 text-right shrink-0">
                       {formatTime(vandeTime)}
                     </span>
                     <input
@@ -731,18 +735,18 @@ export const TelevisionMatchModal: React.FC<TelevisionMatchModalProps> = ({
                       step={0.1}
                       value={vandeTime}
                       onChange={handleVandeSeek}
-                      className="flex-1 h-1.5 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                      className="flex-1 h-2 sm:h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-orange-500"
                     />
-                    <span className="text-[11px] font-mono text-neutral-400 w-10">
+                    <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400 w-8 sm:w-10 shrink-0">
                       {formatTime(vandeDuration)}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] font-mono text-neutral-400 px-1">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-neutral-400 px-1">
                     <span className="text-orange-400 font-bold">
                       {isVandePlaying ? "NOW PLAYING: STADIUM CHANTS" : "STATUS: PAUSED (CLICK PLAY)"}
                     </span>
-                    <span className="text-neutral-500">Audio Source: /vande.mpeg</span>
+                    <span className="text-neutral-500 hidden xs:inline">Audio Source: /vande.mpeg</span>
                   </div>
                 </div>
               </div>
