@@ -663,7 +663,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   },
   {
     id: "jersey_2024_2026_legacy",
-    imageSrc: "/images/jerseys/jersey_csk_2023.jpg",
+    imageSrc: "/images/jerseys/jersey_ipl_csk_etihad.jpg",
     year: "2024–2026",
     title: "IPL 2024–2026: The Five-Star Eternal Yellow",
     team: "Chennai Super Kings",

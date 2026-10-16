@@ -32,7 +32,7 @@ export const MemorabiliaRoom: React.FC = () => {
   const [activeModal, setActiveModal] = useState<
     "trophies" | "books" | "bat" | "india_jerseys" | "csk_jerseys" | "army_jersey" | "tv_match" | null
   >(null);
-  const [cskJerseyType, setCskJerseyType] = useState<"IPL" | "CLT20">("IPL");
+  const [cskJerseyType, setCskJerseyType] = useState<"IPL" | "CLT20" | "ALL">("ALL");
   const [tvInitialMode, setTvInitialMode] = useState<TvModalTab>("choice");
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
@@ -92,7 +92,7 @@ export const MemorabiliaRoom: React.FC = () => {
 
   const openHotspot = (
     type: "trophies" | "books" | "bat" | "india_jerseys" | "csk_jerseys" | "army_jersey" | "tv_match",
-    cskType: "IPL" | "CLT20" = "IPL"
+    cskType: "IPL" | "CLT20" | "ALL" = "ALL"
   ) => {
     storyAudio.playClick();
     setCskJerseyType(cskType);
@@ -241,7 +241,7 @@ export const MemorabiliaRoom: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-[calc(100vh-5rem)] flex flex-col bg-neutral-950 text-white selection:bg-amber-500 selection:text-neutral-950 select-none overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-5rem)] flex flex-col bg-neutral-950 text-white selection:bg-amber-500 selection:text-neutral-950 select-none overflow-x-hidden overflow-y-auto"
     >
       {/* Top Experience Subheader Bar */}
       <div className="w-full bg-neutral-950/80 backdrop-blur-md border-b border-amber-900/30 px-4 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-3 z-30">
@@ -390,6 +390,61 @@ export const MemorabiliaRoom: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile-Friendly Interactive Artifacts Directory (Always accessible on smaller screens) */}
+      <div className="w-full px-3 sm:px-6 py-5 lg:hidden bg-neutral-950/95 border-t border-amber-500/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <h3 className="text-xs font-mono font-bold tracking-wider uppercase text-amber-300">
+                Museum Artifacts & Exhibits ({HOTSPOTS.length})
+              </h3>
+            </div>
+            <span className="text-[10px] font-mono text-neutral-400">Tap to inspect</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {HOTSPOTS.map((hotspot) => {
+              const Icon = hotspot.icon;
+              const isJerseySpot = hotspot.id === "dhoni_jersey_chants";
+
+              return (
+                <button
+                  key={hotspot.id}
+                  onClick={hotspot.action}
+                  className={`w-full p-3 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${
+                    isJerseySpot && isChantsPlaying
+                      ? "bg-amber-500/20 border-amber-400 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.3)] ring-1 ring-amber-400"
+                      : "bg-neutral-900/90 hover:bg-neutral-800 border-neutral-800 hover:border-amber-500/40"
+                  }`}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                      isJerseySpot && isChantsPlaying
+                        ? "bg-amber-400 text-neutral-950 shadow-md shadow-amber-400/50"
+                        : "bg-black/60 border border-amber-500/30 text-amber-400"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-serif font-bold text-white truncate">
+                        {hotspot.label}
+                      </h4>
+                      <ChevronRight className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                    </div>
+                    <p className="text-[11px] font-mono text-amber-400/80 truncate">
+                      {hotspot.subLabel}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Artifact Quick-Navigation Strip */}
       <div className="w-full bg-neutral-950 border-t border-neutral-900 px-4 sm:px-8 py-3 z-30">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -449,11 +504,11 @@ export const MemorabiliaRoom: React.FC = () => {
               <span>India Jersey Wardrobe</span>
             </button>
             <button
-              onClick={() => openHotspot("csk_jerseys", "IPL")}
+              onClick={() => openHotspot("csk_jerseys", "ALL")}
               className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
             >
               <Crown className="w-3.5 h-3.5 text-amber-400" />
-              <span>CSK Jerseys</span>
+              <span>CSK Journey (10 Kits)</span>
             </button>
             <button
               onClick={() => openHotspot("army_jersey")}

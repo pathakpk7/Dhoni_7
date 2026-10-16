@@ -85,26 +85,26 @@ export const ArmyJerseyDetailModal: React.FC<ArmyJerseyDetailModalProps> = ({
       {/* Main Shell */}
       <div className="relative w-full h-full max-w-6xl max-h-[96vh] flex flex-col mx-auto px-4 py-3 sm:px-6 sm:py-4 z-10">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-emerald-900/40 pb-3 mb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between border-b border-emerald-900/40 pb-2.5 mb-2.5 gap-2 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={() => {
                 storyAudio.playClick();
                 onClose();
               }}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-emerald-500/30 text-emerald-300 text-xs tracking-wider uppercase font-mono transition-colors"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-emerald-500/30 text-emerald-300 text-xs tracking-wider uppercase font-mono transition-colors shrink-0"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Room</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
             </button>
-            <div className="hidden sm:block h-4 w-px bg-neutral-800" />
-            <div>
-              <span className="text-[10px] tracking-widest text-emerald-400 font-mono uppercase block">
+            <div className="hidden sm:block h-4 w-px bg-neutral-800 shrink-0" />
+            <div className="min-w-0">
+              <span className="text-[10px] tracking-widest text-emerald-400 font-mono uppercase block truncate">
                 Beyond the Boundary · Service & Valour
               </span>
-              <h2 className="text-lg sm:text-xl font-serif text-white flex items-center gap-2 font-bold">
-                <Shield className="w-5 h-5 text-emerald-400" />
-                Indian Army · Territorial Army Uniform
+              <h2 className="text-sm sm:text-lg font-serif text-white flex items-center gap-1.5 font-bold truncate">
+                <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="truncate">Indian Army · Territorial Army Uniform</span>
               </h2>
             </div>
           </div>
@@ -114,10 +114,10 @@ export const ArmyJerseyDetailModal: React.FC<ArmyJerseyDetailModalProps> = ({
               storyAudio.playClick();
               onClose();
             }}
-            className="p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-neutral-900/80 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-white transition-colors shrink-0"
             aria-label="Close military tribute modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
