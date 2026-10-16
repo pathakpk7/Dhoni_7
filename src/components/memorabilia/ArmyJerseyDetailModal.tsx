@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import {
   X,
   ArrowLeft,
@@ -20,10 +21,39 @@ interface ArmyJerseyDetailModalProps {
   onClose: () => void;
 }
 
+const ARMY_PHOTOS = [
+  {
+    id: "flag",
+    title: "TRICOLOR SALUTE",
+    label: "TRICOLOR",
+    src: "/images/moments/moment_dhoni_army_tricolor_flag.png",
+    alt: "MS Dhoni in Territorial Army uniform standing before the national flag",
+    caption: "Lt. Col. Dhoni in 106 Para TA uniform standing tall with the National Tricolor",
+  },
+  {
+    id: "combat",
+    title: "VICTOR FORCE",
+    label: "KASHMIR PATROL",
+    src: "/images/moments/moment_dhoni_kashmir_victor_force_combat.png",
+    alt: "MS Dhoni in full combat tactical loadout in Jammu & Kashmir",
+    caption: "Victor Force static guard & combat patrolling deployment in Awantipora (2019)",
+  },
+  {
+    id: "padma",
+    title: "CEREMONIAL",
+    label: "PADMA BHUSHAN",
+    src: "/images/moments/moment_dhoni_army_padma_bhushan_2018.png",
+    alt: "MS Dhoni marching in ceremonial uniform to receive Padma Bhushan",
+    caption: "Marching in ceremonial Para uniform at Rashtrapati Bhavan (2018)",
+  },
+];
+
 export const ArmyJerseyDetailModal: React.FC<ArmyJerseyDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -39,6 +69,8 @@ export const ArmyJerseyDetailModal: React.FC<ArmyJerseyDetailModalProps> = ({
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const currentPhoto = ARMY_PHOTOS[activePhotoIndex];
 
   const armyUniform =
     JERSEYS_VAULT.find((j) => j.id === "jersey_indian_army_camo") ||
@@ -91,54 +123,45 @@ export const ArmyJerseyDetailModal: React.FC<ArmyJerseyDetailModalProps> = ({
 
         {/* Content Body */}
         <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-y-auto pr-1">
-          {/* Left: Uniform Visual Plate */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-b from-neutral-900/90 via-emerald-950/20 to-neutral-950 border border-emerald-900/40 relative">
-            <div className="relative w-full max-w-[320px] aspect-[4/5] flex items-center justify-center">
-              <div
-                className="w-full h-full rounded-2xl relative shadow-2xl flex flex-col justify-between p-6 transition-all duration-500 bg-[#354329] border-2 border-[#1c2415] text-white"
-                style={{
-                  boxShadow: "0 20px 50px -10px rgba(53, 67, 41, 0.5)",
-                }}
-              >
-                {/* Collar with Regimental Tabs */}
-                <div className="flex justify-between items-start">
-                  <div className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-600/50 text-[10px] font-mono text-amber-300">
-                    LT COL
-                  </div>
-                  <span className="text-[10px] font-mono tracking-widest text-white/70">
-                    106 PARA TA BATTALION
-                  </span>
-                  <div className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-600/50 text-[10px] font-mono text-amber-300">
-                    PARA
-                  </div>
-                </div>
-
-                {/* Parachute Jump Wings & Insignia */}
-                <div className="flex flex-col items-center justify-center text-center my-auto">
-                  <div className="w-20 h-10 rounded-lg bg-black/60 border border-amber-500/40 flex items-center justify-center mb-2 shadow-inner">
-                    <span className="text-[11px] font-mono text-amber-400 font-bold tracking-widest">
-                      BALIDAN
-                    </span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-black tracking-widest text-emerald-100 uppercase mt-1">
-                    MAHENDRA SINGH DHONI
-                  </h3>
-                  <div className="mt-2 text-[11px] font-mono text-emerald-300/80 bg-black/50 px-3 py-1 rounded-full border border-emerald-500/30">
-                    Honorary Rank: Lt. Colonel (2011)
-                  </div>
-                </div>
-
-                {/* Bottom Details */}
-                <div className="flex justify-between items-center text-[10px] font-mono text-emerald-200/60 border-t border-white/20 pt-2">
-                  <span>SPECIAL FORCES WINGS</span>
-                  <span>AGRA JUMPS CERTIFIED</span>
-                </div>
-              </div>
+          {/* Left: Uniform Visual Plate with Photo Gallery */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-between p-5 rounded-2xl bg-gradient-to-b from-neutral-900/90 via-emerald-950/20 to-neutral-950 border border-emerald-900/40 relative">
+            
+            {/* Gallery Tabs */}
+            <div className="w-full flex items-center justify-center gap-1.5 mb-3 z-10 flex-wrap">
+              {ARMY_PHOTOS.map((photo, idx) => (
+                <button
+                  key={photo.id}
+                  onClick={() => setActivePhotoIndex(idx)}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono tracking-wider font-bold transition-all cursor-pointer ${
+                    activePhotoIndex === idx
+                      ? "bg-emerald-500 text-black shadow-lg shadow-emerald-500/30 scale-105"
+                      : "bg-white/5 text-stone-400 hover:bg-white/15 hover:text-stone-200 border border-white/5"
+                  }`}
+                >
+                  {photo.label}
+                </button>
+              ))}
             </div>
 
-            <div className="mt-4 text-center">
-              <span className="text-xs font-mono text-emerald-400 font-semibold">
-                Paratrooper Wings & Balidan Insignia
+            {/* Photo Container */}
+            <div className="relative w-full max-w-[320px] h-[340px] sm:h-[400px] rounded-2xl overflow-hidden border-2 border-emerald-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.8)]">
+              <Image
+                src={currentPhoto.src}
+                alt={currentPhoto.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 300px, 360px"
+                className="object-cover transition-all duration-500 hover:scale-105"
+              />
+            </div>
+
+            {/* Photo Caption */}
+            <div className="mt-3 text-center z-10">
+              <span className="text-xs font-mono text-emerald-400 font-bold tracking-wider block">
+                {currentPhoto.title}
+              </span>
+              <span className="text-[11px] font-mono text-neutral-400">
+                {currentPhoto.caption}
               </span>
             </div>
           </div>

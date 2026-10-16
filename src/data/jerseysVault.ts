@@ -624,7 +624,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
     famousMoment: "August 2019: Deployed with the Victor Force in South Kashmir on active guard duty and completed 5 parachute jumps in Agra to earn his Balidan maroon wings.",
     description: "Official combat camouflage uniform with parachute jump wings and Balidan dagger emblem. Dhoni marched in this uniform at Rashtrapati Bhavan to receive the Padma Bhushan in 2018.",
     statsInJersey: "Honorary Lt. Colonel · 5 Parachute Jumps in Agra · Guard Duty in Kashmir",
-    imageSrc: "/images/jerseys/jersey_indian_army_camo.jpg",
+    imageSrc: "/images/jerseys/jersey_indian_army_camo.png",
     designDetails: [
       "Authentic Indian Armed Forces disruptive pattern camouflage",
       "Paratrooper Balidan wings embroidered on chest",
