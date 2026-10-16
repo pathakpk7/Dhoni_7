@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { X, Award, ShieldCheck, Sparkles, Volume2 } from "lucide-react";
+import { X, Award, ShieldCheck, Sparkles, Volume2, Eye } from "lucide-react";
 import { storyAudio } from "@/components/storybook/StoryAudio";
 
 interface BatInspectModalProps {
@@ -10,10 +10,47 @@ interface BatInspectModalProps {
   onClose: () => void;
 }
 
+const BAT_VIEWS = [
+  {
+    id: "autograph",
+    label: "FACE & AUTOGRAPH",
+    shortLabel: "FACE",
+    src: "/images/motifs/dhoni_reebok_bat_autograph.png",
+    alt: "MS Dhoni autographed Reebok bat face with Lots of Love & Best wishes Mahi",
+    desc: "Autographed blade face with blue Reebok sticker & personal message",
+  },
+  {
+    id: "blade_toe",
+    label: "BLADE & TOE PROFILE",
+    shortLabel: "BLADE & TOE",
+    src: "/images/motifs/dhoni_reebok_bat_back.png",
+    alt: "MS Dhoni Reebok bat back spine, edge profile and thick toe",
+    desc: "Contoured spine, thick 40mm power edges and sculpted protective toe",
+  },
+  {
+    id: "grip",
+    label: "MATRIX RUBBER GRIP",
+    shortLabel: "GRIP",
+    src: "/images/motifs/dhoni_reebok_bat_grip.png",
+    alt: "MS Dhoni red diamond pyramid matrix rubber bat grip",
+    desc: "Signature diamond pyramid matrix grip texture for bottom-hand leverage",
+  },
+  {
+    id: "cutout",
+    label: "MATCH EDITION DECAL",
+    shortLabel: "MATCH WILLOW",
+    src: "/images/motifs/dhoni_reebok_bat_front_cutout.png",
+    alt: "MS Dhoni 2011 World Cup edition Reebok bat cutout",
+    desc: "The iconic 2011 World Cup tournament willow with dynamic lower blade swoosh",
+  },
+];
+
 export const BatInspectModal: React.FC<BatInspectModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const [activeViewIndex, setActiveViewIndex] = useState(0);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -29,6 +66,8 @@ export const BatInspectModal: React.FC<BatInspectModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const currentView = BAT_VIEWS[activeViewIndex];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300">
@@ -67,25 +106,53 @@ export const BatInspectModal: React.FC<BatInspectModalProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-6 items-center">
           
           {/* Bat Showcase (Left 5 Cols) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center py-6 px-4 rounded-2xl bg-gradient-to-b from-black/80 via-[#18130e] to-black/90 border border-[#b89758]/30 shadow-inner">
+          <div className="lg:col-span-5 relative flex flex-col items-center justify-between py-6 px-4 rounded-2xl bg-gradient-to-b from-black/80 via-[#18130e] to-black/90 border border-[#b89758]/30 shadow-inner">
             {/* Museum Spotlight Glow */}
             <div className="absolute top-4 w-40 h-40 bg-orange-500/20 blur-3xl rounded-full pointer-events-none" />
             
-            <div className="relative w-full h-[400px] sm:h-[480px]">
+            {/* View Selector Tabs */}
+            <div className="w-full flex items-center justify-center gap-1.5 mb-4 z-10 flex-wrap">
+              {BAT_VIEWS.map((view, idx) => (
+                <button
+                  key={view.id}
+                  onClick={() => setActiveViewIndex(idx)}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono tracking-wider font-bold transition-all cursor-pointer ${
+                    activeViewIndex === idx
+                      ? "bg-orange-500 text-black shadow-lg shadow-orange-500/30 scale-105"
+                      : "bg-white/5 text-stone-400 hover:bg-white/15 hover:text-stone-200 border border-white/5"
+                  }`}
+                >
+                  {view.shortLabel}
+                </button>
+              ))}
+            </div>
+
+            {/* Displayed Image */}
+            <div className="relative w-full h-[360px] sm:h-[440px]">
               <Image
-                src="/images/motifs/dhoni_reebok_bat.png"
-                alt="MS Dhoni's signed Reebok cricket bat with orange grip"
+                src={currentView.src}
+                alt={currentView.alt}
                 fill
                 priority
                 sizes="(max-width: 1024px) 300px, 420px"
-                className="object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)] transition-transform duration-500 hover:scale-105"
+                className="object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)] transition-all duration-500 hover:scale-105"
               />
+            </div>
+
+            {/* Current View Caption */}
+            <div className="mt-3 text-center z-10">
+              <span className="text-xs font-mono text-orange-300 font-bold tracking-wider block">
+                {currentView.label}
+              </span>
+              <span className="text-[11px] font-mono text-stone-400">
+                {currentView.desc}
+              </span>
             </div>
 
             {/* Tap to hear willow strike */}
             <button
               onClick={() => storyAudio.playBatImpactSound()}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono text-stone-200 transition-colors shadow-lg cursor-pointer"
+              className="mt-4 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-mono text-stone-200 transition-colors shadow-lg cursor-pointer"
             >
               <Volume2 className="w-3.5 h-3.5 text-orange-400" />
               <span>TEST WILLOW STRIKE</span>
@@ -102,25 +169,37 @@ export const BatInspectModal: React.FC<BatInspectModalProps> = ({
                 <span>HANDWRITTEN INSCRIPTION & AUTOGRAPH</span>
               </div>
               <p className="text-sm font-serif text-stone-300 leading-relaxed">
-                Hand-signed by MS Dhoni on the face of the blade with permanent marker:{" "}
-                <span className="text-orange-300 font-bold italic">&ldquo;With Luv, MS Dhoni&rdquo;</span>.
-                The grain of the English willow reveals the authentic battle-scars of leather ball impacts.
+                Hand-signed by MS Dhoni on the face of the blade in permanent black marker:{" "}
+                <span className="text-orange-300 font-bold italic">&ldquo;Lots of Love &amp; Best wishes Mahi&rdquo;</span>.
+                The straight grain of the Grade-1 English willow reflects authentic battle-scars of leather ball impacts.
               </p>
             </div>
 
-            {/* Feature 2: Specifications & Profile */}
+            {/* Feature 2: Specifications & Profile (Blade, Grip, Toe, Weight) */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                <span className="text-[10px] font-mono text-stone-400 uppercase block">Blade Profile</span>
+                <span className="text-sm font-mono font-bold text-white">42mm Power Edges</span>
+              </div>
+              <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                <span className="text-[10px] font-mono text-stone-400 uppercase block">Toe Profile</span>
+                <span className="text-sm font-mono font-bold text-white">Curved Thick Toe</span>
+              </div>
+              <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                <span className="text-[10px] font-mono text-stone-400 uppercase block">Handle Grip</span>
+                <span className="text-sm font-mono font-bold text-orange-400">Pyramid Matrix Grip</span>
+              </div>
               <div className="p-3 rounded-lg bg-black/50 border border-white/10">
                 <span className="text-[10px] font-mono text-stone-400 uppercase block">Weight Profile</span>
                 <span className="text-sm font-mono font-bold text-white">1.25 kg / 2.75 lb</span>
               </div>
               <div className="p-3 rounded-lg bg-black/50 border border-white/10">
                 <span className="text-[10px] font-mono text-stone-400 uppercase block">Wood Grade</span>
-                <span className="text-sm font-mono font-bold text-white">Grade 1 English Willow</span>
+                <span className="text-sm font-mono font-bold text-white">Grade 1 Willow</span>
               </div>
-              <div className="p-3 rounded-lg bg-black/50 border border-white/10 col-span-2 sm:col-span-1">
-                <span className="text-[10px] font-mono text-stone-400 uppercase block">Handle Grip</span>
-                <span className="text-sm font-mono font-bold text-orange-400">Spiral Orange Coil</span>
+              <div className="p-3 rounded-lg bg-black/50 border border-white/10">
+                <span className="text-[10px] font-mono text-stone-400 uppercase block">Sweet Spot</span>
+                <span className="text-sm font-mono font-bold text-[#ffd700]">Mid-to-Low Swell</span>
               </div>
             </div>
 
