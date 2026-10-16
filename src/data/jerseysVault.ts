@@ -113,7 +113,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2007_t20_wc",
-    imageSrc: "/images/jerseys/jersey_india_2007_t20_wc.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2007_t20_wc.png",
     year: "2007",
     title: "The Inaugural T20 World Cup Crown",
     team: "India",
