@@ -24,7 +24,7 @@ import { ReebokBatDetailModal } from "./ReebokBatDetailModal";
 import { IndiaJerseyCabinetDetailModal } from "./IndiaJerseyCabinetDetailModal";
 import { CskJerseyDetailModal } from "./CskJerseyDetailModal";
 import { ArmyJerseyDetailModal } from "./ArmyJerseyDetailModal";
-import { TelevisionMatchModal } from "./TelevisionMatchModal";
+import { TelevisionMatchModal, TvModalTab } from "./TelevisionMatchModal";
 import { storyAudio } from "@/components/storybook/StoryAudio";
 
 export const MemorabiliaRoom: React.FC = () => {
@@ -33,6 +33,7 @@ export const MemorabiliaRoom: React.FC = () => {
     "trophies" | "books" | "bat" | "india_jerseys" | "csk_jerseys" | "army_jersey" | "tv_match" | null
   >(null);
   const [cskJerseyType, setCskJerseyType] = useState<"IPL" | "CLT20">("IPL");
+  const [tvInitialMode, setTvInitialMode] = useState<TvModalTab>("choice");
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [ambientAudioOn, setAmbientAudioOn] = useState<boolean>(false);
@@ -98,6 +99,15 @@ export const MemorabiliaRoom: React.FC = () => {
     setActiveModal(type);
   };
 
+  const openTvModal = (mode: TvModalTab = "choice") => {
+    storyAudio.playClick();
+    if (audioRef.current && isChantsPlaying) {
+      audioRef.current.pause();
+    }
+    setTvInitialMode(mode);
+    setActiveModal("tv_match");
+  };
+
   // Hotspots configured accurately against 1024x576 composition
   const HOTSPOTS = [
     {
@@ -130,8 +140,8 @@ export const MemorabiliaRoom: React.FC = () => {
     },
     {
       id: "tv_match",
-      label: "Relive the 2011 World Cup final",
-      subLabel: "91* off 79b & The Iconic Six",
+      label: "2011 World Cup Final TV",
+      subLabel: "Helicopter Shot Video · Vande Mataram Crowd Chants",
       icon: Tv,
       style: {
         left: "37.5%",
@@ -140,7 +150,7 @@ export const MemorabiliaRoom: React.FC = () => {
         height: "34%",
       },
       badgePos: { top: "36%", left: "50%" },
-      action: () => openHotspot("tv_match"),
+      action: () => openTvModal("choice"),
     },
     {
       id: "bat",
@@ -404,11 +414,25 @@ export const MemorabiliaRoom: React.FC = () => {
               <span>4 Hardcover Books (3D Flip)</span>
             </button>
             <button
-              onClick={() => openHotspot("tv_match")}
+              onClick={() => openTvModal("choice")}
               className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-blue-500/40 text-xs font-mono text-neutral-300 hover:text-blue-200 transition-colors"
             >
               <Tv className="w-3.5 h-3.5 text-blue-400" />
-              <span>2011 WC Final TV</span>
+              <span>2011 WC TV</span>
+            </button>
+            <button
+              onClick={() => openTvModal("helicopter")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-amber-500/40 text-xs font-mono text-neutral-300 hover:text-amber-200 transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Helicopter Shot</span>
+            </button>
+            <button
+              onClick={() => openTvModal("vande")}
+              className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-orange-500/40 hover:border-orange-400 text-xs font-mono text-orange-300 hover:text-orange-200 transition-colors"
+            >
+              <Flame className="w-3.5 h-3.5 text-orange-400" />
+              <span>Crowd: Vande Mataram !!</span>
             </button>
             <button
               onClick={() => openHotspot("bat")}
@@ -470,6 +494,7 @@ export const MemorabiliaRoom: React.FC = () => {
 
       <TelevisionMatchModal
         isOpen={activeModal === "tv_match"}
+        initialMode={tvInitialMode}
         onClose={() => setActiveModal(null)}
       />
 
