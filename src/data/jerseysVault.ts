@@ -519,7 +519,7 @@ export const JERSEYS_VAULT: JerseyVaultItem[] = [
   // =========================================================================
   {
     id: "jersey_2019_world_cup",
-    imageSrc: "/images/jerseys/jersey_india_2019_cwc.jpg",
+    imageSrc: "/images/jerseys/jersey_india_2019_cwc.png",
     year: "2019",
     title: "The Final International Salute",
     team: "India",
