@@ -36,6 +36,45 @@ export const MemorabiliaRoom: React.FC = () => {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [ambientAudioOn, setAmbientAudioOn] = useState<boolean>(false);
+  const [isChantsPlaying, setIsChantsPlaying] = useState<boolean>(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Initialize custom Dhoni chants audio MPEG
+    const audio = new Audio("/dhoni_chants.mpeg");
+    audio.loop = true;
+    audio.volume = 0.7;
+    audioRef.current = audio;
+
+    const handlePlay = () => setIsChantsPlaying(true);
+    const handlePause = () => setIsChantsPlaying(false);
+    const handleEnded = () => setIsChantsPlaying(false);
+
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+
+    return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.pause();
+      audio.currentTime = 0;
+      audioRef.current = null;
+    };
+  }, []);
+
+  const toggleDhoniChants = () => {
+    storyAudio.playClick();
+    if (!audioRef.current) return;
+    if (isChantsPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch((err) => {
+        console.warn("Audio playback was blocked or failed:", err);
+      });
+    }
+  };
 
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,11 +87,6 @@ export const MemorabiliaRoom: React.FC = () => {
       document.exitFullscreen().catch(() => {});
       setIsFullscreen(false);
     }
-  };
-
-  const toggleAmbientAudio = () => {
-    storyAudio.playClick();
-    setAmbientAudioOn((prev) => !prev);
   };
 
   const openHotspot = (
@@ -178,6 +212,20 @@ export const MemorabiliaRoom: React.FC = () => {
       badgePos: { top: "65%", left: "95%" },
       action: () => openHotspot("army_jersey"),
     },
+    {
+      id: "dhoni_jersey_chants",
+      label: isChantsPlaying ? "Pause Stadium Chants" : "MS Dhoni #7 Jersey",
+      subLabel: isChantsPlaying ? "Echoing 'Dhoni! Dhoni!' · Click to Mute" : "Click to Play Authentic Stadium Chants",
+      icon: isChantsPlaying ? Volume2 : VolumeX,
+      style: {
+        left: "39.8%",
+        top: "67.4%",
+        width: "15.8%",
+        height: "25%",
+      },
+      badgePos: { top: "72%", left: "47%" },
+      action: toggleDhoniChants,
+    },
   ];
 
   return (
@@ -204,6 +252,33 @@ export const MemorabiliaRoom: React.FC = () => {
 
         {/* Room HUD Tools */}
         <div className="flex items-center gap-2">
+          <button
+            onClick={toggleDhoniChants}
+            className={`p-2 rounded-lg border transition-all flex items-center gap-1.5 text-xs font-mono cursor-pointer ${
+              isChantsPlaying
+                ? "bg-amber-500/20 border-amber-500/80 text-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.4)] ring-1 ring-amber-400"
+                : "bg-neutral-900/90 hover:bg-neutral-800 border-neutral-800 text-neutral-400 hover:text-white"
+            }`}
+            title="Toggle MS Dhoni Stadium Chants Audio"
+          >
+            {isChantsPlaying ? (
+              <>
+                <Volume2 className="w-4 h-4 text-amber-400 animate-pulse" />
+                <span className="hidden sm:inline font-bold">CHANTS: PLAYING</span>
+                <span className="flex gap-0.5 items-end h-3 ml-1">
+                  <span className="w-0.5 h-3 bg-amber-400 animate-pulse" />
+                  <span className="w-0.5 h-2 bg-amber-400 animate-pulse delay-75" />
+                  <span className="w-0.5 h-3.5 bg-amber-400 animate-pulse delay-150" />
+                </span>
+              </>
+            ) : (
+              <>
+                <VolumeX className="w-4 h-4 text-neutral-400" />
+                <span className="hidden sm:inline">DHONI CHANTS</span>
+              </>
+            )}
+          </button>
+
           <button
             onClick={toggleFullscreen}
             className="p-2 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono"
@@ -235,6 +310,7 @@ export const MemorabiliaRoom: React.FC = () => {
           {/* Interactive Hotspots Layer */}
           {HOTSPOTS.map((hotspot) => {
             const isHovered = hoveredHotspot === hotspot.id;
+            const isJerseySpot = hotspot.id === "dhoni_jersey_chants";
             const Icon = hotspot.icon;
 
             return (
@@ -257,7 +333,9 @@ export const MemorabiliaRoom: React.FC = () => {
                 {/* Hotspot Hover Outline & Glass highlight */}
                 <div
                   className={`absolute inset-0 rounded-xl transition-all duration-300 ${
-                    isHovered
+                    isJerseySpot && isChantsPlaying
+                      ? "bg-amber-400/20 border-2 border-amber-400 shadow-[0_0_35px_rgba(251,191,36,0.6)] backdrop-brightness-125 animate-pulse"
+                      : isHovered
                       ? "bg-amber-400/15 border-2 border-amber-400/80 shadow-[0_0_25px_rgba(251,191,36,0.5)] backdrop-brightness-110"
                       : "border border-white/0 hover:border-amber-400/40"
                   }`}
@@ -267,15 +345,17 @@ export const MemorabiliaRoom: React.FC = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
                   <div
                     className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-transform duration-300 ${
-                      isHovered
+                      isJerseySpot && isChantsPlaying
+                        ? "scale-125 bg-amber-400 text-neutral-950 shadow-lg shadow-amber-400/80 ring-4 ring-amber-400/40"
+                        : isHovered
                         ? "scale-125 bg-amber-400 text-neutral-950 shadow-lg shadow-amber-400/60"
                         : "bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/50 shadow-md group-hover/spot:scale-110"
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isJerseySpot && isChantsPlaying ? "animate-bounce" : ""}`} />
                     {/* Concentric pulse ring */}
-                    {!isHovered && (
-                      <span className="absolute -inset-1 rounded-full border border-amber-400/40 animate-ping opacity-60" />
+                    {(!isHovered || (isJerseySpot && isChantsPlaying)) && (
+                      <span className={`absolute -inset-1 rounded-full border border-amber-400/50 animate-ping opacity-60 ${isJerseySpot && isChantsPlaying ? "duration-700" : ""}`} />
                     )}
                   </div>
                 </div>
@@ -357,6 +437,21 @@ export const MemorabiliaRoom: React.FC = () => {
             >
               <Shield className="w-3.5 h-3.5 text-emerald-400" />
               <span>Army Uniform</span>
+            </button>
+            <button
+              onClick={toggleDhoniChants}
+              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono transition-all ${
+                isChantsPlaying
+                  ? "bg-amber-500/20 border-amber-400 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.4)] font-bold animate-pulse"
+                  : "bg-neutral-900 hover:bg-neutral-800 border-neutral-800 hover:border-amber-500/40 text-neutral-300 hover:text-amber-200"
+              }`}
+            >
+              {isChantsPlaying ? (
+                <Volume2 className="w-3.5 h-3.5 text-amber-400" />
+              ) : (
+                <VolumeX className="w-3.5 h-3.5 text-amber-400" />
+              )}
+              <span>{isChantsPlaying ? "#7 Jersey Chants (Playing)" : "#7 Jersey Chants"}</span>
             </button>
           </div>
         </div>
